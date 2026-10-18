@@ -1,0 +1,222 @@
+[
+  {
+    "id": "1000001",
+    "name": "2027 Baltimore Pokémon TCG Regional Championships",
+    "season": "2027 Season",
+    "start_date": "2026-09-18",
+    "end_date": "2026-09-20",
+    "rk9_link": "BA001-nEN1xl5ZJLGtFk",
+    "decklists_count": 3713,
+    "total_players": 3122,
+    "status": "finished"
+  },
+  {
+    "id": "1000002",
+    "name": "2026 Pokémon TCG World Championship",
+    "season": "2026 Season",
+    "start_date": "2026-08-28",
+    "end_date": "2026-08-30",
+    "rk9_link": "WCS01wI9lfI55wHtvrdy",
+    "decklists_count": 1562,
+    "total_players": 797,
+    "status": "finished"
+  },
+  {
+    "id": "1000003",
+    "name": "2026 North America Pokémon TCG International Championships",
+    "season": "2026 Season",
+    "start_date": "2026-06-12",
+    "end_date": "2026-06-14",
+    "rk9_link": "NA01wMo4vxttnwEyqclr",
+    "decklists_count": 4522,
+    "total_players": 3752,
+    "status": "finished"
+  },
+  {
+    "id": "1000004",
+    "name": "2026 Turin Pokémon TCG Special Championships",
+    "season": "2026 Season",
+    "start_date": "2026-06-06",
+    "end_date": "2026-06-07",
+    "rk9_link": "TU01w1D52rjGebrE8szS",
+    "decklists_count": 2382,
+    "total_players": 2033,
+    "status": "finished"
+  },
+  {
+    "id": "1000005",
+    "name": "2026 Indianapolis Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-05-29",
+    "end_date": "2026-05-31",
+    "rk9_link": "IN01wT0IVRulcJxVUEZ0",
+    "decklists_count": 2425,
+    "total_players": 1974,
+    "status": "finished"
+  },
+  {
+    "id": "1000006",
+    "name": "2026 Melbourne Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-05-23",
+    "end_date": "2026-05-24",
+    "rk9_link": "MB01wmlUs2CVS0PCE3d9",
+    "decklists_count": 1163,
+    "total_players": 959,
+    "status": "finished"
+  },
+  {
+    "id": "1000007",
+    "name": "2026 Campinas Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-05-16",
+    "end_date": "2026-05-17",
+    "rk9_link": "CA01wQsCrDh1mbLzRAcv",
+    "decklists_count": 1992,
+    "total_players": 1725,
+    "status": "finished"
+  },
+  {
+    "id": "1000008",
+    "name": "2026 Utrecht Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-05-16",
+    "end_date": "2026-05-17",
+    "rk9_link": "UT01wfduzfUrh9rXVkAx",
+    "decklists_count": 2505,
+    "total_players": 2150,
+    "status": "finished"
+  },
+  {
+    "id": "1000009",
+    "name": "2026 Los Angeles Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-05-08",
+    "end_date": "2026-05-10",
+    "rk9_link": "LS01wQe8A4VHbkNmRSRG",
+    "decklists_count": 2274,
+    "total_players": 1849,
+    "status": "finished"
+  },
+  {
+    "id": "1000010",
+    "name": "2026 Prague Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-04-25",
+    "end_date": "2026-04-26",
+    "rk9_link": "PR01w1kJAMjLB09Ftxyj",
+    "decklists_count": 1719,
+    "total_players": 1370,
+    "status": "finished"
+  },
+  {
+    "id": "1000011",
+    "name": "2026 Querétaro Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-04-04",
+    "end_date": "2026-04-05",
+    "rk9_link": "QT01w3mp1uQMDP3jCkOe",
+    "decklists_count": 1608,
+    "total_players": 1446,
+    "status": "finished"
+  },
+  {
+    "id": "1000012",
+    "name": "2026 Orlando Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-04-03",
+    "end_date": "2026-04-05",
+    "rk9_link": "OR01wtIo4gvZNU3UircG",
+    "decklists_count": 3251,
+    "total_players": 2745,
+    "status": "finished"
+  },
+  {
+    "id": "1000013",
+    "name": "2026 Seville Pokémon TCG Special Championships",
+    "season": "2026 Season",
+    "start_date": "2026-03-28",
+    "end_date": "2026-03-29",
+    "rk9_link": "SV01wTkt9yQGVSt6nlcu",
+    "decklists_count": 1512,
+    "total_players": 1337,
+    "status": "finished"
+  },
+  {
+    "id": "1000014",
+    "name": "2026 Houston Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-03-20",
+    "end_date": "2026-03-22",
+    "rk9_link": "HO01w20W3tGb1aAsLzwS",
+    "decklists_count": 3127,
+    "total_players": 2635,
+    "status": "finished"
+  },
+  {
+    "id": "1000015",
+    "name": "2026 Curitiba Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-03-14",
+    "end_date": "2026-03-15",
+    "rk9_link": "CU01wDygvn34WEPNJ3ou",
+    "decklists_count": 1667,
+    "total_players": 1449,
+    "status": "finished"
+  },
+  {
+    "id": "1000016",
+    "name": "2026 Seattle Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "",
+    "end_date": "",
+    "rk9_link": "SE01gUuRn8bJqbH9Wnt1",
+    "decklists_count": 2712,
+    "total_players": 2231,
+    "status": "finished"
+  },
+  {
+    "id": "1000017",
+    "name": "2026 Europe Pokémon TCG International Championships",
+    "season": "2026 Season",
+    "start_date": "2026-02-13",
+    "end_date": "2026-02-15",
+    "rk9_link": "EU01mU0Z1galE2FATDYs",
+    "decklists_count": 4900,
+    "total_players": 4010,
+    "status": "finished"
+  },
+  {
+    "id": "1000018",
+    "name": "2026 Santiago Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-02-07",
+    "end_date": "2026-02-08",
+    "rk9_link": "ST01bmgM9jIqCvBYdzy3",
+    "decklists_count": 1870,
+    "total_players": 1670,
+    "status": "finished"
+  },
+  {
+    "id": "1000019",
+    "name": "2026 Sydney Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-02-07",
+    "end_date": "2026-02-08",
+    "rk9_link": "SY01X6aiblBgAp8tfhjx",
+    "decklists_count": 844,
+    "total_players": 699,
+    "status": "finished"
+  },
+  {
+    "id": "1000020",
+    "name": "2026 Mérida Pokémon TCG Regional Championships",
+    "season": "2026 Season",
+    "start_date": "2026-01-24",
+    "end_date": "2026-01-25",
+    "rk9_link": "ME01wMEKNaLIfrdxmnhb",
+    "decklists_count": 1848,
+    "total_players": 1690,
+    "status": "finished"
+  }
+]

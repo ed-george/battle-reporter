@@ -1,0 +1,79 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { Calendar, MapPin, Users, Video } from 'lucide-react';
+import { Tournament } from '@/types/database';
+
+interface TournamentCardProps {
+  tournament: Tournament;
+  streamMatchCount?: number;
+}
+
+export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentCardProps) {
+  // Format readable dates: "Feb 13 - 15, 2026"
+  const formatDateRange = (start: string, end: string) => {
+    if (!start) return '';
+    try {
+      const s = new Date(start);
+      const e = end ? new Date(end) : s;
+      const month = s.toLocaleDateString('en-US', { month: 'short' });
+      const year = s.getFullYear();
+      if (s.getMonth() === e.getMonth()) {
+        return `${month} ${s.getDate()} - ${e.getDate()}, ${year}`;
+      }
+      return `${month} ${s.getDate()} - ${e.toLocaleDateString('en-US', { month: 'short' })} ${e.getDate()}, ${year}`;
+    } catch {
+      return start;
+    }
+  };
+
+  return (
+    <Link
+      href={`/tournament/${tournament.id}`}
+      className="group block bg-white border border-slate-200 hover:border-red-300 rounded-xl p-5 shadow-xs hover:shadow-md transition-all duration-200"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+            {tournament.season && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700">
+                {tournament.season}
+              </span>
+            )}
+            {streamMatchCount > 0 ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-bold bg-red-50 text-red-700 border border-red-200">
+                <Video className="w-3 h-3 text-red-600" />
+                {streamMatchCount} Stream {streamMatchCount === 1 ? 'Match' : 'Matches'}
+              </span>
+            ) : (
+              <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-50 text-slate-400">
+                Archived
+              </span>
+            )}
+          </div>
+          <h3 className="text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2">
+            {tournament.name}
+          </h3>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs text-slate-500">
+        <div className="flex items-center gap-1.5 truncate">
+          <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span className="truncate">{formatDateRange(tournament.start_date, tournament.end_date)}</span>
+        </div>
+        <div className="flex items-center gap-1.5 truncate justify-end">
+          <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span>{tournament.total_players?.toLocaleString() || '—'} Players</span>
+        </div>
+        {tournament.location && (
+          <div className="col-span-2 flex items-center gap-1.5 truncate text-slate-400">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">{tournament.location}</span>
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+}

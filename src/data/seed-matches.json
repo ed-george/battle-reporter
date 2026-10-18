@@ -1,0 +1,245 @@
+[
+  {
+    "id": "match-001",
+    "tournament_id": "1000017",
+    "round_name": "Finals",
+    "division": "masters",
+    "table_number": 3001,
+    "player1_name": "Edwyn Mesman",
+    "player1_country": "NL",
+    "player1_deck_archetype": "miraidon-ex",
+    "player1_decklist": [
+      "2 MEG 86", "2 MEG 104", "1 SSP 76", "1 TWM 141", "1 MEP 7",
+      "1 SFA 38", "1 SFA 39", "3 PRE 44", "1 MEG 88", "2 PAR 16",
+      "4 PAF 235", "4 ASC 183", "3 ASC 192", "2 PAF 237", "7 CRZ 158"
+    ],
+    "player2_name": "Drew Stephenson",
+    "player2_country": "UK",
+    "player2_deck_archetype": "lugia-vstar",
+    "player2_decklist": [
+      "2 MEG 75", "2 MEP 4", "1 SFA 38", "1 MEG 94", "4 PAR 252",
+      "4 SSP 97", "1 BLK 161", "4 ASC 183", "4 PAF 235", "7 CRE 233"
+    ],
+    "youtube_url": "https://www.youtube.com/watch?v=F08674E6tO8",
+    "youtube_video_id": "F08674E6tO8",
+    "match_start_seconds": 21740,
+    "match_end_seconds": 25100,
+    "winner_player_name": "Edwyn Mesman",
+    "match_score": "2-1",
+    "is_published": true,
+    "created_at": "2026-02-15T18:00:00Z",
+    "games": [
+      {
+        "id": "g-001-1",
+        "match_id": "match-001",
+        "game_number": 1,
+        "start_seconds": 21980,
+        "winner_player_name": "Drew Stephenson"
+      },
+      {
+        "id": "g-001-2",
+        "match_id": "match-001",
+        "game_number": 2,
+        "start_seconds": 23140,
+        "winner_player_name": "Edwyn Mesman"
+      },
+      {
+        "id": "g-001-3",
+        "match_id": "match-001",
+        "game_number": 3,
+        "start_seconds": 24200,
+        "winner_player_name": "Edwyn Mesman"
+      }
+    ]
+  },
+  {
+    "id": "match-002",
+    "tournament_id": "1000017",
+    "round_name": "Top 4",
+    "division": "masters",
+    "table_number": 3001,
+    "player1_name": "Liam Halliburton",
+    "player1_country": "US",
+    "player1_deck_archetype": "charizard-ex",
+    "player1_decklist": [
+      "4 JTG 97", "4 JTG 175", "2 JTG 26", "2 JTG 27", "1 JTG 116",
+      "1 PRE 4", "1 TWM 95", "1 SFA 38", "4 ASC 192", "7 CRZ 158"
+    ],
+    "player2_name": "Drew Stephenson",
+    "player2_country": "UK",
+    "player2_deck_archetype": "lugia-vstar",
+    "player2_decklist": [
+      "2 MEG 75", "2 MEP 4", "1 SFA 38", "1 MEG 94", "4 PAR 252",
+      "4 SSP 97", "1 BLK 161", "4 ASC 183", "4 PAF 235", "7 CRE 233"
+    ],
+    "youtube_url": "https://www.youtube.com/watch?v=F08674E6tO8",
+    "youtube_video_id": "F08674E6tO8",
+    "match_start_seconds": 17200,
+    "match_end_seconds": 20450,
+    "winner_player_name": "Drew Stephenson",
+    "match_score": "2-1",
+    "is_published": true,
+    "created_at": "2026-02-15T15:30:00Z",
+    "games": [
+      {
+        "id": "g-002-1",
+        "match_id": "match-002",
+        "game_number": 1,
+        "start_seconds": 17450,
+        "winner_player_name": "Liam Halliburton"
+      },
+      {
+        "id": "g-002-2",
+        "match_id": "match-002",
+        "game_number": 2,
+        "start_seconds": 18560,
+        "winner_player_name": "Drew Stephenson"
+      },
+      {
+        "id": "g-002-3",
+        "match_id": "match-002",
+        "game_number": 3,
+        "start_seconds": 19600,
+        "winner_player_name": "Drew Stephenson"
+      }
+    ]
+  },
+  {
+    "id": "match-003",
+    "tournament_id": "1000017",
+    "round_name": "Swiss Round 10",
+    "division": "masters",
+    "table_number": 3048,
+    "player1_name": "Tord Reklev",
+    "player1_country": "NO",
+    "player1_deck_archetype": "gardevoir-ex",
+    "player1_decklist": [
+      "2 MEG 88", "1 SSP 239", "1 MEP 7", "2 TWM 112", "2 MEG 180",
+      "1 SFA 92", "3 SFA 72", "3 ASC 192", "4 PAF 235", "6 CRZ 158"
+    ],
+    "player2_name": "Makani Tran",
+    "player2_country": "US",
+    "player2_deck_archetype": "raging-bolt-ogerpon",
+    "player2_decklist": [
+      "3 MEG 58", "2 MEG 59", "2 PAF 29", "3 TWM 95", "1 MEW 151",
+      "1 JTG 56", "1 PRE 42", "4 ASC 192", "4 PAF 237", "8 CRE 232"
+    ],
+    "youtube_url": "https://www.youtube.com/watch?v=F08674E6tO8",
+    "youtube_video_id": "F08674E6tO8",
+    "match_start_seconds": 9200,
+    "match_end_seconds": 12100,
+    "winner_player_name": "Makani Tran",
+    "match_score": "2-0",
+    "is_published": true,
+    "created_at": "2026-02-14T14:00:00Z",
+    "games": [
+      {
+        "id": "g-003-1",
+        "match_id": "match-003",
+        "game_number": 1,
+        "start_seconds": 9400,
+        "winner_player_name": "Makani Tran"
+      },
+      {
+        "id": "g-003-2",
+        "match_id": "match-003",
+        "game_number": 2,
+        "start_seconds": 10800,
+        "winner_player_name": "Makani Tran"
+      }
+    ]
+  },
+  {
+    "id": "match-004",
+    "tournament_id": "1000002",
+    "round_name": "Finals",
+    "division": "masters",
+    "table_number": 1,
+    "player1_name": "Andrew Hedrick",
+    "player1_country": "US",
+    "player1_deck_archetype": "charizard-ex",
+    "player1_decklist": [
+      "3 OBF 125", "1 MEW 151", "2 PAF 235", "4 ASC 183", "6 CRZ 153"
+    ],
+    "player2_name": "Jesse Parker",
+    "player2_country": "US",
+    "player2_deck_archetype": "dragapult-ex",
+    "player2_decklist": [
+      "3 TWM 130", "1 PRE 72", "3 TWM 129", "4 ASC 192", "5 CRZ 153"
+    ],
+    "youtube_url": "https://www.youtube.com/watch?v=n-W6e-mK_j0",
+    "youtube_video_id": "n-W6e-mK_j0",
+    "match_start_seconds": 15400,
+    "match_end_seconds": 18600,
+    "winner_player_name": "Andrew Hedrick",
+    "match_score": "2-0",
+    "is_published": true,
+    "created_at": "2026-08-30T17:00:00Z",
+    "games": [
+      {
+        "id": "g-004-1",
+        "match_id": "match-004",
+        "game_number": 1,
+        "start_seconds": 15650,
+        "winner_player_name": "Andrew Hedrick"
+      },
+      {
+        "id": "g-004-2",
+        "match_id": "match-004",
+        "game_number": 2,
+        "start_seconds": 17100,
+        "winner_player_name": "Andrew Hedrick"
+      }
+    ]
+  },
+  {
+    "id": "match-005",
+    "tournament_id": "2024-worlds",
+    "round_name": "Finals",
+    "division": "masters",
+    "table_number": 1,
+    "player1_name": "Vance Kelley",
+    "player1_country": "US",
+    "player1_deck_archetype": "mew-vmax",
+    "player1_decklist": [
+      "4 FST 113", "3 FST 114", "4 FST 255", "4 CRZ 158"
+    ],
+    "player2_name": "Tord Reklev",
+    "player2_country": "NO",
+    "player2_deck_archetype": "gardevoir-ex",
+    "player2_decklist": [
+      "2 SVI 86", "2 SVI 245", "4 SVI 192", "8 CRZ 158"
+    ],
+    "youtube_url": "https://www.youtube.com/watch?v=F08674E6tO8",
+    "youtube_video_id": "F08674E6tO8",
+    "match_start_seconds": 23000,
+    "match_end_seconds": 26500,
+    "winner_player_name": "Vance Kelley",
+    "match_score": "2-1",
+    "is_published": true,
+    "created_at": "2024-08-18T19:00:00Z",
+    "games": [
+      {
+        "id": "g-005-1",
+        "match_id": "match-005",
+        "game_number": 1,
+        "start_seconds": 23200,
+        "winner_player_name": "Vance Kelley"
+      },
+      {
+        "id": "g-005-2",
+        "match_id": "match-005",
+        "game_number": 2,
+        "start_seconds": 24450,
+        "winner_player_name": "Tord Reklev"
+      },
+      {
+        "id": "g-005-3",
+        "match_id": "match-005",
+        "game_number": 3,
+        "start_seconds": 25500,
+        "winner_player_name": "Vance Kelley"
+      }
+    ]
+  }
+]
