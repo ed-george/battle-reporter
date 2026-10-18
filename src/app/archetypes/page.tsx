@@ -23,10 +23,10 @@ export default async function ArchetypesDirectoryPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
           Deck Archetypes
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
           Explore canonical decks defined via Limitless TCG and their appearances on stream.
         </p>
       </div>
@@ -40,19 +40,19 @@ export default async function ArchetypesDirectoryPage() {
             <Link
               key={arch.identifier}
               href={`/archetype/${arch.identifier}`}
-              className="group bg-white border border-slate-200 hover:border-red-300 rounded-xl p-4 shadow-xs hover:shadow-md transition-all flex items-center gap-3.5"
+              className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-500/50 rounded-xl p-4 shadow-xs hover:shadow-md transition-all flex items-center gap-3.5"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 p-1 group-hover:scale-105 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0 p-1 group-hover:scale-105 transition-transform">
                 <ArchetypeIcon icon={icon} className="w-10 h-10" />
               </div>
 
               <div className="min-w-0 flex-1">
-                <h3 className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition-colors truncate">
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors truncate">
                   {arch.name}
                 </h3>
-                <span className="text-xs font-semibold text-slate-400">
+                <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                   {count > 0 ? (
-                    <strong className="text-red-600 font-bold">{count} Stream Matches</strong>
+                    <strong className="text-red-600 dark:text-red-400 font-bold">{count} Stream Matches</strong>
                   ) : (
                     'Archived'
                   )}

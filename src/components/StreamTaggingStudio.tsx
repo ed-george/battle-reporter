@@ -113,12 +113,12 @@ export function StreamTaggingStudio({
 
   if (submitted) {
     return (
-      <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
-        <div className="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+        <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-950/50 text-green-600 dark:text-green-400 flex items-center justify-center mx-auto">
           <CheckCircle2 className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-black text-slate-900">Match Submitted for Review!</h2>
-        <p className="text-sm text-slate-600 leading-relaxed">
+        <h2 className="text-2xl font-black text-slate-900 dark:text-white">Match Submitted for Review!</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
           Thank you for contributing to the archive! Your match timestamp submission for{' '}
           <strong>{player1Name} vs {player2Name}</strong> has been submitted to the moderation queue.
         </p>
@@ -131,7 +131,7 @@ export function StreamTaggingStudio({
               setPlayer2Name('');
               setYoutubeUrl('');
             }}
-            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors cursor-pointer"
+            className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-colors cursor-pointer"
           >
             Tag Another Match
           </button>
@@ -149,39 +149,39 @@ export function StreamTaggingStudio({
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold mb-2">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-xs font-bold mb-2">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Assisted Tagging Studio</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
           Tag a Stream Match
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
           Add YouTube broadcast timestamps to archive a tournament match with game accuracy.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {error && (
-          <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-semibold">
+          <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded-xl text-xs font-semibold">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Section 1: Tournament & Round */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
             1. Event & Round Details
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Tournament</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Tournament</label>
               <select
                 value={tournamentId}
                 onChange={(e) => setTournamentId(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               >
                 {tournaments.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -192,22 +192,22 @@ export function StreamTaggingStudio({
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Round / Stage</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Round / Stage</label>
               <input
                 type="text"
                 value={roundName}
                 onChange={(e) => setRoundName(e.target.value)}
                 placeholder="e.g. Swiss Round 5, Top 8, Finals"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               />
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Division</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Division</label>
               <select
                 value={division}
                 onChange={(e) => setDivision(e.target.value as 'masters')}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               >
                 <option value="masters">Masters Division</option>
                 <option value="seniors">Seniors Division</option>
@@ -216,58 +216,58 @@ export function StreamTaggingStudio({
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Feature Table Number (Optional)</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Feature Table Number (Optional)</label>
               <input
                 type="number"
                 value={tableNumber}
                 onChange={(e) => setTableNumber(e.target.value)}
                 placeholder="e.g. 3001"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               />
             </div>
           </div>
         </div>
 
         {/* Section 2: Players & Decks */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
             2. Matchup & Archetypes
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Player 1 */}
-            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <span className="text-xs font-black uppercase text-red-600 block">Player 1</span>
+            <div className="space-y-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+              <span className="text-xs font-black uppercase text-red-600 dark:text-red-400 block">Player 1</span>
               <div className="grid grid-cols-3 gap-2">
                 <div className="col-span-2">
-                  <label className="text-xs font-bold text-slate-700 block mb-1">Full Name</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Full Name</label>
                   <input
                     type="text"
                     value={player1Name}
                     onChange={(e) => setPlayer1Name(e.target.value)}
                     placeholder="e.g. Tord Reklev"
-                    className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">Country</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Country</label>
                   <input
                     type="text"
                     value={player1Country}
                     onChange={(e) => setPlayer1Country(e.target.value.toUpperCase())}
                     placeholder="US"
                     maxLength={3}
-                    className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium uppercase font-mono"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium uppercase font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Deck Archetype</label>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Deck Archetype</label>
                 <select
                   value={player1Archetype}
                   onChange={(e) => setPlayer1Archetype(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                  className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                 >
                   {archetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
@@ -279,38 +279,38 @@ export function StreamTaggingStudio({
             </div>
 
             {/* Player 2 */}
-            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <span className="text-xs font-black uppercase text-red-600 block">Player 2</span>
+            <div className="space-y-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+              <span className="text-xs font-black uppercase text-red-600 dark:text-red-400 block">Player 2</span>
               <div className="grid grid-cols-3 gap-2">
                 <div className="col-span-2">
-                  <label className="text-xs font-bold text-slate-700 block mb-1">Full Name</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Full Name</label>
                   <input
                     type="text"
                     value={player2Name}
                     onChange={(e) => setPlayer2Name(e.target.value)}
                     placeholder="e.g. Vance Kelley"
-                    className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-700 block mb-1">Country</label>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Country</label>
                   <input
                     type="text"
                     value={player2Country}
                     onChange={(e) => setPlayer2Country(e.target.value.toUpperCase())}
                     placeholder="UK"
                     maxLength={3}
-                    className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium uppercase font-mono"
+                    className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium uppercase font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1">Deck Archetype</label>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Deck Archetype</label>
                 <select
                   value={player2Archetype}
                   onChange={(e) => setPlayer2Archetype(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                  className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                 >
                   {archetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
@@ -324,28 +324,28 @@ export function StreamTaggingStudio({
         </div>
 
         {/* Section 3: YouTube Broadcast Video & Timestamps */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
             3. YouTube Broadcast Video & Timestamps
           </h2>
 
           <div className="space-y-4">
             <div>
-              <label className="text-xs font-bold text-slate-700 block mb-1">YouTube Stream URL or Video ID</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">YouTube Stream URL or Video ID</label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={youtubeUrl}
                   onChange={(e) => setYoutubeUrl(e.target.value)}
                   placeholder="https://www.youtube.com/watch?v=F08674E6tO8"
-                  className="flex-1 px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-mono font-medium"
+                  className="flex-1 px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-mono font-medium"
                 />
               </div>
             </div>
 
             {/* Live Video Scrubber Preview */}
             {videoId && (
-              <div className="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner border border-slate-300">
+              <div className="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner border border-slate-300 dark:border-slate-700">
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${videoId}`}
                   title="YouTube Preview"
@@ -358,46 +358,46 @@ export function StreamTaggingStudio({
             {/* Timestamps Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-2">
               <div>
-                <label className="font-bold text-slate-700 block mb-1">Match Start (HH:MM:SS)</label>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Match Start (HH:MM:SS)</label>
                 <input
                   type="text"
                   value={matchStart}
                   onChange={(e) => setMatchStart(e.target.value)}
                   placeholder="01:23:45"
-                  className="w-full px-3 py-1.5 font-mono bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-1.5 font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-700 block mb-1">Game 1 Start</label>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Game 1 Start</label>
                 <input
                   type="text"
                   value={game1Start}
                   onChange={(e) => setGame1Start(e.target.value)}
                   placeholder="01:25:10"
-                  className="w-full px-3 py-1.5 font-mono bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-1.5 font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-700 block mb-1">Game 2 Start</label>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Game 2 Start</label>
                 <input
                   type="text"
                   value={game2Start}
                   onChange={(e) => setGame2Start(e.target.value)}
                   placeholder="01:42:00"
-                  className="w-full px-3 py-1.5 font-mono bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-1.5 font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-700 block mb-1">Game 3 Start (Optional)</label>
+                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Game 3 Start (Optional)</label>
                 <input
                   type="text"
                   value={game3Start}
                   onChange={(e) => setGame3Start(e.target.value)}
                   placeholder="01:58:30"
-                  className="w-full px-3 py-1.5 font-mono bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-1.5 font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
             </div>
@@ -405,18 +405,18 @@ export function StreamTaggingStudio({
         </div>
 
         {/* Section 4: Result & Score */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
-          <h2 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
             4. Match Outcome (Protected by Spoiler Shield)
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Match Winner</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Match Winner</label>
               <select
                 value={winnerName}
                 onChange={(e) => setWinnerName(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               >
                 <option value="">Unrevealed / Tie</option>
                 {player1Name && <option value={player1Name}>{player1Name} (Player 1)</option>}
@@ -425,13 +425,13 @@ export function StreamTaggingStudio({
             </div>
 
             <div>
-              <label className="font-bold text-slate-700 block mb-1">Match Score</label>
+              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Match Score</label>
               <input
                 type="text"
                 value={matchScore}
                 onChange={(e) => setMatchScore(e.target.value)}
                 placeholder="2-1, 2-0, 1-1"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               />
             </div>
           </div>

@@ -38,7 +38,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-600 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to All Tournaments</span>
@@ -46,15 +46,15 @@ export default async function TournamentDetailPage({ params }: PageProps) {
       </div>
 
       {/* Tournament Hero Card */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="space-y-2 max-w-2xl">
             {tournament.season && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                 {tournament.season}
               </span>
             )}
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {tournament.name}
             </h1>
           </div>
@@ -69,7 +69,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors"
               >
                 <span>RK9 Pairings</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -86,34 +86,34 @@ export default async function TournamentDetailPage({ params }: PageProps) {
         </div>
 
         {/* Tournament Metadata grid */}
-        <div className="pt-4 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
           <div>
-            <span className="text-slate-400 block mb-0.5">Dates</span>
-            <div className="flex items-center gap-1.5 font-bold text-slate-800">
-              <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Dates</span>
+            <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100">
+              <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
               <span>{tournament.start_date || 'TBD'}</span>
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 block mb-0.5">Location</span>
-            <div className="flex items-center gap-1.5 font-bold text-slate-800 truncate">
-              <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Location</span>
+            <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 truncate">
+              <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
               <span className="truncate">{tournament.location || 'Official Venue'}</span>
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 block mb-0.5">Masters Players</span>
-            <div className="flex items-center gap-1.5 font-bold text-slate-800">
-              <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Masters Players</span>
+            <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100">
+              <Users className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
               <span>{tournament.total_players?.toLocaleString() || '—'}</span>
             </div>
           </div>
 
           <div>
-            <span className="text-slate-400 block mb-0.5">Stream Archive</span>
-            <div className="flex items-center gap-1.5 font-bold text-red-600">
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Stream Archive</span>
+            <div className="flex items-center gap-1.5 font-bold text-red-600 dark:text-red-400">
               <Video className="w-3.5 h-3.5 shrink-0" />
               <span>{matches.length} Featured Matches</span>
             </div>
@@ -125,8 +125,8 @@ export default async function TournamentDetailPage({ params }: PageProps) {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Streamed Matches</h2>
-            <p className="text-xs text-slate-500">Official broadcast matches archived for this event</p>
+            <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Streamed Matches</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Official broadcast matches archived for this event</p>
           </div>
         </div>
 
@@ -137,12 +137,12 @@ export default async function TournamentDetailPage({ params }: PageProps) {
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-dashed border-slate-300 rounded-2xl p-10 text-center space-y-3">
-            <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+          <div className="bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-10 text-center space-y-3">
+            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400 dark:text-slate-500">
               <Video className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-900">No Stream Matches Tagged Yet</h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">No Stream Matches Tagged Yet</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
               Be the first to tag matches that were broadcast on stream from this tournament!
             </p>
             <div className="pt-2">

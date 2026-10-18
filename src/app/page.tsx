@@ -63,12 +63,12 @@ export default async function HomePage() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Recent Stream Matches</h2>
-              <p className="text-xs text-slate-500">Latest broadcast games added to the archive</p>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Recent Stream Matches</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Latest broadcast games added to the archive</p>
             </div>
             <Link
               href="/matches"
-              className="inline-flex items-center gap-1 text-xs font-bold text-red-600 hover:text-red-700 hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline"
             >
               <span>View All Matches</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -86,16 +86,16 @@ export default async function HomePage() {
       {/* Tournaments Directory Grouped by Season */}
       <section className="space-y-8">
         <div>
-          <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">Tournaments Directory</h2>
-          <p className="text-xs text-slate-500">Browse official premier events from PokeData.ovh</p>
+          <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Tournaments Directory</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Browse official premier events from PokeData.ovh</p>
         </div>
 
         {seasons.map((season) => (
           <div key={season} className="space-y-4">
             <div className="flex items-center gap-3">
-              <h3 className="text-base font-black text-slate-800 tracking-tight">{season}</h3>
-              <div className="flex-1 h-px bg-slate-200" />
-              <span className="text-xs font-semibold text-slate-400">
+              <h3 className="text-base font-black text-slate-800 dark:text-slate-200 tracking-tight">{season}</h3>
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800" />
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
                 {groupedTournaments[season].length} Events
               </span>
             </div>

@@ -28,14 +28,14 @@ export default async function ModerationQueuePage() {
     <div className="space-y-8 max-w-4xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-2">
-            <Shield className="w-3.5 h-3.5 text-amber-700" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 text-xs font-bold mb-2">
+            <Shield className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
             <span>Moderator Dashboard</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             Submissions Moderation Queue
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             Review community submitted stream match timestamps before publishing them to the public archive.
           </p>
         </div>
@@ -46,17 +46,17 @@ export default async function ModerationQueuePage() {
           pendingSubmissions.map((sub) => (
             <div
               key={sub.id}
-              className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4"
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <span className="text-xs font-black text-red-600 uppercase tracking-wider">
+                  <span className="text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-wider">
                     {sub.tournament_name} • {sub.round_name}
                   </span>
-                  <h3 className="text-lg font-black text-slate-900 mt-0.5">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white mt-0.5">
                     {sub.player1_name} ({sub.player1_deck}) vs {sub.player2_name} ({sub.player2_deck})
                   </h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
+                  <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500 mt-1">
                     <span>Submitted by <strong>@{sub.submitted_by}</strong></span>
                     <span>•</span>
                     <span>{sub.submitted_at}</span>
@@ -73,7 +73,7 @@ export default async function ModerationQueuePage() {
                   </button>
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-600 rounded-lg text-xs font-bold transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 dark:hover:text-red-400 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-bold transition-colors cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                     <span>Reject</span>
@@ -81,16 +81,16 @@ export default async function ModerationQueuePage() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-slate-700">
-                  <Video className="w-4 h-4 text-slate-400" />
+              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                  <Video className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                   <span>Start Timestamp: <strong>{sub.match_start}</strong></span>
                 </div>
                 <a
                   href={sub.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-slate-500 hover:text-red-600 font-semibold"
+                  className="inline-flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 font-semibold"
                 >
                   <span>Preview Video</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -99,7 +99,7 @@ export default async function ModerationQueuePage() {
             </div>
           ))
         ) : (
-          <div className="bg-white border border-dashed border-slate-300 rounded-2xl p-12 text-center text-xs text-slate-500">
+          <div className="bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center text-xs text-slate-500 dark:text-slate-400">
             No pending submissions in the moderation queue!
           </div>
         )}
