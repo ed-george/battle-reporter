@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { Search, Eye, EyeOff, Video, Trophy, Layers, PlusCircle } from 'lucide-react';
+import { Search, Eye, EyeOff, Video, Trophy, Layers, PlusCircle, User } from 'lucide-react';
 import { useSpoilers } from '@/context/SpoilerContext';
 
 export function Navbar() {
@@ -22,6 +22,7 @@ export function Navbar() {
   const navLinks = [
     { href: '/', label: 'Tournaments', icon: Trophy },
     { href: '/matches', label: 'Stream Matches', icon: Video },
+    { href: '/players', label: 'Players', icon: User },
     { href: '/archetypes', label: 'Archetypes', icon: Layers },
     { href: '/submit', label: 'Tag a Match', icon: PlusCircle },
   ];

@@ -23,6 +23,7 @@ Players, spectators, and casters can browse premier tournaments, search for matc
    - Filter by tournament dropdown or quick archetype pills.
 
 4. **Dedicated Entity Hubs**:
+   - **Stream Players Leaderboard (`/players`)**: Full list of players who have appeared on broadcast streams, ranked by matches played and broadcast wins, with sorting options and Limitless profile links.
    - **Player Profiles (`/player/[slug]`)**: Track any player's stream appearances, match record, win rate on stream, and deck history.
    - **Archetype Pages (`/archetype/[slug]`)**: Explore archetype statistics, official Limitless sprite icons, and recorded stream games.
 

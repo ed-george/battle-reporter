@@ -208,6 +208,125 @@ export async function getPlayerStats(playerName: string) {
   };
 }
 
+export interface PlayerLeaderboardEntry {
+  name: string;
+  country?: string | null;
+  matchesPlayed: number;
+  wins: number;
+  losses: number;
+  winRate: number;
+  archetypes: string[];
+}
+
+/**
+ * Get all players who have appeared on stream, ranked by matches played and wins
+ */
+export async function getStreamPlayers(options: {
+  sortBy?: 'matches' | 'wins' | 'winrate';
+  query?: string;
+} = {}): Promise<PlayerLeaderboardEntry[]> {
+  const allMatches = await getStreamedMatches();
+  const playerMap = new Map<string, {
+    country?: string | null;
+    matchesPlayed: number;
+    wins: number;
+    losses: number;
+    archetypes: Set<string>;
+  }>();
+
+  for (const m of allMatches) {
+    // Process Player 1
+    const p1 = m.player1_name.trim();
+    if (p1) {
+      if (!playerMap.has(p1)) {
+        playerMap.set(p1, {
+          country: m.player1_country,
+          matchesPlayed: 0,
+          wins: 0,
+          losses: 0,
+          archetypes: new Set(),
+        });
+      }
+      const entry = playerMap.get(p1)!;
+      entry.matchesPlayed++;
+      if (m.player1_deck_archetype) entry.archetypes.add(m.player1_deck_archetype);
+      if (m.winner_player_name) {
+        if (m.winner_player_name.trim().toLowerCase() === p1.toLowerCase()) {
+          entry.wins++;
+        } else {
+          entry.losses++;
+        }
+      }
+    }
+
+    // Process Player 2
+    const p2 = m.player2_name.trim();
+    if (p2) {
+      if (!playerMap.has(p2)) {
+        playerMap.set(p2, {
+          country: m.player2_country,
+          matchesPlayed: 0,
+          wins: 0,
+          losses: 0,
+          archetypes: new Set(),
+        });
+      }
+      const entry = playerMap.get(p2)!;
+      entry.matchesPlayed++;
+      if (m.player2_deck_archetype) entry.archetypes.add(m.player2_deck_archetype);
+      if (m.winner_player_name) {
+        if (m.winner_player_name.trim().toLowerCase() === p2.toLowerCase()) {
+          entry.wins++;
+        } else {
+          entry.losses++;
+        }
+      }
+    }
+  }
+
+  let list: PlayerLeaderboardEntry[] = Array.from(playerMap.entries()).map(([name, data]) => {
+    const totalDecided = data.wins + data.losses;
+    const winRate = totalDecided > 0 ? Math.round((data.wins / totalDecided) * 100) : 0;
+    return {
+      name,
+      country: data.country,
+      matchesPlayed: data.matchesPlayed,
+      wins: data.wins,
+      losses: data.losses,
+      winRate,
+      archetypes: Array.from(data.archetypes),
+    };
+  });
+
+  // Optional text filter
+  if (options.query) {
+    const q = options.query.toLowerCase().trim();
+    list = list.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        (p.country && p.country.toLowerCase().includes(q))
+    );
+  }
+
+  // Sort by matches played and wins
+  const sortBy = options.sortBy || 'matches';
+  list.sort((a, b) => {
+    if (sortBy === 'wins') {
+      if (b.wins !== a.wins) return b.wins - a.wins;
+      return b.matchesPlayed - a.matchesPlayed;
+    }
+    if (sortBy === 'winrate') {
+      if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+      return b.matchesPlayed - a.matchesPlayed;
+    }
+    // Default: 'matches' (ranked by matches played, then wins)
+    if (b.matchesPlayed !== a.matchesPlayed) return b.matchesPlayed - a.matchesPlayed;
+    return b.wins - a.wins;
+  });
+
+  return list;
+}
+
 /**
  * Get match history and statistics for a given archetype
  */
