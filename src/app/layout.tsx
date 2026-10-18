@@ -31,23 +31,23 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-red-500 selection:text-white">
+      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-red-500 selection:text-white">
         <SpoilerProvider>
-          <Suspense fallback={<div className="h-16 bg-white border-b border-slate-200" />}>
+          <Suspense fallback={<div className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800" />}>
             <Navbar />
           </Suspense>
           <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
             {children}
           </main>
-          <footer className="bg-white border-t border-slate-200 py-8 mt-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-2">
-              <p className="font-bold text-slate-700">
+          <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 mt-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2">
+              <p className="font-bold text-slate-700 dark:text-slate-200">
                 Battle Reporter — Pokémon TCG Stream Game Archive © 2026
               </p>
               <p>
                 An open-source community archive inspired by Limitless TCG. Powered by PokeData.ovh and Limitless TCG Play API.
               </p>
-              <p className="text-slate-400">
+              <p className="text-slate-400 dark:text-slate-500">
                 All video and tournament broadcast rights belong to The Pokémon Company International & official event broadcasters.
               </p>
             </div>

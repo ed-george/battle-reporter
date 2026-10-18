@@ -37,7 +37,7 @@ export function ArchetypeBadge({
 
   const content = (
     <span
-      className={`inline-flex items-center rounded-lg font-medium border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 shadow-xs transition-colors ${sizeClasses}`}
+      className={`inline-flex items-center rounded-lg font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 shadow-xs transition-colors ${sizeClasses}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
