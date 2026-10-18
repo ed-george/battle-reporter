@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Battle Reporter — Pokémon TCG Stream Match Archive
 
-## Getting Started
+Inspired by [Limitless TCG](https://labs.limitlesstcg.com/), **Battle Reporter** is a community-driven web archive for competitive Pokémon Trading Card Game stream broadcast matches.
 
-First, run the development server:
+Players, spectators, and casters can browse premier tournaments, search for matches by player or deck archetype, jump to specific games with timestamp accuracy, and enjoy default-on spoiler protection.
 
+---
+
+## 🌟 Key Features
+
+1. **Tournament-Centric Directory**:
+   - Live tournament metadata auto-synced from [PokeData.ovh](https://www.pokedata.ovh/apiv3/help).
+   - Events grouped chronologically by season and year.
+   - Direct links to official RK9 pairings and roster sheets.
+
+2. **Dedicated Cinema-Mode Match Theater (`/match/[id]`)**:
+   - Embedded responsive YouTube player starting at the exact broadcast moment.
+   - **Game Jump Bar**: One-click jump buttons for **Match Start**, **Game 1**, **Game 2**, and **Game 3**.
+   - **Spoiler Shield**: Default-on protection hiding match winners, final scores, and sweep spoilers until explicitly toggled.
+   - **Interactive 60-Card Decklists**: Visual grid of registered cards with one-click **"Copy for Pokémon TCG Live"** (PTCGL format export).
+
+3. **Multi-Filter Stream Match Explorer (`/matches`)**:
+   - Instant search across player names, deck archetypes, and tournaments.
+   - Filter by tournament dropdown or quick archetype pills.
+
+4. **Dedicated Entity Hubs**:
+   - **Player Profiles (`/player/[slug]`)**: Track any player's stream appearances, match record, win rate on stream, and deck history.
+   - **Archetype Pages (`/archetype/[slug]`)**: Explore archetype statistics, official Limitless sprite icons, and recorded stream games.
+
+5. **Assisted Contributor Tagging Studio (`/submit`)**:
+   - Autocompletes pairings, table numbers, and suggested archetypes from PokeData + Limitless Play API.
+   - Embedded YouTube video preview with timestamp capture.
+   - Admin moderation queue (`/admin/moderation`) for approving community submissions.
+
+---
+
+## 🛠️ Tech Stack & Integrations
+
+- **Framework**: Next.js 15+ (App Router, React 19, TypeScript)
+- **Styling**: Tailwind CSS + Lucide React Icons
+- **Database**: Supabase PostgreSQL with Row Level Security (migration provided in `supabase/migrations/`)
+- **APIs**:
+  - [PokeData.ovh API](https://www.pokedata.ovh/apiv3/help): Tournaments, divisions, standings, and decklists.
+  - [Limitless TCG Play API](https://docs.limitlesstcg.com/developer/games.html): Canonical deck definitions, card matching rules, and sprite icon identifiers.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables (Optional)
+Create `.env.local` if you wish to configure live Limitless API keys or Supabase:
+```env
+# Optional: Limitless TCG Play API Key
+LIMITLESS_API_KEY=your_key_here
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Optional: Supabase Credentials (app falls back seamlessly to local seed data if not configured)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Sync Live Data (PokeData & Limitless)
+To refresh the tournament index from PokeData and archetypes from Limitless:
+```bash
+npm run seed
+```
 
-## Learn More
+### 4. Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+### 5. Production Build
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🗄️ Database Setup (Supabase)
 
-## Deploy on Vercel
+To connect your Supabase database:
+1. Create a project on [Supabase](https://supabase.com).
+2. Go to the **SQL Editor** in your Supabase dashboard.
+3. Paste the contents of [`supabase/migrations/20261018_initial_schema.sql`](file:///Users/ehg/projs/battle-reporter/supabase/migrations/20261018_initial_schema.sql) and execute.
+4. Add your `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to `.env.local`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License & Attribution
+
+An open-source community archive project. All Pokémon TCG broadcast and intellectual property rights belong to **The Pokémon Company International** and official event broadcasters.
