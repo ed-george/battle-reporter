@@ -1,8 +1,5 @@
 import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
-import seedTournaments from '@/data/seed-tournaments.json';
-import seedMatches from '@/data/seed-matches.json';
-import { POPULAR_ARCHETYPES } from '@/lib/limitless';
 
 export interface MatchFilterParams {
   tournamentId?: string;
@@ -17,19 +14,22 @@ export interface MatchFilterParams {
  */
 export async function getTournaments(): Promise<Tournament[]> {
   const supabase = await createServerSupabaseClient();
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('tournaments')
-      .select('*')
-      .order('start_date', { ascending: false });
-
-    if (!error && data && data.length > 0) {
-      return data as Tournament[];
-    }
+  if (!supabase) {
+    console.error('Supabase client not initialized. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.');
+    return [];
   }
 
-  // Fallback to seed data
-  return seedTournaments as Tournament[];
+  const { data, error } = await supabase
+    .from('tournaments')
+    .select('*')
+    .order('start_date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching tournaments from Supabase:', error);
+    return [];
+  }
+
+  return (data || []) as Tournament[];
 }
 
 /**
@@ -37,20 +37,25 @@ export async function getTournaments(): Promise<Tournament[]> {
  */
 export async function getTournamentById(id: string): Promise<Tournament | null> {
   const supabase = await createServerSupabaseClient();
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('tournaments')
-      .select('*')
-      .eq('id', id)
-      .single();
-
-    if (!error && data) {
-      return data as Tournament;
-    }
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return null;
   }
 
-  const found = (seedTournaments as Tournament[]).find((t) => t.id === id);
-  return found || null;
+  const { data, error } = await supabase
+    .from('tournaments')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    if (error.code !== 'PGRST116') {
+      console.error(`Error fetching tournament ${id} from Supabase:`, error);
+    }
+    return null;
+  }
+
+  return (data as Tournament) || null;
 }
 
 /**
@@ -58,57 +63,34 @@ export async function getTournamentById(id: string): Promise<Tournament | null> 
  */
 export async function getStreamedMatches(filters: MatchFilterParams = {}): Promise<StreamedMatch[]> {
   const supabase = await createServerSupabaseClient();
-
-  if (supabase) {
-    let query = supabase
-      .from('streamed_matches')
-      .select('*, games:match_games(*), tournament:tournaments(*)')
-      .eq('is_published', true)
-      .order('created_at', { ascending: false });
-
-    if (filters.tournamentId) {
-      query = query.eq('tournament_id', filters.tournamentId);
-    }
-    if (filters.archetype) {
-      query = query.or(`player1_deck_archetype.eq.${filters.archetype},player2_deck_archetype.eq.${filters.archetype}`);
-    }
-    if (filters.playerName) {
-      query = query.or(`player1_name.ilike.%${filters.playerName}%,player2_name.ilike.%${filters.playerName}%`);
-    }
-
-    const { data, error } = await query;
-    if (!error && data && data.length > 0) {
-      return data as StreamedMatch[];
-    }
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return [];
   }
 
-  // Fallback to local seed matches
-  let matches = (seedMatches as unknown as StreamedMatch[]).map((match) => {
-    const t = (seedTournaments as Tournament[]).find((item) => item.id === match.tournament_id);
-    return { ...match, tournament: t };
-  });
+  let query = supabase
+    .from('streamed_matches')
+    .select('*, games:match_games(*), tournament:tournaments(*)')
+    .eq('is_published', true)
+    .order('created_at', { ascending: false });
 
   if (filters.tournamentId) {
-    matches = matches.filter((m) => m.tournament_id === filters.tournamentId);
+    query = query.eq('tournament_id', filters.tournamentId);
   }
-
   if (filters.archetype) {
-    const arch = filters.archetype.toLowerCase();
-    matches = matches.filter(
-      (m) =>
-        m.player1_deck_archetype.toLowerCase().includes(arch) ||
-        m.player2_deck_archetype.toLowerCase().includes(arch)
-    );
+    query = query.or(`player1_deck_archetype.eq.${filters.archetype},player2_deck_archetype.eq.${filters.archetype}`);
+  }
+  if (filters.playerName) {
+    query = query.or(`player1_name.ilike.%${filters.playerName}%,player2_name.ilike.%${filters.playerName}%`);
   }
 
-  if (filters.playerName) {
-    const pName = filters.playerName.toLowerCase();
-    matches = matches.filter(
-      (m) =>
-        m.player1_name.toLowerCase().includes(pName) ||
-        m.player2_name.toLowerCase().includes(pName)
-    );
+  const { data, error } = await query;
+  if (error) {
+    console.error('Error fetching streamed matches from Supabase:', error);
+    return [];
   }
+
+  let matches = (data || []) as StreamedMatch[];
 
   if (filters.query) {
     const q = filters.query.toLowerCase();
@@ -116,8 +98,8 @@ export async function getStreamedMatches(filters: MatchFilterParams = {}): Promi
       (m) =>
         m.player1_name.toLowerCase().includes(q) ||
         m.player2_name.toLowerCase().includes(q) ||
-        m.player1_deck_archetype.toLowerCase().includes(q) ||
-        m.player2_deck_archetype.toLowerCase().includes(q) ||
+        m.player1_deck_archetype?.toLowerCase().includes(q) ||
+        m.player2_deck_archetype?.toLowerCase().includes(q) ||
         m.round_name.toLowerCase().includes(q) ||
         m.tournament?.name.toLowerCase().includes(q)
     );
@@ -131,23 +113,25 @@ export async function getStreamedMatches(filters: MatchFilterParams = {}): Promi
  */
 export async function getStreamedMatchById(id: string): Promise<StreamedMatch | null> {
   const supabase = await createServerSupabaseClient();
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('streamed_matches')
-      .select('*, games:match_games(*), tournament:tournaments(*)')
-      .eq('id', id)
-      .single();
-
-    if (!error && data) {
-      return data as StreamedMatch;
-    }
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return null;
   }
 
-  const match = (seedMatches as unknown as StreamedMatch[]).find((m) => m.id === id);
-  if (!match) return null;
+  const { data, error } = await supabase
+    .from('streamed_matches')
+    .select('*, games:match_games(*), tournament:tournaments(*)')
+    .eq('id', id)
+    .single();
 
-  const tournament = (seedTournaments as Tournament[]).find((t) => t.id === match.tournament_id);
-  return { ...match, tournament };
+  if (error) {
+    if (error.code !== 'PGRST116') {
+      console.error(`Error fetching streamed match ${id} from Supabase:`, error);
+    }
+    return null;
+  }
+
+  return (data as StreamedMatch) || null;
 }
 
 /**
@@ -155,18 +139,22 @@ export async function getStreamedMatchById(id: string): Promise<StreamedMatch | 
  */
 export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
   const supabase = await createServerSupabaseClient();
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('deck_archetypes')
-      .select('*')
-      .order('priority', { ascending: false });
-
-    if (!error && data && data.length > 0) {
-      return data as DeckArchetype[];
-    }
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return [];
   }
 
-  return POPULAR_ARCHETYPES;
+  const { data, error } = await supabase
+    .from('deck_archetypes')
+    .select('*')
+    .order('priority', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching deck archetypes from Supabase:', error);
+    return [];
+  }
+
+  return (data || []) as DeckArchetype[];
 }
 
 /**
@@ -332,10 +320,27 @@ export async function getStreamPlayers(options: {
  */
 export async function getArchetypeStats(archetypeIdentifier: string) {
   const allMatches = await getStreamedMatches({ archetype: archetypeIdentifier });
-  const archetype = POPULAR_ARCHETYPES.find((a) => a.identifier === archetypeIdentifier) || {
+  const supabase = await createServerSupabaseClient();
+  let archetypeName = archetypeIdentifier.replace(/-/g, ' ').toUpperCase();
+  let icons: string[] = [];
+
+  if (supabase) {
+    const { data } = await supabase
+      .from('deck_archetypes')
+      .select('*')
+      .eq('identifier', archetypeIdentifier)
+      .single();
+
+    if (data) {
+      archetypeName = data.name;
+      icons = data.icons || [];
+    }
+  }
+
+  const archetype: DeckArchetype = {
     identifier: archetypeIdentifier,
-    name: archetypeIdentifier.replace(/-/g, ' ').toUpperCase(),
-    icons: [],
+    name: archetypeName,
+    icons,
   };
 
   let totalAppearances = 0;
@@ -368,27 +373,20 @@ export async function getArchetypeStats(archetypeIdentifier: string) {
  */
 export async function createMatchSubmission(submissionData: Omit<Submission, 'id' | 'created_at' | 'status'>) {
   const supabase = await createServerSupabaseClient();
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('submissions')
-      .insert({
-        match_data: submissionData.match_data,
-        submitted_by: submissionData.submitted_by,
-        status: 'pending',
-      })
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
+  if (!supabase) {
+    throw new Error('Supabase client not initialized. Cannot submit match.');
   }
 
-  // Fallback: mock return
-  return {
-    id: `sub-${Date.now()}`,
-    match_data: submissionData.match_data,
-    submitted_by: submissionData.submitted_by,
-    status: 'pending',
-    created_at: new Date().toISOString(),
-  };
+  const { data, error } = await supabase
+    .from('submissions')
+    .insert({
+      match_data: submissionData.match_data,
+      submitted_by: submissionData.submitted_by,
+      status: 'pending',
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
 }

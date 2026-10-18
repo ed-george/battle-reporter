@@ -108,3 +108,17 @@ CREATE POLICY "Public read match games" ON public.match_games FOR SELECT USING (
 -- Authenticated users can insert submissions
 CREATE POLICY "Authenticated users submit" ON public.submissions FOR INSERT TO authenticated WITH CHECK (auth.uid() = submitted_by);
 CREATE POLICY "Users read own submissions" ON public.submissions FOR SELECT TO authenticated USING (auth.uid() = submitted_by);
+
+-- Allow public / anon to insert submissions
+CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon WITH CHECK (true);
+
+-- 9. Table Grants for PostgREST
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT SELECT ON public.tournaments TO anon, authenticated;
+GRANT SELECT ON public.deck_archetypes TO anon, authenticated;
+GRANT SELECT ON public.streamed_matches TO anon, authenticated;
+GRANT SELECT ON public.match_games TO anon, authenticated;
+GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
+
