@@ -6,7 +6,7 @@ import { Play, Trophy, Eye, EyeOff, ExternalLink, ArrowLeft } from 'lucide-react
 import { StreamedMatch } from '@/types/database';
 import { YouTubePlayer } from '@/components/YouTubePlayer';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
-import { DecklistVisualizer } from '@/components/DecklistVisualizer';
+import { getLimitlessDeckUrl, getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
 
 interface MatchTheaterViewProps {
@@ -235,25 +235,79 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
         </div>
       </div>
 
-      {/* 60-Card Visual Decklists for Both Players */}
-      <section className="space-y-6 pt-4">
+      {/* Deck Archetypes & Limitless TCG Links */}
+      <section className="space-y-4 pt-4">
         <div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">Registered Decklists</h2>
-          <p className="text-xs text-slate-500">60-card lists recorded in tournament pairings</p>
+          <h2 className="text-xl font-black text-slate-900 tracking-tight">Deck Archetypes & Limitless TCG</h2>
+          <p className="text-xs text-slate-500">View complete decklists, card lists, and meta statistics directly on Limitless TCG</p>
         </div>
 
-        <div className="space-y-6">
-          <DecklistVisualizer
-            playerName={match.player1_name}
-            archetypeName={match.player1_deck_archetype}
-            decklist={match.player1_decklist}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Player 1 Deck Card */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between gap-4">
+            <div className="space-y-2">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                {match.player1_name}&apos;s Archetype
+              </span>
+              <div className="flex items-center gap-2">
+                <ArchetypeBadge identifier={match.player1_deck_archetype} size="lg" />
+              </div>
+            </div>
 
-          <DecklistVisualizer
-            playerName={match.player2_name}
-            archetypeName={match.player2_deck_archetype}
-            decklist={match.player2_decklist}
-          />
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
+              <a
+                href={getLimitlessDeckUrl(match.player1_deck_archetype)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors"
+              >
+                <span>View Deck on Limitless</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+              </a>
+              <a
+                href={getLimitlessPlayerUrl(match.player1_name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+              >
+                <span>Limitless Player Profile</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              </a>
+            </div>
+          </div>
+
+          {/* Player 2 Deck Card */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col justify-between gap-4">
+            <div className="space-y-2">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                {match.player2_name}&apos;s Archetype
+              </span>
+              <div className="flex items-center gap-2">
+                <ArchetypeBadge identifier={match.player2_deck_archetype} size="lg" />
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
+              <a
+                href={getLimitlessDeckUrl(match.player2_deck_archetype)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors"
+              >
+                <span>View Deck on Limitless</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+              </a>
+              <a
+                href={getLimitlessPlayerUrl(match.player2_name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+              >
+                <span>Limitless Player Profile</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

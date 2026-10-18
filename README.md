@@ -16,8 +16,7 @@ Players, spectators, and casters can browse premier tournaments, search for matc
 2. **Dedicated Cinema-Mode Match Theater (`/match/[id]`)**:
    - Embedded responsive YouTube player starting at the exact broadcast moment.
    - **Game Jump Bar**: One-click jump buttons for **Match Start**, **Game 1**, **Game 2**, and **Game 3**.
-   - **Spoiler Shield**: Default-on protection hiding match winners, final scores, and sweep spoilers until explicitly toggled.
-   - **Interactive 60-Card Decklists**: Visual grid of registered cards with one-click **"Copy for Pokémon TCG Live"** (PTCGL format export).
+   - **Limitless TCG Integration**: Direct links to full decklists, archetype statistics, and player profiles on Limitless TCG.
 
 3. **Multi-Filter Stream Match Explorer (`/matches`)**:
    - Instant search across player names, deck archetypes, and tournaments.
