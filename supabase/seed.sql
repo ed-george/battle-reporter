@@ -7,6 +7,9 @@ GRANT SELECT ON public.deck_archetypes TO anon, authenticated;
 GRANT SELECT ON public.streamed_matches TO anon, authenticated;
 GRANT SELECT ON public.match_games TO anon, authenticated;
 GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
+GRANT ALL ON public.submissions TO authenticated;
+GRANT ALL ON public.streamed_matches TO authenticated;
+GRANT ALL ON public.match_games TO authenticated;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
 
 -- Make tournament dates nullable in case of unannounced or missing dates from APIs
@@ -20,6 +23,21 @@ BEGIN
     SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Public insert submissions'
   ) THEN
     CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon, authenticated WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Admins manage submissions'
+  ) THEN
+    CREATE POLICY "Admins manage submissions" ON public.submissions FOR ALL TO authenticated USING (true) WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'streamed_matches' AND policyname = 'Admins manage streamed matches'
+  ) THEN
+    CREATE POLICY "Admins manage streamed matches" ON public.streamed_matches FOR ALL TO authenticated USING (true) WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'match_games' AND policyname = 'Admins manage match games'
+  ) THEN
+    CREATE POLICY "Admins manage match games" ON public.match_games FOR ALL TO authenticated USING (true) WITH CHECK (true);
   END IF;
 END $$;
 

@@ -30,66 +30,127 @@ Players, spectators, and casters can browse premier tournaments, search for matc
 5. **Assisted Contributor Tagging Studio (`/submit`)**:
    - Autocompletes pairings, table numbers, and suggested archetypes from PokeData + Limitless Play API.
    - Embedded YouTube video preview with timestamp capture.
-   - Admin moderation queue (`/admin/moderation`) for approving community submissions.
+   - Direct submissions to the moderation queue for review before publishing.
+
+6. **Secured Admin Moderation Queue (`/admin/moderation`)**:
+   - Strict role-based authentication using Supabase Auth.
+   - Only verified administrators can view pending community submissions.
+   - One-click **Approve & Publish** (immediately indexes the match live) or **Reject**.
 
 ---
 
 ## 🛠️ Tech Stack & Integrations
 
-- **Framework**: Next.js 15+ (App Router, React 19, TypeScript)
-- **Styling**: Tailwind CSS + Lucide React Icons
-- **Database**: Supabase PostgreSQL with Row Level Security (migration provided in `supabase/migrations/`)
+- **Framework**: Next.js 16 (App Router, React 19, TypeScript, Turbopack)
+- **Styling**: Tailwind CSS v4 + Lucide React Icons
+- **Database & Auth**: Supabase PostgreSQL with Row Level Security (RLS) & Supabase SSR
 - **APIs**:
   - [PokeData.ovh API](https://www.pokedata.ovh/apiv3/help): Tournaments, divisions, standings, and decklists.
   - [Limitless TCG Play API](https://docs.limitlesstcg.com/developer/games.html): Canonical deck definitions, card matching rules, and sprite icon identifiers.
 
 ---
 
-## 🚀 Getting Started
+## 🗄️ Supabase Setup Guide
+
+Follow these steps to configure your Supabase backend and enable the admin moderation workflow:
+
+### 1. Create a Supabase Project
+1. Go to [supabase.com](https://supabase.com) and create a new project.
+2. Under **Project Settings -> API**, copy your **Project URL** and **anon public key**.
+
+### 2. Configure Environment Variables
+Create or update `.env.local` in your project root:
+
+```env
+# Supabase Project Credentials
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_publishable_key
+
+# Limitless TCG Play API Key (for live deck archetypes)
+LIMITLESS_API_KEY=your_limitless_api_key
+
+# Administrator Emails (comma-separated list for moderation queue access)
+ADMIN_EMAILS=admin@example.com,your-email@example.com
+```
+
+### 3. Apply Database Migrations and Grants
+1. In your Supabase Dashboard, open the **SQL Editor** from the left navigation.
+2. Click **New query**, paste the entire contents of [`supabase/migrations/20261018_initial_schema.sql`](supabase/migrations/20261018_initial_schema.sql), and click **Run**.
+   - This provisions all tables (`tournaments`, `deck_archetypes`, `streamed_matches`, `match_games`, `submissions`), sets up indexes, configures Row Level Security (RLS), and executes necessary PostgREST role privileges.
+3. Next, paste the contents of [`supabase/seed.sql`](supabase/seed.sql) and click **Run**.
+   - This seeds 38 official premier tournaments from PokeData and 608 canonical deck archetypes from Limitless TCG.
+   - It leaves `streamed_matches` and `match_games` clean, ready for you to add stream matches.
+
+### 4. Syncing / Refreshing API Data via CLI
+You can refresh tournaments and deck archetypes at any time by running:
+
+```bash
+npm run seed
+```
+This fetches the latest tournaments from PokeData and archetypes from Limitless TCG, and automatically updates your database.
+
+---
+
+## 🛡️ Setting Up Admin Access for Moderation (`/admin/moderation`)
+
+Only authenticated users with administrator privileges can access the moderation queue.
+
+### Step 1: Create an Admin User in Supabase Auth
+1. Go to your Supabase Dashboard and navigate to **Authentication -> Users**.
+2. Click **Add User** -> **Create User**.
+3. Enter an email (e.g. `admin@example.com`) and choose a secure password.
+4. Check **Auto Confirm User** (or verify via email).
+
+### Step 2: Grant Admin Rights
+You have two ways to designate an account as an administrator:
+
+- **Method A (Recommended — Environment Whitelist)**:
+  Add the user's email to `ADMIN_EMAILS` in `.env.local`:
+  ```env
+  ADMIN_EMAILS=admin@example.com
+  ```
+  *(Multiple emails can be separated by commas, e.g. `admin@example.com,lead@example.com`).*
+
+- **Method B (Supabase User Metadata)**:
+  In the Supabase **Authentication -> Users** dashboard:
+  - Click on the user -> **Edit User**.
+  - In the **Raw User Meta Data** JSON editor, add `"role": "admin"` or `"is_admin": true`:
+    ```json
+    {
+      "role": "admin"
+    }
+    ```
+
+### Step 3: Access the Moderation Dashboard
+1. Navigate to [`http://localhost:3000/admin/moderation`](http://localhost:3000/admin/moderation).
+2. If unauthenticated, you will see the **Admin Sign In** form.
+3. Enter your administrator email and password.
+4. Once verified, you will enter the **Moderation Queue Dashboard** where you can:
+   - Preview submitted match videos and start timestamps.
+   - Click **Approve & Publish** to instantly index the match live into the public archive.
+   - Click **Reject** to dismiss inaccurate submissions.
+   - Sign out when finished.
+
+---
+
+## 🚀 Local Development
 
 ### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-### 2. Environment Variables (Optional)
-Create `.env.local` if you wish to configure live Limitless API keys or Supabase:
-```env
-# Optional: Limitless TCG Play API Key
-LIMITLESS_API_KEY=your_key_here
-
-# Optional: Supabase Credentials (app falls back seamlessly to local seed data if not configured)
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
-```
-
-### 3. Sync Live Data (PokeData & Limitless)
-To refresh the tournament index from PokeData and archetypes from Limitless:
-```bash
-npm run seed
-```
-
-### 4. Run Development Server
+### 2. Start Development Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 5. Production Build
+### 3. Build for Production
 ```bash
 npm run build
 npm start
 ```
-
----
-
-## 🗄️ Database Setup (Supabase)
-
-To connect your Supabase database:
-1. Create a project on [Supabase](https://supabase.com).
-2. Go to the **SQL Editor** in your Supabase dashboard.
-3. Paste the contents of [`supabase/migrations/20261018_initial_schema.sql`](file:///Users/ehg/projs/battle-reporter/supabase/migrations/20261018_initial_schema.sql) and execute.
-4. Add your `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to `.env.local`.
 
 ---
 

@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { Tournament, DeckArchetype } from '@/types/database';
 import { POPULAR_ARCHETYPES } from '@/lib/limitless';
-import { CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Sparkles, Loader2 } from 'lucide-react';
+import { submitMatchAction } from '@/app/actions/moderation';
 
 interface StreamTaggingStudioProps {
   tournaments: Tournament[];
@@ -44,6 +45,7 @@ export function StreamTaggingStudio({
   // State
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Derive video ID directly from YouTube URL
   const videoIdMatch = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
@@ -58,7 +60,7 @@ export function StreamTaggingStudio({
     return Number(timeStr) || 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -106,9 +108,17 @@ export function StreamTaggingStudio({
       match_score: matchScore || null,
       games,
     };
-    void payload;
 
-    setSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await submitMatchAction(payload);
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to submit match. Please try again.';
+      setError(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -441,9 +451,17 @@ export function StreamTaggingStudio({
         <div className="flex justify-end pt-2">
           <button
             type="submit"
-            className="w-full sm:w-auto px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-all cursor-pointer"
+            disabled={isSubmitting}
+            className="w-full sm:w-auto px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
           >
-            Submit Match for Moderation
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Submitting for Review...</span>
+              </>
+            ) : (
+              <span>Submit Match for Moderation</span>
+            )}
           </button>
         </div>
       </form>

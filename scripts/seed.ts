@@ -48,6 +48,9 @@ async function main() {
   sql += 'GRANT SELECT ON public.streamed_matches TO anon, authenticated;\n';
   sql += 'GRANT SELECT ON public.match_games TO anon, authenticated;\n';
   sql += 'GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;\n';
+  sql += 'GRANT ALL ON public.submissions TO authenticated;\n';
+  sql += 'GRANT ALL ON public.streamed_matches TO authenticated;\n';
+  sql += 'GRANT ALL ON public.match_games TO authenticated;\n';
   sql += 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;\n\n';
 
   sql += '-- Make tournament dates nullable in case of unannounced or missing dates from APIs\n';
@@ -60,6 +63,21 @@ async function main() {
   sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Public insert submissions'\n";
   sql += '  ) THEN\n';
   sql += '    CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon, authenticated WITH CHECK (true);\n';
+  sql += '  END IF;\n';
+  sql += '  IF NOT EXISTS (\n';
+  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Admins manage submissions'\n";
+  sql += '  ) THEN\n';
+  sql += '    CREATE POLICY "Admins manage submissions" ON public.submissions FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
+  sql += '  END IF;\n';
+  sql += '  IF NOT EXISTS (\n';
+  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'streamed_matches' AND policyname = 'Admins manage streamed matches'\n";
+  sql += '  ) THEN\n';
+  sql += '    CREATE POLICY "Admins manage streamed matches" ON public.streamed_matches FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
+  sql += '  END IF;\n';
+  sql += '  IF NOT EXISTS (\n';
+  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'match_games' AND policyname = 'Admins manage match games'\n";
+  sql += '  ) THEN\n';
+  sql += '    CREATE POLICY "Admins manage match games" ON public.match_games FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
   sql += '  END IF;\n';
   sql += 'END $$;\n\n';
 

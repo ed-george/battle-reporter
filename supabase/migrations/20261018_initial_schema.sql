@@ -112,6 +112,15 @@ CREATE POLICY "Users read own submissions" ON public.submissions FOR SELECT TO a
 -- Allow public / anon to insert submissions
 CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon WITH CHECK (true);
 
+-- Allow authenticated admins to view, update, and manage all submissions
+CREATE POLICY "Admins manage submissions" ON public.submissions FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- Allow authenticated admins to insert and update published stream matches
+CREATE POLICY "Admins manage streamed matches" ON public.streamed_matches FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- Allow authenticated admins to insert and update match games
+CREATE POLICY "Admins manage match games" ON public.match_games FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
 -- 9. Table Grants for PostgREST
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON public.tournaments TO anon, authenticated;
@@ -120,5 +129,11 @@ GRANT SELECT ON public.streamed_matches TO anon, authenticated;
 GRANT SELECT ON public.match_games TO anon, authenticated;
 GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
 
+-- Full table management for authenticated users (moderators / admins)
+GRANT ALL ON public.submissions TO authenticated;
+GRANT ALL ON public.streamed_matches TO authenticated;
+GRANT ALL ON public.match_games TO authenticated;
+
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
+
 
