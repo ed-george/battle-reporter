@@ -10,6 +10,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Data Sourcing Policy
 
-- All tournament data in `tournaments` must come directly from the PokeData API (`https://www.pokedata.ovh/apiv3`).
-- All deck archetype data in `deck_archetypes` must come directly from the Limitless TCG Play API (`https://play.limitlesstcg.com/api`).
-- Do not manually fabricate, mock, or hardcode tournament or archetype data. Any database seeding or scripts must fetch the authoritative data from their relevant APIs. Any video, player, and match timestamp data is community/user entered.
+- **CRITICAL / ABSOLUTE RULE**: Never use fabricated, invented, mocked, or placeholder data for tournaments and/or deck archetypes under any circumstances — even if it was previously generated, suggested in conversation transcripts, or created on the fly.
+- All tournament data in `tournaments` must come directly from the official PokeData API (`https://www.pokedata.ovh/apiv3`).
+- All deck archetype data in `deck_archetypes` must come directly from the official Limitless TCG Play API (`https://play.limitlesstcg.com/api`).
+- Any database seeding, migration scripts, or SQL outputs must exclusively source authoritative records fetched from these live APIs.
+- Community/user data is restricted strictly to stream video URLs, match timestamps, player submissions, and match moderation.
