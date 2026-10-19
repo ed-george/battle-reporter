@@ -1,6 +1,6 @@
 'use server';
 
-import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/supabase/server';
 import { checkIsAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
@@ -116,15 +116,60 @@ export async function getPendingSubmissionsAction(): Promise<PendingSubmissionRe
 }
 
 /**
- * Admin Action: Approve a match submission and publish to live archive
+ * Helper to validate UUID format
  */
-export async function approveSubmissionAction(submissionId: string) {
+function isValidUuid(val?: string | null): boolean {
+  return !!val && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val);
+}
+
+/**
+ * Admin Action: Update a pending submission's match data (fix errors without publishing yet)
+ */
+export async function updateSubmissionDataAction(
+  submissionId: string,
+  updatedMatchData: PendingSubmissionRecord['match_data']
+) {
+  const { isAdmin } = await checkIsAdmin();
+  if (!isAdmin) {
+    throw new Error('Unauthorized: Admin access required.');
+  }
+
+  const adminClient = createAdminSupabaseClient();
+  const supabase = adminClient || (await createServerSupabaseClient());
+  if (!supabase) throw new Error('Supabase client not initialized.');
+
+  const { error } = await supabase
+    .from('submissions')
+    .update({
+      match_data: updatedMatchData,
+      review_notes: 'Edited by moderator',
+    })
+    .eq('id', submissionId);
+
+  if (error) {
+    console.error('Error updating submission:', error);
+    throw new Error(`Failed to update submission: ${error.message}`);
+  }
+
+  revalidatePath('/admin/moderation');
+  return { success: true };
+}
+
+/**
+ * Admin Action: Approve a match submission (with optional edited match data) and publish to live archive
+ */
+export async function approveSubmissionAction(
+  submissionId: string,
+  updatedMatchData?: PendingSubmissionRecord['match_data']
+) {
   const { user, isAdmin } = await checkIsAdmin();
   if (!isAdmin || !user) {
     throw new Error('Unauthorized: Admin access required.');
   }
 
-  const supabase = await createServerSupabaseClient();
+  // Use service role admin client if configured, otherwise authenticated server client
+  const adminClient = createAdminSupabaseClient();
+  const supabase = adminClient || (await createServerSupabaseClient());
   if (!supabase) throw new Error('Supabase client not initialized.');
 
   // 1. Fetch submission record
@@ -138,64 +183,105 @@ export async function approveSubmissionAction(submissionId: string) {
     throw new Error('Submission not found.');
   }
 
-  const m = submission.match_data;
+  // Use edited match data if provided, otherwise the stored match_data
+  const m = updatedMatchData || submission.match_data;
+
+  // Sanitize tournament_id
+  const tournamentId = m.tournament_id?.trim() || null;
+  if (tournamentId) {
+    // Ensure foreign key constraint is satisfied: check if tournament exists in tournaments table
+    const { data: existingTourney } = await supabase
+      .from('tournaments')
+      .select('id')
+      .eq('id', tournamentId)
+      .maybeSingle();
+
+    if (!existingTourney) {
+      // Auto-insert tournament record so foreign key constraint never blocks publishing
+      await supabase.from('tournaments').insert({
+        id: tournamentId,
+        name: tournamentId.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
+      });
+    }
+  }
+
+  // Extract or derive YouTube Video ID
+  let videoId = m.youtube_video_id;
+  if (!videoId && m.youtube_url) {
+    const match = m.youtube_url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    videoId = match ? match[1] : '';
+  }
 
   // 2. Insert into streamed_matches
   const { data: matchRecord, error: matchErr } = await supabase
     .from('streamed_matches')
     .insert({
-      tournament_id: m.tournament_id,
-      round_name: m.round_name,
+      tournament_id: tournamentId,
+      round_name: m.round_name || 'Stream Match',
       division: m.division || 'masters',
-      table_number: m.table_number || null,
-      player1_name: m.player1_name,
-      player1_country: m.player1_country || null,
+      table_number: m.table_number ? Number(m.table_number) : null,
+      player1_name: m.player1_name?.trim() || 'Player 1',
+      player1_country: m.player1_country?.trim() || null,
       player1_deck_archetype: m.player1_deck_archetype,
       player1_decklist: m.player1_decklist || [],
-      player2_name: m.player2_name,
-      player2_country: m.player2_country || null,
+      player2_name: m.player2_name?.trim() || 'Player 2',
+      player2_country: m.player2_country?.trim() || null,
       player2_deck_archetype: m.player2_deck_archetype,
       player2_decklist: m.player2_decklist || [],
       youtube_url: m.youtube_url,
-      youtube_video_id: m.youtube_video_id,
-      match_start_seconds: m.match_start_seconds,
-      match_end_seconds: m.match_end_seconds || null,
-      winner_player_name: m.winner_player_name || null,
-      match_score: m.match_score || null,
+      youtube_video_id: videoId || '',
+      match_start_seconds: Number(m.match_start_seconds) || 0,
+      match_end_seconds: m.match_end_seconds ? Number(m.match_end_seconds) : null,
+      winner_player_name: m.winner_player_name?.trim() || null,
+      match_score: m.match_score?.trim() || null,
       is_published: true,
-      submitted_by: submission.submitted_by || null,
+      submitted_by: isValidUuid(submission.submitted_by) ? submission.submitted_by : null,
     })
     .select()
     .single();
 
   if (matchErr || !matchRecord) {
     console.error('Error publishing match to archive:', matchErr);
-    throw new Error(`Failed to publish match: ${matchErr?.message}`);
+    throw new Error(`Failed to publish match: ${matchErr?.message || 'Database insert failed'}`);
   }
 
   // 3. Insert individual games if present
   if (Array.isArray(m.games) && m.games.length > 0) {
-    const gamesPayload = m.games.map((g: { game_number: number; start_seconds: number; winner_player_name?: string | null }) => ({
-      match_id: matchRecord.id,
-      game_number: g.game_number,
-      start_seconds: g.start_seconds,
-      winner_player_name: g.winner_player_name || null,
-    }));
+    interface GameItem {
+      game_number: number;
+      start_seconds: number;
+      winner_player_name?: string | null;
+    }
+    const validGames = (m.games as GameItem[])
+      .filter((g: GameItem) => typeof g.game_number === 'number' && !isNaN(Number(g.start_seconds)))
+      .map((g: GameItem) => ({
+        match_id: matchRecord.id,
+        game_number: Number(g.game_number),
+        start_seconds: Number(g.start_seconds),
+        winner_player_name: g.winner_player_name?.trim() || null,
+      }));
 
-    const { error: gamesErr } = await supabase.from('match_games').insert(gamesPayload);
-    if (gamesErr) {
-      console.warn('Warning: Could not insert games timestamps:', gamesErr);
+    if (validGames.length > 0) {
+      const { error: gamesErr } = await supabase.from('match_games').insert(validGames);
+      if (gamesErr) {
+        console.warn('Warning: Could not insert games timestamps:', gamesErr);
+      }
     }
   }
 
-  // 4. Update submission status to approved
+  // 4. Update submission status to approved (and update match_data if edits were applied)
+  const updatePayload: Record<string, unknown> = {
+    status: 'approved',
+    reviewed_at: new Date().toISOString(),
+    reviewed_by: isValidUuid(user.id) ? user.id : null,
+  };
+  if (updatedMatchData) {
+    updatePayload.match_data = updatedMatchData;
+  }
+
   const { error: updateErr } = await supabase
     .from('submissions')
-    .update({
-      status: 'approved',
-      reviewed_at: new Date().toISOString(),
-      reviewed_by: user.id,
-    })
+    .update(updatePayload)
     .eq('id', submissionId);
 
   if (updateErr) {
@@ -205,8 +291,11 @@ export async function approveSubmissionAction(submissionId: string) {
   // 5. Revalidate cache
   revalidatePath('/matches');
   revalidatePath('/players');
+  revalidatePath('/archetypes');
   revalidatePath('/');
-  revalidatePath(`/tournament/${m.tournament_id}`);
+  if (tournamentId) {
+    revalidatePath(`/tournament/${tournamentId}`);
+  }
   revalidatePath('/admin/moderation');
 
   return { success: true, matchId: matchRecord.id };
@@ -221,7 +310,8 @@ export async function rejectSubmissionAction(submissionId: string, reviewNotes?:
     throw new Error('Unauthorized: Admin access required.');
   }
 
-  const supabase = await createServerSupabaseClient();
+  const adminClient = createAdminSupabaseClient();
+  const supabase = adminClient || (await createServerSupabaseClient());
   if (!supabase) throw new Error('Supabase client not initialized.');
 
   const { error } = await supabase
@@ -230,7 +320,7 @@ export async function rejectSubmissionAction(submissionId: string, reviewNotes?:
       status: 'rejected',
       review_notes: reviewNotes || null,
       reviewed_at: new Date().toISOString(),
-      reviewed_by: user.id,
+      reviewed_by: isValidUuid(user.id) ? user.id : null,
     })
     .eq('id', submissionId);
 

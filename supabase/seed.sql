@@ -10,6 +10,8 @@ GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
 GRANT ALL ON public.submissions TO authenticated;
 GRANT ALL ON public.streamed_matches TO authenticated;
 GRANT ALL ON public.match_games TO authenticated;
+GRANT ALL ON public.tournaments TO authenticated;
+GRANT ALL ON public.deck_archetypes TO authenticated;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
 
 -- Make tournament dates nullable in case of unannounced or missing dates from APIs

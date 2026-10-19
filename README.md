@@ -66,6 +66,10 @@ Create or update `.env.local` in your project root:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_publishable_key
 
+# Optional: Supabase Service Role Key (recommended for server-side admin publishing)
+# Found under Project Settings -> API -> Project API keys -> service_role secret
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_secret_key
+
 # Limitless TCG Play API Key (for live deck archetypes)
 LIMITLESS_API_KEY=your_limitless_api_key
 
@@ -78,8 +82,17 @@ ADMIN_EMAILS=admin@example.com,your-email@example.com
 2. Click **New query**, paste the entire contents of [`supabase/migrations/20261018_initial_schema.sql`](supabase/migrations/20261018_initial_schema.sql), and click **Run**.
    - This provisions all tables (`tournaments`, `deck_archetypes`, `streamed_matches`, `match_games`, `submissions`), sets up indexes, configures Row Level Security (RLS), and executes necessary PostgREST role privileges.
 3. Next, paste the contents of [`supabase/seed.sql`](supabase/seed.sql) and click **Run**.
-   - This seeds 38 official premier tournaments from PokeData and 608 canonical deck archetypes from Limitless TCG.
+   - This seeds official premier tournaments from PokeData and canonical deck archetypes from Limitless TCG.
    - It leaves `streamed_matches` and `match_games` clean, ready for you to add stream matches.
+
+#### ⚠️ Updating an Existing Database (Permissions & Publishing Fix)
+If you already set up your Supabase database previously and encounter errors when clicking **Approve & Publish** (e.g. `permission denied for table streamed_matches` or RLS policy violations):
+1. In your Supabase Dashboard, open the **SQL Editor**.
+2. Run [`supabase/migrations/20261019_moderation_permissions.sql`](supabase/migrations/20261019_moderation_permissions.sql).
+3. This ensures that:
+   - Full table grants (`ALL`) on `streamed_matches`, `match_games`, and `submissions` are assigned to `authenticated` users.
+   - RLS policies `"Admins manage streamed matches"`, `"Admins manage match games"`, and `"Admins manage submissions"` are configured.
+   - You can also optionally set `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` for direct server-side publishing authority.
 
 ### 4. Syncing / Refreshing API Data via CLI
 You can refresh tournaments and deck archetypes at any time by running:
@@ -121,15 +134,15 @@ You have two ways to designate an account as an administrator:
     }
     ```
 
-### Step 3: Access the Moderation Dashboard
+### Step 3: Access the Moderation Dashboard & Publish Matches
 1. Navigate to [`http://localhost:3000/admin/moderation`](http://localhost:3000/admin/moderation).
 2. If unauthenticated, you will see the **Admin Sign In** form.
 3. Enter your administrator email and password.
 4. Once verified, you will enter the **Moderation Queue Dashboard** where you can:
-   - Preview submitted match videos and start timestamps.
-   - Click **Approve & Publish** to instantly index the match live into the public archive.
-   - Click **Reject** to dismiss inaccurate submissions.
-   - Sign out when finished.
+   - **Edit Submitted Details**: Click **Edit Details** on any pending card to adjust tournament, round name, division, table number, player names/countries, deck archetypes (ordered alphabetically), YouTube URL, match start timestamp, game 1/2/3 timestamps, winner, and score.
+   - **Save Changes (Keep Pending)**: Save corrected values to the database without publishing yet.
+   - **Approve & Publish**: Immediately inserts the match and game timestamps into `streamed_matches` and `match_games`, sets status to `approved`, and indexes the match live on `/matches`, `/players`, `/archetypes`, and the tournament page.
+   - **Reject**: Dismiss inaccurate submissions with a single click.
 
 ---
 

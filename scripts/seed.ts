@@ -53,6 +53,8 @@ async function main() {
   sql += 'GRANT ALL ON public.submissions TO authenticated;\n';
   sql += 'GRANT ALL ON public.streamed_matches TO authenticated;\n';
   sql += 'GRANT ALL ON public.match_games TO authenticated;\n';
+  sql += 'GRANT ALL ON public.tournaments TO authenticated;\n';
+  sql += 'GRANT ALL ON public.deck_archetypes TO authenticated;\n';
   sql += 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;\n\n';
 
   sql += '-- Make tournament dates nullable in case of unannounced or missing dates from APIs\n';
