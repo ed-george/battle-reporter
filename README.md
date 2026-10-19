@@ -146,6 +146,28 @@ You have two ways to designate an account as an administrator:
 
 ---
 
+## 📹 Mass Video Upload via CSV
+
+You can batch-upload broadcast matches via a CSV spreadsheet and convert them directly to SQL for execution in the Supabase SQL Editor:
+
+1. **Use the Template**:
+   Open [`matches_template.csv`](file:///Users/ehg/projs/battle-reporter/matches_template.csv) or create your own `matches.csv`.
+   - Headers: `tournament_id`, `round_name`, `division`, `table_number`, `player1_name`, `player1_country`, `player1_deck_archetype`, `player2_name`, `player2_country`, `player2_deck_archetype`, `youtube_url`, `match_start_time`, `match_end_time`, `winner_player_name`, `match_score`, `game1_start_time`, `game2_start_time`, `game3_start_time`
+   - Timestamps can be written naturally as `HH:MM:SS` (e.g. `1:25:30`), `MM:SS` (e.g. `45:10`), or total seconds (e.g. `5130`).
+   - YouTube video IDs are automatically extracted from full URLs.
+
+2. **Generate the SQL**:
+   ```bash
+   npm run csv-to-sql
+   # Or specify custom file paths:
+   # npm run csv-to-sql path/to/my_matches.csv supabase/my_matches.sql
+   ```
+
+3. **Execute in Supabase**:
+   Copy the generated `INSERT` statements from `supabase/matches_import.sql` and run them in your **Supabase SQL Editor**. All matches will immediately appear on the site under `/matches`, `/players`, and respective tournament pages.
+
+---
+
 ## 🚀 Local Development
 
 ### 1. Install Dependencies
