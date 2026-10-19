@@ -1,5 +1,11 @@
 import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { POPULAR_ARCHETYPES } from '@/lib/limitless';
+
+function getArchetypeDisplayName(identifier: string): string {
+  const found = POPULAR_ARCHETYPES.find((x) => x.identifier === identifier);
+  return found?.name || identifier.replace(/-/g, ' ');
+}
 
 export interface MatchFilterParams {
   tournamentId?: string;
@@ -147,14 +153,16 @@ export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
   const { data, error } = await supabase
     .from('deck_archetypes')
     .select('*')
-    .order('priority', { ascending: false });
+    .order('name', { ascending: true });
 
   if (error) {
     console.error('Error fetching deck archetypes from Supabase:', error);
     return [];
   }
 
-  return (data || []) as DeckArchetype[];
+  return ((data || []) as DeckArchetype[]).sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+  );
 }
 
 /**
@@ -188,10 +196,13 @@ export async function getPlayerStats(playerName: string) {
     wins,
     losses,
     winRate: allMatches.length > 0 ? Math.round((wins / (wins + losses || 1)) * 100) : 0,
-    archetypesUsed: Array.from(archetypesUsed.entries()).map(([identifier, count]) => ({
-      identifier,
-      count,
-    })),
+    archetypesUsed: Array.from(archetypesUsed.entries())
+      .map(([identifier, count]) => ({
+        identifier,
+        name: getArchetypeDisplayName(identifier),
+        count,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })),
     matches: allMatches,
   };
 }
@@ -282,7 +293,11 @@ export async function getStreamPlayers(options: {
       wins: data.wins,
       losses: data.losses,
       winRate,
-      archetypes: Array.from(data.archetypes),
+      archetypes: Array.from(data.archetypes).sort((a, b) => {
+        const nameA = getArchetypeDisplayName(a);
+        const nameB = getArchetypeDisplayName(b);
+        return nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
+      }),
     };
   });
 

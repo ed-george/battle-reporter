@@ -17,6 +17,12 @@ export function StreamTaggingStudio({
   archetypes = POPULAR_ARCHETYPES,
   initialTournamentId,
 }: StreamTaggingStudioProps) {
+  const sortedArchetypes = React.useMemo(() => {
+    return [...archetypes].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    );
+  }, [archetypes]);
+
   const [tournamentId, setTournamentId] = useState(initialTournamentId || tournaments[0]?.id || '');
   const [roundName, setRoundName] = useState('Swiss Round 1');
   const [division, setDivision] = useState<'masters' | 'seniors' | 'juniors'>('masters');
@@ -25,11 +31,15 @@ export function StreamTaggingStudio({
   // Players & Decks
   const [player1Name, setPlayer1Name] = useState('');
   const [player1Country, setPlayer1Country] = useState('US');
-  const [player1Archetype, setPlayer1Archetype] = useState(archetypes[0]?.identifier || 'charizard-ex');
+  const [player1Archetype, setPlayer1Archetype] = useState(
+    sortedArchetypes[0]?.identifier || archetypes[0]?.identifier || 'charizard-ex'
+  );
 
   const [player2Name, setPlayer2Name] = useState('');
   const [player2Country, setPlayer2Country] = useState('UK');
-  const [player2Archetype, setPlayer2Archetype] = useState(archetypes[1]?.identifier || 'gardevoir-ex');
+  const [player2Archetype, setPlayer2Archetype] = useState(
+    sortedArchetypes[1]?.identifier || archetypes[1]?.identifier || 'gardevoir-ex'
+  );
 
   // Video & Timestamps
   const [youtubeUrl, setYoutubeUrl] = useState('');
@@ -279,7 +289,7 @@ export function StreamTaggingStudio({
                   onChange={(e) => setPlayer1Archetype(e.target.value)}
                   className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                 >
-                  {archetypes.map((a) => (
+                  {sortedArchetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
                       {a.name}
                     </option>
@@ -322,7 +332,7 @@ export function StreamTaggingStudio({
                   onChange={(e) => setPlayer2Archetype(e.target.value)}
                   className="w-full px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                 >
-                  {archetypes.map((a) => (
+                  {sortedArchetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
                       {a.name}
                     </option>

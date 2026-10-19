@@ -13,6 +13,10 @@ export default async function ArchetypesDirectoryPage() {
     getStreamedMatches(),
   ]);
 
+  const sortedArchetypes = [...archetypes].sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+  );
+
   // Count matches per archetype
   const matchCounts = new Map<string, number>();
   matches.forEach((m) => {
@@ -32,7 +36,7 @@ export default async function ArchetypesDirectoryPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {archetypes.map((arch) => {
+        {sortedArchetypes.map((arch) => {
           const count = matchCounts.get(arch.identifier) || 0;
           const icon = arch.icons?.[0] || arch.identifier.split('-')[0];
 

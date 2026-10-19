@@ -33,7 +33,9 @@ async function main() {
       deckMap.set(deck.identifier, deck);
     }
   }
-  const validDecks = Array.from(deckMap.values());
+  const validDecks = Array.from(deckMap.values()).sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+  );
   console.log(`✓ Loaded and deduplicated ${validDecks.length} deck archetypes.`);
 
   // 3. Generate clean supabase/seed.sql

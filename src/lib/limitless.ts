@@ -3,7 +3,7 @@ import { DeckArchetype } from '@/types/database';
 const LIMITLESS_API_BASE = 'https://play.limitlesstcg.com/api';
 const LIMITLESS_ICON_CDN = 'https://r2.limitlesstcg.net/pokemon/gen9';
 
-// Default popular current archetypes to ensure immediate zero-latency fallback
+// Default popular current archetypes sorted alphabetically by name
 export const POPULAR_ARCHETYPES: DeckArchetype[] = [
   {
     identifier: 'charizard-ex',
@@ -12,57 +12,21 @@ export const POPULAR_ARCHETYPES: DeckArchetype[] = [
     priority: 100,
   },
   {
-    identifier: 'gardevoir-ex',
-    name: 'Gardevoir ex',
-    icons: ['gardevoir'],
-    priority: 95,
-  },
-  {
     identifier: 'dragapult-ex',
     name: 'Dragapult ex',
     icons: ['dragapult'],
     priority: 90,
   },
   {
-    identifier: 'raging-bolt-ogerpon',
-    name: 'Raging Bolt / Ogerpon',
-    icons: ['raging-bolt', 'ogerpon-teal'],
-    priority: 90,
-  },
-  {
-    identifier: 'lugia-vstar',
-    name: 'Lugia Archeops',
-    icons: ['lugia', 'archeops'],
-    priority: 85,
-  },
-  {
-    identifier: 'regidrago-vstar',
-    name: 'Regidrago VSTAR',
-    icons: ['regidrago'],
-    priority: 85,
-  },
-  {
-    identifier: 'terapagos-ex',
-    name: 'Terapagos ex / Dusknoir',
-    icons: ['terapagos-terastal', 'dusknoir'],
-    priority: 80,
-  },
-  {
-    identifier: 'miraidon-ex',
-    name: 'Miraidon ex',
-    icons: ['miraidon'],
-    priority: 80,
+    identifier: 'gardevoir-ex',
+    name: 'Gardevoir ex',
+    icons: ['gardevoir'],
+    priority: 95,
   },
   {
     identifier: 'gholdengo-ex',
     name: 'Gholdengo Palkia',
     icons: ['gholdengo', 'palkia-origin'],
-    priority: 75,
-  },
-  {
-    identifier: 'roaring-moon',
-    name: 'Roaring Moon',
-    icons: ['roaring-moon'],
     priority: 75,
   },
   {
@@ -72,10 +36,46 @@ export const POPULAR_ARCHETYPES: DeckArchetype[] = [
     priority: 70,
   },
   {
+    identifier: 'lugia-vstar',
+    name: 'Lugia Archeops',
+    icons: ['lugia', 'archeops'],
+    priority: 85,
+  },
+  {
+    identifier: 'miraidon-ex',
+    name: 'Miraidon ex',
+    icons: ['miraidon'],
+    priority: 80,
+  },
+  {
+    identifier: 'raging-bolt-ogerpon',
+    name: 'Raging Bolt / Ogerpon',
+    icons: ['raging-bolt', 'ogerpon-teal'],
+    priority: 90,
+  },
+  {
+    identifier: 'regidrago-vstar',
+    name: 'Regidrago VSTAR',
+    icons: ['regidrago'],
+    priority: 85,
+  },
+  {
+    identifier: 'roaring-moon',
+    name: 'Roaring Moon',
+    icons: ['roaring-moon'],
+    priority: 75,
+  },
+  {
     identifier: 'snorlax-stall',
     name: 'Snorlax Stall',
     icons: ['snorlax'],
     priority: 70,
+  },
+  {
+    identifier: 'terapagos-ex',
+    name: 'Terapagos ex / Dusknoir',
+    icons: ['terapagos-terastal', 'dusknoir'],
+    priority: 80,
   },
 ];
 
@@ -104,10 +104,15 @@ export async function fetchLimitlessDecks(apiKey?: string): Promise<DeckArchetyp
     }
 
     const data: DeckArchetype[] = await res.json();
-    return Array.isArray(data) && data.length > 0 ? data : POPULAR_ARCHETYPES;
+    const result = Array.isArray(data) && data.length > 0 ? data : POPULAR_ARCHETYPES;
+    return result
+      .filter((d) => d && d.identifier && d.name)
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
   } catch (error) {
     console.error('Error fetching Limitless decks:', error);
-    return POPULAR_ARCHETYPES;
+    return [...POPULAR_ARCHETYPES].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    );
   }
 }
 

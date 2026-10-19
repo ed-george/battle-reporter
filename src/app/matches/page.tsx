@@ -31,6 +31,10 @@ export default async function MatchesExplorerPage({ searchParams }: PageProps) {
     getDeckArchetypes(),
   ]);
 
+  const sortedArchetypes = [...archetypes].sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+  );
+
   return (
     <div className="space-y-6">
       {/* Page Title */}
@@ -71,6 +75,19 @@ export default async function MatchesExplorerPage({ searchParams }: PageProps) {
             ))}
           </select>
 
+          <select
+            name="archetype"
+            defaultValue={archetype || ''}
+            className="px-3 py-2.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium sm:max-w-xs"
+          >
+            <option value="">All Archetypes</option>
+            {sortedArchetypes.map((a) => (
+              <option key={a.identifier} value={a.identifier}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+
           <button
             type="submit"
             className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors shrink-0"
@@ -82,7 +99,7 @@ export default async function MatchesExplorerPage({ searchParams }: PageProps) {
         {/* Quick filter links */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
           <span className="font-bold text-slate-500 dark:text-slate-400">Popular Archetypes:</span>
-          {archetypes.slice(0, 6).map((arch) => {
+          {sortedArchetypes.slice(0, 8).map((arch) => {
             const isSelected = archetype === arch.identifier;
             return (
               <Link
