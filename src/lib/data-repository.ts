@@ -137,7 +137,12 @@ export async function getStreamedMatchById(id: string): Promise<StreamedMatch | 
     return null;
   }
 
-  return (data as StreamedMatch) || null;
+  const match = (data as StreamedMatch) || null;
+  if (match && Array.isArray(match.games)) {
+    match.games.sort((a, b) => a.game_number - b.game_number);
+  }
+
+  return match;
 }
 
 export interface StreamedArchetypeSummary {

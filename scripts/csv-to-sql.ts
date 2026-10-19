@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { randomUUID } from 'crypto';
 
 /**
  * Robust CSV Line Parser that handles quoted values with commas
@@ -148,26 +149,26 @@ function main() {
       continue;
     }
 
-    // Generate deterministic or random UUID per row
-    const matchIdVar = `match_${i}`;
+    // Generate UUID per match row so match_games can reference it
+    const matchId = randomUUID();
 
-    const matchRowSql = `  ('${escapeSql(tournamentId)}', '${escapeSql(roundName)}', '${escapeSql(division)}', ${tableNumber !== null ? tableNumber : 'NULL'}, '${escapeSql(p1Name)}', ${p1Country ? `'${escapeSql(p1Country)}'` : 'NULL'}, ${p1Archetype ? `'${escapeSql(p1Archetype)}'` : 'NULL'}, '${escapeSql(p2Name)}', ${p2Country ? `'${escapeSql(p2Country)}'` : 'NULL'}, ${p2Archetype ? `'${escapeSql(p2Archetype)}'` : 'NULL'}, '${escapeSql(youtubeUrl)}', '${escapeSql(videoId)}', ${startSeconds}, ${endSeconds !== null ? endSeconds : 'NULL'}, ${winnerName ? `'${escapeSql(winnerName)}'` : 'NULL'}, ${matchScore ? `'${escapeSql(matchScore)}'` : 'NULL'}, TRUE)`;
+    const matchRowSql = `  ('${matchId}', '${escapeSql(tournamentId)}', '${escapeSql(roundName)}', '${escapeSql(division)}', ${tableNumber !== null ? tableNumber : 'NULL'}, '${escapeSql(p1Name)}', ${p1Country ? `'${escapeSql(p1Country)}'` : 'NULL'}, ${p1Archetype ? `'${escapeSql(p1Archetype)}'` : 'NULL'}, '${escapeSql(p2Name)}', ${p2Country ? `'${escapeSql(p2Country)}'` : 'NULL'}, ${p2Archetype ? `'${escapeSql(p2Archetype)}'` : 'NULL'}, '${escapeSql(youtubeUrl)}', '${escapeSql(videoId)}', ${startSeconds}, ${endSeconds !== null ? endSeconds : 'NULL'}, ${winnerName ? `'${escapeSql(winnerName)}'` : 'NULL'}, ${matchScore ? `'${escapeSql(matchScore)}'` : 'NULL'}, TRUE)`;
 
     matchInserts.push(matchRowSql);
 
-    // Optional per-game timestamps
+    // Optional per-game timestamps (Game 1, Game 2, Game 3)
     const g1Time = parseTimestampToSeconds(row['game1_start_time'] || row['game1_start_seconds']);
     const g2Time = parseTimestampToSeconds(row['game2_start_time'] || row['game2_start_seconds']);
     const g3Time = parseTimestampToSeconds(row['game3_start_time'] || row['game3_start_seconds']);
 
     if (g1Time !== null) {
-      gameInserts.push(`(m_id, 1, ${g1Time})`);
+      gameInserts.push(`  ('${matchId}', 1, ${g1Time})`);
     }
     if (g2Time !== null) {
-      gameInserts.push(`(m_id, 2, ${g2Time})`);
+      gameInserts.push(`  ('${matchId}', 2, ${g2Time})`);
     }
     if (g3Time !== null) {
-      gameInserts.push(`(m_id, 3, ${g3Time})`);
+      gameInserts.push(`  ('${matchId}', 3, ${g3Time})`);
     }
 
     rowCount++;
@@ -179,12 +180,17 @@ function main() {
   }
 
   let sql = '-- ==============================================================================\n';
-  sql += `-- Stream Matches Import Script (Generated from ${path.basename(inputCsvPath)})\n`;
-  sql += `-- Rows converted: ${rowCount}\n`;
+  sql += `-- Stream Matches & Games Import Script (Generated from ${path.basename(inputCsvPath)})\n`;
+  sql += `-- Matches: ${rowCount} | Individual Games: ${gameInserts.length}\n`;
   sql += '-- Run this script in your Supabase SQL Editor.\n';
   sql += '-- ==============================================================================\n\n';
 
+  sql += '-- Optional: Clear existing stream matches and games before importing new batch\n';
+  sql += 'TRUNCATE TABLE public.match_games, public.streamed_matches CASCADE;\n\n';
+
+  sql += '-- 1. Insert Stream Matches\n';
   sql += 'INSERT INTO public.streamed_matches (\n';
+  sql += '  id,\n';
   sql += '  tournament_id,\n';
   sql += '  round_name,\n';
   sql += '  division,\n';
@@ -205,10 +211,20 @@ function main() {
   sql += ')\nVALUES\n';
   sql += matchInserts.join(',\n') + ';\n\n';
 
+  if (gameInserts.length > 0) {
+    sql += '-- 2. Insert Game Timestamps (Game 1, Game 2, Game 3)\n';
+    sql += 'INSERT INTO public.match_games (\n';
+    sql += '  match_id,\n';
+    sql += '  game_number,\n';
+    sql += '  start_seconds\n';
+    sql += ')\nVALUES\n';
+    sql += gameInserts.join(',\n') + ';\n\n';
+  }
+
   fs.mkdirSync(path.dirname(outputSqlPath), { recursive: true });
   fs.writeFileSync(outputSqlPath, sql);
 
-  console.log(`✓ Successfully converted ${rowCount} match records!`);
+  console.log(`✓ Successfully converted ${rowCount} matches and ${gameInserts.length} game timestamps!`);
   console.log(`✓ Output SQL written to: ${outputSqlPath}`);
   console.log('\nYou can now copy the contents of that file and run it in Supabase SQL Editor.');
 }

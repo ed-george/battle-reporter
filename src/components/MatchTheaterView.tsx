@@ -2,12 +2,26 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Play, Trophy, Eye, EyeOff, ExternalLink, ArrowLeft } from 'lucide-react';
+import { Play, Trophy, Eye, EyeOff, ExternalLink, ArrowLeft, Clock } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { YouTubePlayer } from '@/components/YouTubePlayer';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { getLimitlessDeckUrl, getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
+
+function formatTimestamp(totalSeconds?: number | null): string {
+  if (totalSeconds === undefined || totalSeconds === null || isNaN(totalSeconds) || totalSeconds < 0) {
+    return '0:00';
+  }
+  const hrs = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  const secs = Math.floor(totalSeconds % 60);
+
+  if (hrs > 0) {
+    return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
 
 interface MatchTheaterViewProps {
   match: StreamedMatch;
@@ -193,7 +207,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             <button
               type="button"
               onClick={() => handleSeek(match.match_start_seconds)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 selectedGameNumber === null && activeTimestamp === match.match_start_seconds
                   ? 'bg-red-600 text-white shadow-xs'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
@@ -201,22 +215,18 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             >
               <Play className="w-3 h-3 fill-current" />
               <span>Match Intro</span>
+              <span className="text-[11px] font-mono opacity-80">({formatTimestamp(match.match_start_seconds)})</span>
             </button>
 
             {/* Games Buttons */}
             {games.map((game) => {
-              // If game 3 exists but spoilers are hidden and user hasn't revealed, hide game 3 button
-              if (game.game_number === 3 && !revealed && !hasGame3) {
-                return null;
-              }
-
               const isCurrent = selectedGameNumber === game.game_number;
               return (
                 <button
-                  key={game.id}
+                  key={game.id || game.game_number}
                   type="button"
                   onClick={() => handleSeek(game.start_seconds, game.game_number)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                     isCurrent
                       ? 'bg-red-600 text-white shadow-xs'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
@@ -224,6 +234,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                 >
                   <Play className="w-3 h-3 fill-current" />
                   <span>Game {game.game_number}</span>
+                  <span className="text-[11px] font-mono opacity-80">({formatTimestamp(game.start_seconds)})</span>
                 </button>
               );
             })}
@@ -234,6 +245,58 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
           </div>
         </div>
       </div>
+
+      {/* Dedicated Game Start Timestamps Card */}
+      {games.length > 0 && (
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div>
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Clock className="w-4 h-4 text-red-600 dark:text-red-400" />
+                <span>Game Start Timestamps</span>
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Jump directly to the start of individual games in the broadcast
+              </p>
+            </div>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
+              {games.length} {games.length === 1 ? 'Game Recorded' : 'Games Recorded'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {games.map((game) => {
+              const isCurrent = selectedGameNumber === game.game_number;
+              return (
+                <button
+                  key={game.id || game.game_number}
+                  type="button"
+                  onClick={() => handleSeek(game.start_seconds, game.game_number)}
+                  className={`p-4 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                    isCurrent
+                      ? 'bg-red-50 dark:bg-red-950/40 border-red-300 dark:border-red-800 ring-2 ring-red-500/20'
+                      : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-1.5 font-bold text-sm text-slate-900 dark:text-white">
+                      <Play className={`w-3.5 h-3.5 fill-current ${isCurrent ? 'text-red-600 dark:text-red-400' : 'text-slate-400 dark:text-slate-500'}`} />
+                      <span>Game {game.game_number}</span>
+                    </div>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                      Broadcast Start Time
+                    </span>
+                  </div>
+
+                  <span className="font-mono text-sm font-extrabold px-3 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-red-600 dark:text-red-400 shadow-2xs">
+                    {formatTimestamp(game.start_seconds)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Deck Archetypes & Limitless TCG Links */}
       <section className="space-y-4 pt-4">
