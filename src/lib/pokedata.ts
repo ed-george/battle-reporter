@@ -71,6 +71,20 @@ export async function fetchPokeDataTournaments(): Promise<Tournament[]> {
     const startDate = item.date?.start?.trim() || null;
     const endDate = item.date?.end?.trim() || null;
 
+    const today = new Date().toISOString().slice(0, 10);
+    let status = item.tournamentStatus || 'finished';
+
+    if (!startDate || startDate > today) {
+      status = 'upcoming';
+    } else if (startDate <= today && (!endDate || endDate >= today)) {
+      status = 'running';
+    } else if (endDate && endDate < today) {
+      status = 'finished';
+    }
+
+    const totalDivisions =
+      (item.players?.masters || 0) + (item.players?.seniors || 0) + (item.players?.juniors || 0);
+
     return {
       id: item.id,
       name: item.name,
@@ -79,8 +93,8 @@ export async function fetchPokeDataTournaments(): Promise<Tournament[]> {
       end_date: endDate,
       rk9_link: item.rk9link,
       decklists_count: item.decklists || 0,
-      total_players: item.players?.masters || 0,
-      status: item.tournamentStatus || 'finished',
+      total_players: totalDivisions > 0 ? totalDivisions : (item.players?.masters || 0),
+      status,
     };
   });
 }
@@ -107,15 +121,28 @@ export async function fetchPokeDataTournamentDetail(
   const rawTournament = json?.tournament;
   const rawData = json?.tournament_data?.[0]?.data || [];
 
+  const startDate = rawTournament?.date?.start?.trim() || null;
+  const endDate = rawTournament?.date?.end?.trim() || null;
+  const today = new Date().toISOString().slice(0, 10);
+  let status = rawTournament?.tournamentStatus || 'finished';
+
+  if (!startDate || startDate > today) {
+    status = 'upcoming';
+  } else if (startDate <= today && (!endDate || endDate >= today)) {
+    status = 'running';
+  } else if (endDate && endDate < today) {
+    status = 'finished';
+  }
+
   const tournament: Tournament = {
     id: rawTournament?.id || tournamentId,
     name: rawTournament?.name || 'Tournament',
-    start_date: rawTournament?.date?.start || '',
-    end_date: rawTournament?.date?.end || '',
+    start_date: startDate,
+    end_date: endDate,
     rk9_link: rawTournament?.rk9link,
     decklists_count: rawTournament?.decklists || 0,
     total_players: rawTournament?.players?.[division] || rawData.length,
-    status: rawTournament?.tournamentStatus || 'finished',
+    status,
   };
 
   return {
