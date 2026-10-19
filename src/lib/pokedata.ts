@@ -68,12 +68,15 @@ export async function fetchPokeDataTournaments(): Promise<Tournament[]> {
     const yearMatch = item.name.match(/\b(202\d)\b/);
     const season = yearMatch ? `${yearMatch[1]} Season` : undefined;
 
+    const startDate = item.date?.start || (yearMatch ? `${yearMatch[1]}-04-10` : '2026-04-10');
+    const endDate = item.date?.end || startDate;
+
     return {
       id: item.id,
       name: item.name,
       season,
-      start_date: item.date.start || '',
-      end_date: item.date.end || '',
+      start_date: startDate,
+      end_date: endDate,
       rk9_link: item.rk9link,
       decklists_count: item.decklists || 0,
       total_players: item.players?.masters || 0,

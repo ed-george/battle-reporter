@@ -38,6 +38,7 @@ export interface DeckArchetype {
     icon?: string;
     cards?: { name: string; count?: string | number }[];
   }[];
+  generation?: number;
 }
 
 export interface MatchGame {
