@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS public.tournaments (
     id TEXT PRIMARY KEY, -- PokeData ID (e.g. 1000017)
     name TEXT NOT NULL,
     season TEXT,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
+    start_date DATE,
+    end_date DATE,
     location TEXT,
     region TEXT,
     rk9_link TEXT,

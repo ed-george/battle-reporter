@@ -12,8 +12,8 @@ interface TournamentCardProps {
 
 export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentCardProps) {
   // Format readable dates: "Feb 13 - 15, 2026"
-  const formatDateRange = (start: string, end: string) => {
-    if (!start) return '';
+  const formatDateRange = (start?: string | null, end?: string | null) => {
+    if (!start) return 'Dates TBD';
     try {
       const s = new Date(start);
       const e = end ? new Date(end) : s;

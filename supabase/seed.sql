@@ -9,6 +9,10 @@ GRANT SELECT ON public.match_games TO anon, authenticated;
 GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
 
+-- Make tournament dates nullable in case of unannounced or missing dates from APIs
+ALTER TABLE public.tournaments ALTER COLUMN start_date DROP NOT NULL;
+ALTER TABLE public.tournaments ALTER COLUMN end_date DROP NOT NULL;
+
 -- Allow public/anon to insert match submissions (for community tagging)
 DO $$
 BEGIN
@@ -663,7 +667,7 @@ VALUES
   ('1000013', '2026 Seville Pokémon TCG Special Championships', '2026 Season', '2026-03-28', '2026-03-29', 'SV01wTkt9yQGVSt6nlcu', 1512, 1337, 'finished'),
   ('1000014', '2026 Houston Pokémon TCG Regional Championships', '2026 Season', '2026-03-20', '2026-03-22', 'HO01w20W3tGb1aAsLzwS', 3127, 2635, 'finished'),
   ('1000015', '2026 Curitiba Pokémon TCG Regional Championships', '2026 Season', '2026-03-14', '2026-03-15', 'CU01wDygvn34WEPNJ3ou', 1667, 1449, 'finished'),
-  ('1000016', '2026 Seattle Pokémon TCG Regional Championships', '2026 Season', '2026-04-10', '2026-04-10', 'SE01gUuRn8bJqbH9Wnt1', 2712, 2231, 'finished'),
+  ('1000016', '2026 Seattle Pokémon TCG Regional Championships', '2026 Season', NULL, NULL, 'SE01gUuRn8bJqbH9Wnt1', 2712, 2231, 'finished'),
   ('1000017', '2026 Europe Pokémon TCG International Championships', '2026 Season', '2026-02-13', '2026-02-15', 'EU01mU0Z1galE2FATDYs', 4900, 4010, 'finished'),
   ('1000018', '2026 Santiago Pokémon TCG Regional Championships', '2026 Season', '2026-02-07', '2026-02-08', 'ST01bmgM9jIqCvBYdzy3', 1870, 1670, 'finished'),
   ('1000019', '2026 Sydney Pokémon TCG Regional Championships', '2026 Season', '2026-02-07', '2026-02-08', 'SY01X6aiblBgAp8tfhjx', 844, 699, 'finished'),

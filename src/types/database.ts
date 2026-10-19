@@ -10,8 +10,8 @@ export interface Tournament {
   id: string; // PokeData tournament ID, e.g. "1000017"
   name: string;
   season?: string;
-  start_date: string;
-  end_date: string;
+  start_date: string | null;
+  end_date: string | null;
   location?: string;
   region?: string;
   rk9_link?: string;

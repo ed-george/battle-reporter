@@ -68,8 +68,8 @@ export async function fetchPokeDataTournaments(): Promise<Tournament[]> {
     const yearMatch = item.name.match(/\b(202\d)\b/);
     const season = yearMatch ? `${yearMatch[1]} Season` : undefined;
 
-    const startDate = item.date?.start || (yearMatch ? `${yearMatch[1]}-04-10` : '2026-04-10');
-    const endDate = item.date?.end || startDate;
+    const startDate = item.date?.start?.trim() || null;
+    const endDate = item.date?.end?.trim() || null;
 
     return {
       id: item.id,

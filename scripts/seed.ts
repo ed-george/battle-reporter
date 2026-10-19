@@ -17,7 +17,7 @@ async function main() {
   // 1. Fetch tournaments from PokeData API
   console.log('1. Fetching official tournaments from PokeData API...');
   const allTournaments = await fetchPokeDataTournaments();
-  const validTournaments = allTournaments.filter((t) => t.id && t.name && t.start_date && t.end_date);
+  const validTournaments = allTournaments.filter((t) => t.id && t.name);
   console.log(`✓ Fetched ${validTournaments.length} valid tournaments from PokeData.`);
 
   // 2. Fetch deck archetypes from Limitless TCG API
@@ -49,6 +49,10 @@ async function main() {
   sql += 'GRANT SELECT ON public.match_games TO anon, authenticated;\n';
   sql += 'GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;\n';
   sql += 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;\n\n';
+
+  sql += '-- Make tournament dates nullable in case of unannounced or missing dates from APIs\n';
+  sql += 'ALTER TABLE public.tournaments ALTER COLUMN start_date DROP NOT NULL;\n';
+  sql += 'ALTER TABLE public.tournaments ALTER COLUMN end_date DROP NOT NULL;\n\n';
 
   sql += '-- Allow public/anon to insert match submissions (for community tagging)\n';
   sql += 'DO $$\nBEGIN\n';
@@ -89,7 +93,9 @@ async function main() {
   sql +=
     validTournaments
       .map((t) => {
-        return `  ('${escapeSql(t.id)}', '${escapeSql(t.name)}', ${t.season ? `'${escapeSql(t.season)}'` : 'NULL'}, '${t.start_date}', '${t.end_date}', ${t.rk9_link ? `'${escapeSql(t.rk9_link)}'` : 'NULL'}, ${t.decklists_count || 0}, ${t.total_players || 0}, '${escapeSql(t.status || 'finished')}')`;
+        const sDate = t.start_date ? `'${escapeSql(t.start_date)}'` : 'NULL';
+        const eDate = t.end_date ? `'${escapeSql(t.end_date)}'` : 'NULL';
+        return `  ('${escapeSql(t.id)}', '${escapeSql(t.name)}', ${t.season ? `'${escapeSql(t.season)}'` : 'NULL'}, ${sDate}, ${eDate}, ${t.rk9_link ? `'${escapeSql(t.rk9_link)}'` : 'NULL'}, ${t.decklists_count || 0}, ${t.total_players || 0}, '${escapeSql(t.status || 'finished')}')`;
       })
       .join(',\n') +
     '\nON CONFLICT (id) DO UPDATE SET\n  name = EXCLUDED.name,\n  season = EXCLUDED.season,\n  start_date = EXCLUDED.start_date,\n  end_date = EXCLUDED.end_date,\n  rk9_link = EXCLUDED.rk9_link,\n  decklists_count = EXCLUDED.decklists_count,\n  total_players = EXCLUDED.total_players,\n  status = EXCLUDED.status;\n';
