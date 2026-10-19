@@ -230,9 +230,12 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
         streamMatchCount: matchCounts.get(identifier) || 0,
       };
     })
-    .sort((a, b) =>
-      a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' })
-    );
+    .sort((a, b) => {
+      if (b.streamMatchCount !== a.streamMatchCount) {
+        return b.streamMatchCount - a.streamMatchCount;
+      }
+      return a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' });
+    });
 
   cachedStreamedArchetypes = {
     data: result,

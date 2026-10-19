@@ -43,7 +43,7 @@ export default async function ArchetypesDirectoryPage() {
                   </h3>
                   <span className="text-xs font-semibold text-red-600 dark:text-red-400">
                     <strong className="font-bold">
-                      {streamMatchCount} Stream {streamMatchCount === 1 ? 'Match' : 'Matches'}
+                      {streamMatchCount} Stream {streamMatchCount === 1 ? 'Game' : 'Games'}
                     </strong>
                   </span>
                 </div>
