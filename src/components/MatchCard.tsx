@@ -6,6 +6,7 @@ import { Play, Eye, Trophy } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { useSpoilers } from '@/context/SpoilerContext';
+import { isMatchTie } from '@/lib/matches';
 
 interface MatchCardProps {
   match: StreamedMatch;
@@ -15,8 +16,9 @@ export function MatchCard({ match }: MatchCardProps) {
   const { isMatchRevealed, revealMatch } = useSpoilers();
   const revealed = isMatchRevealed(match.id);
 
-  const isP1Winner = revealed && match.winner_player_name === match.player1_name;
-  const isP2Winner = revealed && match.winner_player_name === match.player2_name;
+  const isTie = revealed && isMatchTie(match.winner_player_name, match.match_score);
+  const isP1Winner = revealed && !isTie && match.winner_player_name === match.player1_name;
+  const isP2Winner = revealed && !isTie && match.winner_player_name === match.player2_name;
 
   return (
     <div className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -68,12 +70,18 @@ export function MatchCard({ match }: MatchCardProps) {
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-black text-slate-400 dark:text-slate-500 select-none">
               VS
             </div>
-            {match.match_score && (
+            {(match.match_score || isTie) && (
               <div className="mt-1">
                 {revealed ? (
-                  <span className="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.2 rounded">
-                    {match.match_score}
-                  </span>
+                  isTie ? (
+                    <span className="text-[10px] font-black uppercase text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800/60 px-1.5 py-0.5 rounded">
+                      Tie{match.match_score ? ` ${match.match_score}` : ''}
+                    </span>
+                  ) : (
+                    <span className="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.2 rounded">
+                      {match.match_score}
+                    </span>
+                  )
                 ) : (
                   <button
                     type="button"

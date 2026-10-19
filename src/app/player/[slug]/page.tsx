@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPlayerStats } from '@/lib/data-repository';
 import { MatchCard } from '@/components/MatchCard';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
+import { formatRecord } from '@/lib/matches';
 import { User, Trophy, Video, ArrowLeft, Percent } from 'lucide-react';
 
 interface PageProps {
@@ -71,7 +72,7 @@ export default async function PlayerProfilePage({ params }: PageProps) {
             <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Stream Record</span>
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 text-base">
               <Trophy className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
-              <span>{stats.wins}W - {stats.losses}L</span>
+              <span>{formatRecord(stats.wins, stats.losses, stats.ties)}</span>
             </div>
           </div>
 

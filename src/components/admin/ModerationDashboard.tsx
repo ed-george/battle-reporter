@@ -10,6 +10,7 @@ import {
 import { Tournament, DeckArchetype } from '@/types/database';
 import { POPULAR_ARCHETYPES } from '@/lib/limitless';
 import { createClient } from '@/lib/supabase/client';
+import { isMatchTie } from '@/lib/matches';
 import { useRouter } from 'next/navigation';
 import {
   Shield,
@@ -648,7 +649,8 @@ export function ModerationDashboard({
                           }
                           className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                         >
-                          <option value="">Undecided / No Spoiler</option>
+                          <option value="">Undecided / No Winner</option>
+                          <option value="Tie">Tie / Draw</option>
                           {editForm.player1_name && (
                             <option value={editForm.player1_name}>{editForm.player1_name} (Player 1)</option>
                           )}
@@ -743,14 +745,21 @@ export function ModerationDashboard({
                           </span>
                         </>
                       )}
-                      {m.winner_player_name && (
+                      {isMatchTie(m.winner_player_name, m.match_score) ? (
+                        <>
+                          <span>•</span>
+                          <span className="text-amber-600 dark:text-amber-400 font-bold">
+                            Outcome: Tie / Draw
+                          </span>
+                        </>
+                      ) : m.winner_player_name ? (
                         <>
                           <span>•</span>
                           <span>
                             Winner: <strong>{m.winner_player_name}</strong>
                           </span>
                         </>
-                      )}
+                      ) : null}
                     </div>
                   </div>
 

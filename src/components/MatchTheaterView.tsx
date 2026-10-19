@@ -8,6 +8,7 @@ import { YouTubePlayer } from '@/components/YouTubePlayer';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { getLimitlessDeckUrl, getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
+import { isMatchTie } from '@/lib/matches';
 
 function formatTimestamp(totalSeconds?: number | null): string {
   if (totalSeconds === undefined || totalSeconds === null || isNaN(totalSeconds) || totalSeconds < 0) {
@@ -37,11 +38,10 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
   const [selectedGameNumber, setSelectedGameNumber] = useState<number | null>(null);
 
   const games = match.games || [];
-  // If spoilers are hidden and match was a 2-0, we don't want the absence of Game 3 to spoil Game 2!
-  const hasGame3 = games.some((g) => g.game_number === 3);
 
-  const isP1Winner = revealed && match.winner_player_name === match.player1_name;
-  const isP2Winner = revealed && match.winner_player_name === match.player2_name;
+  const isTie = revealed && isMatchTie(match.winner_player_name, match.match_score);
+  const isP1Winner = revealed && !isTie && match.winner_player_name === match.player1_name;
+  const isP2Winner = revealed && !isTie && match.winner_player_name === match.player2_name;
 
   const handleSeek = (seconds: number, gameNum?: number) => {
     setActiveTimestamp(seconds);
@@ -63,7 +63,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
         <div className="flex items-center gap-2">
           {match.tournament?.rk9_link && (
             <a
-              href={`https://rk9.link/roster/${match.tournament.rk9_link}`}
+              href={`https://rk9.gg/tournament/${match.tournament.rk9_link}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg transition-colors"
@@ -113,6 +113,8 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             className={`p-4 rounded-xl border transition-all ${
               isP1Winner
                 ? 'bg-green-50/50 dark:bg-green-950/30 border-green-300 dark:border-green-700 ring-2 ring-green-500/20'
+                : isTie
+                ? 'bg-amber-50/30 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800'
                 : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
             }`}
           >
@@ -134,6 +136,11 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                   <span>Winner</span>
                 </div>
               )}
+              {isTie && (
+                <div className="flex items-center gap-1 text-xs font-black text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 px-2.5 py-1 rounded-full shrink-0">
+                  <span>Tie</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -142,6 +149,8 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             className={`p-4 rounded-xl border transition-all ${
               isP2Winner
                 ? 'bg-green-50/50 dark:bg-green-950/30 border-green-300 dark:border-green-700 ring-2 ring-green-500/20'
+                : isTie
+                ? 'bg-amber-50/30 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800'
                 : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
             }`}
           >
@@ -163,6 +172,11 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                   <span>Winner</span>
                 </div>
               )}
+              {isTie && (
+                <div className="flex items-center gap-1 text-xs font-black text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 px-2.5 py-1 rounded-full shrink-0">
+                  <span>Tie</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -178,6 +192,17 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             >
               Reveal Result
             </button>
+          </div>
+        ) : isTie ? (
+          <div className="flex flex-wrap items-center justify-center gap-2 text-sm font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl py-2.5 px-4 shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 font-black text-xs uppercase tracking-wide">
+              Match Result: Ended in a Tie / Draw
+            </span>
+            {match.match_score && (
+              <span className="font-extrabold font-mono text-base text-amber-900 dark:text-amber-200">
+                ({match.match_score})
+              </span>
+            )}
           </div>
         ) : (
           match.match_score && (

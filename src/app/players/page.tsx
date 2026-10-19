@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getStreamPlayers } from '@/lib/data-repository';
 import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
+import { formatRecord } from '@/lib/matches';
 import { User, Trophy, Video, Percent, Search, ExternalLink, Medal, ArrowUpDown } from 'lucide-react';
 
 interface PageProps {
@@ -175,7 +176,7 @@ export default async function PlayersDirectoryPage({ searchParams }: PageProps) 
                       <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Record</span>
                       <div className="flex items-center gap-1 font-bold text-slate-900 dark:text-white text-sm mt-0.5">
                         <Trophy className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
-                        <span>{player.wins}W - {player.losses}L</span>
+                        <span>{formatRecord(player.wins, player.losses, player.ties)}</span>
                       </div>
                     </div>
 

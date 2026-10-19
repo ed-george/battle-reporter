@@ -1,6 +1,9 @@
 import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { POPULAR_ARCHETYPES } from '@/lib/limitless';
+import { isMatchTie, formatRecord } from '@/lib/matches';
+
+export { isMatchTie, formatRecord };
 
 function getArchetypeDisplayName(identifier: string): string {
   const found = POPULAR_ARCHETYPES.find((x) => x.identifier === identifier);
@@ -295,6 +298,7 @@ export async function getPlayerStats(playerName: string) {
 
   let wins = 0;
   let losses = 0;
+  let ties = 0;
   const archetypesUsed = new Map<string, number>();
 
   allMatches.forEach((m) => {
@@ -302,7 +306,9 @@ export async function getPlayerStats(playerName: string) {
     const arch = isP1 ? m.player1_deck_archetype : m.player2_deck_archetype;
     archetypesUsed.set(arch, (archetypesUsed.get(arch) || 0) + 1);
 
-    if (m.winner_player_name) {
+    if (isMatchTie(m.winner_player_name, m.match_score)) {
+      ties++;
+    } else if (m.winner_player_name) {
       if (m.winner_player_name.toLowerCase().includes(normalizedTarget)) {
         wins++;
       } else {
@@ -311,12 +317,15 @@ export async function getPlayerStats(playerName: string) {
     }
   });
 
+  const totalRecorded = wins + losses + ties;
+
   return {
     name: playerName,
     totalStreamMatches: allMatches.length,
     wins,
     losses,
-    winRate: allMatches.length > 0 ? Math.round((wins / (wins + losses || 1)) * 100) : 0,
+    ties,
+    winRate: totalRecorded > 0 ? Math.round((wins / totalRecorded) * 100) : 0,
     archetypesUsed: Array.from(archetypesUsed.entries())
       .map(([identifier, count]) => ({
         identifier,
@@ -334,6 +343,7 @@ export interface PlayerLeaderboardEntry {
   matchesPlayed: number;
   wins: number;
   losses: number;
+  ties: number;
   winRate: number;
   archetypes: string[];
 }
@@ -351,10 +361,13 @@ export async function getStreamPlayers(options: {
     matchesPlayed: number;
     wins: number;
     losses: number;
+    ties: number;
     archetypes: Set<string>;
   }>();
 
   for (const m of allMatches) {
+    const isTie = isMatchTie(m.winner_player_name, m.match_score);
+
     // Process Player 1
     const p1 = m.player1_name.trim();
     if (p1) {
@@ -364,13 +377,16 @@ export async function getStreamPlayers(options: {
           matchesPlayed: 0,
           wins: 0,
           losses: 0,
+          ties: 0,
           archetypes: new Set(),
         });
       }
       const entry = playerMap.get(p1)!;
       entry.matchesPlayed++;
       if (m.player1_deck_archetype) entry.archetypes.add(m.player1_deck_archetype);
-      if (m.winner_player_name) {
+      if (isTie) {
+        entry.ties++;
+      } else if (m.winner_player_name) {
         if (m.winner_player_name.trim().toLowerCase() === p1.toLowerCase()) {
           entry.wins++;
         } else {
@@ -388,13 +404,16 @@ export async function getStreamPlayers(options: {
           matchesPlayed: 0,
           wins: 0,
           losses: 0,
+          ties: 0,
           archetypes: new Set(),
         });
       }
       const entry = playerMap.get(p2)!;
       entry.matchesPlayed++;
       if (m.player2_deck_archetype) entry.archetypes.add(m.player2_deck_archetype);
-      if (m.winner_player_name) {
+      if (isTie) {
+        entry.ties++;
+      } else if (m.winner_player_name) {
         if (m.winner_player_name.trim().toLowerCase() === p2.toLowerCase()) {
           entry.wins++;
         } else {
@@ -405,14 +424,15 @@ export async function getStreamPlayers(options: {
   }
 
   let list: PlayerLeaderboardEntry[] = Array.from(playerMap.entries()).map(([name, data]) => {
-    const totalDecided = data.wins + data.losses;
-    const winRate = totalDecided > 0 ? Math.round((data.wins / totalDecided) * 100) : 0;
+    const totalRecorded = data.wins + data.losses + data.ties;
+    const winRate = totalRecorded > 0 ? Math.round((data.wins / totalRecorded) * 100) : 0;
     return {
       name,
       country: data.country,
       matchesPlayed: data.matchesPlayed,
       wins: data.wins,
       losses: data.losses,
+      ties: data.ties,
       winRate,
       archetypes: Array.from(data.archetypes).sort((a, b) => {
         const nameA = getArchetypeDisplayName(a);
@@ -443,9 +463,10 @@ export async function getStreamPlayers(options: {
       if (b.winRate !== a.winRate) return b.winRate - a.winRate;
       return b.matchesPlayed - a.matchesPlayed;
     }
-    // Default: 'matches' (ranked by matches played, then wins)
+    // Default: 'matches' (ranked by matches played, then wins, then ties)
     if (b.matchesPlayed !== a.matchesPlayed) return b.matchesPlayed - a.matchesPlayed;
-    return b.wins - a.wins;
+    if (b.wins !== a.wins) return b.wins - a.wins;
+    return b.ties - a.ties;
   });
 
   return list;
@@ -481,25 +502,43 @@ export async function getArchetypeStats(archetypeIdentifier: string) {
 
   let totalAppearances = 0;
   let wins = 0;
+  let losses = 0;
+  let ties = 0;
 
   allMatches.forEach((m) => {
     const isP1 = m.player1_deck_archetype === archetypeIdentifier;
     const isP2 = m.player2_deck_archetype === archetypeIdentifier;
+    const isTie = isMatchTie(m.winner_player_name, m.match_score);
 
-    if (isP1) totalAppearances++;
-    if (isP2) totalAppearances++;
-
-    if (m.winner_player_name) {
-      if (isP1 && m.winner_player_name === m.player1_name) wins++;
-      if (isP2 && m.winner_player_name === m.player2_name) wins++;
+    if (isP1) {
+      totalAppearances++;
+      if (isTie) {
+        ties++;
+      } else if (m.winner_player_name) {
+        if (m.winner_player_name === m.player1_name) wins++;
+        else losses++;
+      }
+    }
+    if (isP2) {
+      totalAppearances++;
+      if (isTie) {
+        ties++;
+      } else if (m.winner_player_name) {
+        if (m.winner_player_name === m.player2_name) wins++;
+        else losses++;
+      }
     }
   });
+
+  const totalRecorded = wins + losses + ties;
 
   return {
     archetype,
     totalAppearances,
     wins,
-    winRate: totalAppearances > 0 ? Math.round((wins / totalAppearances) * 100) : 0,
+    losses,
+    ties,
+    winRate: totalRecorded > 0 ? Math.round((wins / totalRecorded) * 100) : 0,
     matches: allMatches,
   };
 }

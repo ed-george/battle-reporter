@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getArchetypeStats } from '@/lib/data-repository';
 import { ArchetypeIcon } from '@/components/ArchetypeIcon';
 import { MatchCard } from '@/components/MatchCard';
+import { formatRecord } from '@/lib/matches';
 import { Video, Trophy, Percent, ArrowLeft } from 'lucide-react';
 
 interface PageProps {
@@ -64,10 +65,10 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
           </div>
 
           <div>
-            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Stream Wins</span>
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Stream Record</span>
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 text-base">
               <Trophy className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
-              <span>{stats.wins}</span>
+              <span>{formatRecord(stats.wins, stats.losses, stats.ties)}</span>
             </div>
           </div>
 

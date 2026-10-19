@@ -438,7 +438,8 @@ export function StreamTaggingStudio({
                 onChange={(e) => setWinnerName(e.target.value)}
                 className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
               >
-                <option value="">Unrevealed / Tie</option>
+                <option value="">Undecided / Unrevealed</option>
+                <option value="Tie">Tie / Draw</option>
                 {player1Name && <option value={player1Name}>{player1Name} (Player 1)</option>}
                 {player2Name && <option value={player2Name}>{player2Name} (Player 2)</option>}
               </select>

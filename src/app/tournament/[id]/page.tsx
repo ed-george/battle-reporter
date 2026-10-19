@@ -65,7 +65,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
                 href={
                   tournament.rk9_link.startsWith('http')
                     ? tournament.rk9_link
-                    : `https://rk9.link/roster/${tournament.rk9_link}`
+                    : `https://rk9.gg/tournament/${tournament.rk9_link}`
                 }
                 target="_blank"
                 rel="noopener noreferrer"
