@@ -140,10 +140,116 @@ export async function getStreamedMatchById(id: string): Promise<StreamedMatch | 
   return (data as StreamedMatch) || null;
 }
 
+export interface StreamedArchetypeSummary {
+  archetype: DeckArchetype;
+  streamMatchCount: number;
+}
+
+// In-memory caches with TTL to drastically reduce database load and avoid Supabase rate limits
+let cachedDeckArchetypes: { data: DeckArchetype[]; expiresAt: number } | null = null;
+let cachedStreamedArchetypes: { data: StreamedArchetypeSummary[]; expiresAt: number } | null = null;
+
+export function clearStreamedArchetypesCache() {
+  cachedStreamedArchetypes = null;
+  cachedDeckArchetypes = null;
+}
+
 /**
- * Get all archetypes
+ * Highly efficient query for the /archetypes overview:
+ * 1. Checks short in-memory cache (30s TTL).
+ * 2. Queries ONLY player1_deck_archetype and player2_deck_archetype from published streamed_matches.
+ * 3. If no matches exist, returns [] immediately (zero queries to deck_archetypes).
+ * 4. Only queries deck_archetypes for the specific identifiers present in matches,
+ *    selecting only identifier, name, and icons (avoiding large JSONB payloads).
+ */
+export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeSummary[]> {
+  if (cachedStreamedArchetypes && cachedStreamedArchetypes.expiresAt > Date.now()) {
+    return cachedStreamedArchetypes.data;
+  }
+
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return [];
+  }
+
+  // 1. Fetch only the archetype columns from published matches (no heavy joins)
+  const { data: matches, error: matchError } = await supabase
+    .from('streamed_matches')
+    .select('player1_deck_archetype, player2_deck_archetype')
+    .eq('is_published', true);
+
+  if (matchError) {
+    console.error('Error fetching stream matches for archetypes:', matchError);
+    return cachedStreamedArchetypes?.data || [];
+  }
+
+  if (!matches || matches.length === 0) {
+    cachedStreamedArchetypes = { data: [], expiresAt: Date.now() + 30_000 };
+    return [];
+  }
+
+  // 2. Count matches per archetype
+  const matchCounts = new Map<string, number>();
+  for (const m of matches) {
+    if (m.player1_deck_archetype) {
+      matchCounts.set(m.player1_deck_archetype, (matchCounts.get(m.player1_deck_archetype) || 0) + 1);
+    }
+    if (m.player2_deck_archetype) {
+      matchCounts.set(m.player2_deck_archetype, (matchCounts.get(m.player2_deck_archetype) || 0) + 1);
+    }
+  }
+
+  const activeIdentifiers = Array.from(matchCounts.keys()).filter(Boolean);
+  if (activeIdentifiers.length === 0) {
+    cachedStreamedArchetypes = { data: [], expiresAt: Date.now() + 30_000 };
+    return [];
+  }
+
+  // 3. Only query deck_archetypes for the active identifiers, selecting only lightweight columns
+  const { data: archetypesData, error: archError } = await supabase
+    .from('deck_archetypes')
+    .select('identifier, name, icons')
+    .in('identifier', activeIdentifiers);
+
+  if (archError) {
+    console.error('Error fetching archetype details:', archError);
+  }
+
+  const archetypeMap = new Map((archetypesData || []).map((a) => [a.identifier, a]));
+
+  const result: StreamedArchetypeSummary[] = activeIdentifiers
+    .map((identifier) => {
+      const meta = archetypeMap.get(identifier);
+      return {
+        archetype: {
+          identifier,
+          name: meta?.name || identifier.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+          icons: meta?.icons || [identifier.split('-')[0]],
+        },
+        streamMatchCount: matchCounts.get(identifier) || 0,
+      };
+    })
+    .sort((a, b) =>
+      a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' })
+    );
+
+  cachedStreamedArchetypes = {
+    data: result,
+    expiresAt: Date.now() + 30_000,
+  };
+
+  return result;
+}
+
+/**
+ * Get all archetypes (optimized: selects lightweight columns and caches for 5 minutes)
  */
 export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
+  if (cachedDeckArchetypes && cachedDeckArchetypes.expiresAt > Date.now()) {
+    return cachedDeckArchetypes.data;
+  }
+
   const supabase = await createServerSupabaseClient();
   if (!supabase) {
     console.error('Supabase client not initialized.');
@@ -152,17 +258,24 @@ export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
 
   const { data, error } = await supabase
     .from('deck_archetypes')
-    .select('*')
+    .select('identifier, name, icons, priority')
     .order('name', { ascending: true });
 
   if (error) {
     console.error('Error fetching deck archetypes from Supabase:', error);
-    return [];
+    return cachedDeckArchetypes?.data || [];
   }
 
-  return ((data || []) as DeckArchetype[]).sort((a, b) =>
+  const sorted = ((data || []) as DeckArchetype[]).sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
   );
+
+  cachedDeckArchetypes = {
+    data: sorted,
+    expiresAt: Date.now() + 5 * 60_000,
+  };
+
+  return sorted;
 }
 
 /**
@@ -342,7 +455,7 @@ export async function getArchetypeStats(archetypeIdentifier: string) {
   if (supabase) {
     const { data } = await supabase
       .from('deck_archetypes')
-      .select('*')
+      .select('name, icons')
       .eq('identifier', archetypeIdentifier)
       .single();
 

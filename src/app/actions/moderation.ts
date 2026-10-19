@@ -3,6 +3,7 @@
 import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/supabase/server';
 import { checkIsAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
+import { clearStreamedArchetypesCache } from '@/lib/data-repository';
 
 export interface PendingSubmissionRecord {
   id: string;
@@ -289,6 +290,7 @@ export async function approveSubmissionAction(
   }
 
   // 5. Revalidate cache
+  clearStreamedArchetypesCache();
   revalidatePath('/matches');
   revalidatePath('/players');
   revalidatePath('/archetypes');
