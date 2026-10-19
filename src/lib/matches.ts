@@ -38,3 +38,39 @@ export function formatRecord(wins: number, losses: number, ties: number = 0): st
   }
   return `${wins}W - ${losses}L`;
 }
+
+/**
+ * Converts a player name into a clean, URL-safe slug:
+ * lowercase, spaces replaced with a dash, and URL encoded.
+ * e.g., "Tord Reklev" -> "tord-reklev"
+ * e.g., "Tomás Malaca" -> "tom%C3%A1s-malaca"
+ */
+export function playerNameToSlug(name?: string | null): string {
+  if (!name) return '';
+  const lowerWithDashes = name.trim().toLowerCase().replace(/\s+/g, '-');
+  return encodeURIComponent(lowerWithDashes);
+}
+
+/**
+ * Normalizes either a player name or an existing slug into the canonical slug format.
+ * Handles pre-encoded URLs, spaces, dashes, etc.
+ */
+export function normalizePlayerSlug(slugOrName?: string | null): string {
+  if (!slugOrName) return '';
+  let str = slugOrName;
+  try {
+    str = decodeURIComponent(slugOrName);
+  } catch {
+    // ignore
+  }
+  return playerNameToSlug(str);
+}
+
+/**
+ * Checks whether a given player name matches a target player slug or name.
+ */
+export function isPlayerSlugMatch(playerName?: string | null, targetSlugOrName?: string | null): boolean {
+  if (!playerName || !targetSlugOrName) return false;
+  return normalizePlayerSlug(playerName) === normalizePlayerSlug(targetSlugOrName);
+}
+

@@ -12,18 +12,17 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const playerName = decodeURIComponent(slug);
+  const stats = await getPlayerStats(slug);
 
   return {
-    title: `${playerName} — Stream Match Profile — Battle Reporter`,
-    description: `Browse all Pokémon TCG broadcast stream matches featuring ${playerName}.`,
+    title: `${stats.name} — Stream Match Profile — Battle Reporter`,
+    description: `Browse all Pokémon TCG broadcast stream matches featuring ${stats.name}.`,
   };
 }
 
 export default async function PlayerProfilePage({ params }: PageProps) {
   const { slug } = await params;
-  const playerName = decodeURIComponent(slug);
-  const stats = await getPlayerStats(playerName);
+  const stats = await getPlayerStats(slug);
 
   if (stats.totalStreamMatches === 0) {
     notFound();

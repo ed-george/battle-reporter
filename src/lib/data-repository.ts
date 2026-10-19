@@ -1,9 +1,9 @@
 import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { POPULAR_ARCHETYPES } from '@/lib/limitless';
-import { isMatchTie, formatRecord } from '@/lib/matches';
+import { isMatchTie, formatRecord, playerNameToSlug, isPlayerSlugMatch, normalizePlayerSlug } from '@/lib/matches';
 
-export { isMatchTie, formatRecord };
+export { isMatchTie, formatRecord, playerNameToSlug, isPlayerSlugMatch, normalizePlayerSlug };
 
 function getArchetypeDisplayName(identifier: string): string {
   const found = POPULAR_ARCHETYPES.find((x) => x.identifier === identifier);
@@ -290,26 +290,61 @@ export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
 }
 
 /**
- * Get match history and statistics for a given player name
+ * Get match history and statistics for a given player name or slug
  */
-export async function getPlayerStats(playerName: string) {
-  const allMatches = await getStreamedMatches({ playerName });
-  const normalizedTarget = playerName.toLowerCase().trim();
+export async function getPlayerStats(playerSlugOrName: string) {
+  let decoded = playerSlugOrName;
+  try {
+    decoded = decodeURIComponent(playerSlugOrName);
+  } catch {
+    // ignore
+  }
+
+  // Generate candidate search query by replacing dashes and spaces with wildcards
+  const searchPattern = decoded.trim().replace(/[-_\s]+/g, '%');
+  const candidateMatches = await getStreamedMatches({ playerName: searchPattern });
+
+  // Use candidate matches if found, otherwise fall back to all streamed matches
+  const matchesToSearch = candidateMatches.length > 0 ? candidateMatches : await getStreamedMatches();
+
+  let canonicalName = '';
+  const playerMatches: StreamedMatch[] = [];
+
+  for (const m of matchesToSearch) {
+    const isP1 = isPlayerSlugMatch(m.player1_name, playerSlugOrName);
+    const isP2 = isPlayerSlugMatch(m.player2_name, playerSlugOrName);
+    if (isP1 || isP2) {
+      playerMatches.push(m);
+      if (!canonicalName) {
+        canonicalName = isP1 ? m.player1_name : m.player2_name;
+      }
+    }
+  }
+
+  // If no canonical name was found in matches, reconstruct a presentable display name from the slug
+  if (!canonicalName) {
+    canonicalName = decoded
+      .trim()
+      .replace(/[-_]+/g, ' ')
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  }
 
   let wins = 0;
   let losses = 0;
   let ties = 0;
   const archetypesUsed = new Map<string, number>();
 
-  allMatches.forEach((m) => {
-    const isP1 = m.player1_name.toLowerCase().includes(normalizedTarget);
+  playerMatches.forEach((m) => {
+    const isP1 = isPlayerSlugMatch(m.player1_name, playerSlugOrName);
     const arch = isP1 ? m.player1_deck_archetype : m.player2_deck_archetype;
-    archetypesUsed.set(arch, (archetypesUsed.get(arch) || 0) + 1);
+    if (arch) {
+      archetypesUsed.set(arch, (archetypesUsed.get(arch) || 0) + 1);
+    }
 
     if (isMatchTie(m.winner_player_name, m.match_score)) {
       ties++;
     } else if (m.winner_player_name) {
-      if (m.winner_player_name.toLowerCase().includes(normalizedTarget)) {
+      if (isPlayerSlugMatch(m.winner_player_name, playerSlugOrName)) {
         wins++;
       } else {
         losses++;
@@ -320,8 +355,9 @@ export async function getPlayerStats(playerName: string) {
   const totalRecorded = wins + losses + ties;
 
   return {
-    name: playerName,
-    totalStreamMatches: allMatches.length,
+    name: canonicalName,
+    slug: playerNameToSlug(canonicalName),
+    totalStreamMatches: playerMatches.length,
     wins,
     losses,
     ties,
@@ -333,12 +369,13 @@ export async function getPlayerStats(playerName: string) {
         count,
       }))
       .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })),
-    matches: allMatches,
+    matches: playerMatches,
   };
 }
 
 export interface PlayerLeaderboardEntry {
   name: string;
+  slug: string;
   country?: string | null;
   matchesPlayed: number;
   wins: number;
@@ -428,6 +465,7 @@ export async function getStreamPlayers(options: {
     const winRate = totalRecorded > 0 ? Math.round((data.wins / totalRecorded) * 100) : 0;
     return {
       name,
+      slug: playerNameToSlug(name),
       country: data.country,
       matchesPlayed: data.matchesPlayed,
       wins: data.wins,

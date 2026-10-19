@@ -137,7 +137,7 @@ export default async function PlayersDirectoryPage({ searchParams }: PageProps) 
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <Link
-                          href={`/player/${encodeURIComponent(player.name)}`}
+                          href={`/player/${player.slug}`}
                           className="font-extrabold text-base text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors truncate"
                         >
                           {player.name}
@@ -202,7 +202,7 @@ export default async function PlayersDirectoryPage({ searchParams }: PageProps) 
                   {/* Right: View Matches Link */}
                   <div className="shrink-0 flex items-center justify-end">
                     <Link
-                      href={`/player/${encodeURIComponent(player.name)}`}
+                      href={`/player/${player.slug}`}
                       className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 dark:hover:text-red-400 text-slate-700 dark:text-slate-200 transition-colors"
                     >
                       <span>View Games</span>

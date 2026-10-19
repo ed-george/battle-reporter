@@ -6,7 +6,7 @@ import { Play, Eye, Trophy } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { useSpoilers } from '@/context/SpoilerContext';
-import { isMatchTie } from '@/lib/matches';
+import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
 interface MatchCardProps {
   match: StreamedMatch;
@@ -49,7 +49,7 @@ export function MatchCard({ match }: MatchCardProps) {
           {/* Player 1 */}
           <div className="w-1/2 flex flex-col items-end text-right pr-3 min-w-0">
             <Link
-              href={`/player/${encodeURIComponent(match.player1_name)}`}
+              href={`/player/${playerNameToSlug(match.player1_name)}`}
               className={`text-sm sm:text-base font-bold truncate max-w-full hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 ${
                 isP1Winner ? 'text-green-700 dark:text-green-400 font-extrabold' : 'text-slate-900 dark:text-white'
               }`}
@@ -102,7 +102,7 @@ export function MatchCard({ match }: MatchCardProps) {
           {/* Player 2 */}
           <div className="w-1/2 flex flex-col items-start text-left pl-3 min-w-0">
             <Link
-              href={`/player/${encodeURIComponent(match.player2_name)}`}
+              href={`/player/${playerNameToSlug(match.player2_name)}`}
               className={`text-sm sm:text-base font-bold truncate max-w-full hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 ${
                 isP2Winner ? 'text-green-700 dark:text-green-400 font-extrabold' : 'text-slate-900 dark:text-white'
               }`}

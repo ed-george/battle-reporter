@@ -8,7 +8,7 @@ import { YouTubePlayer } from '@/components/YouTubePlayer';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { getLimitlessDeckUrl, getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
-import { isMatchTie } from '@/lib/matches';
+import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
 function formatTimestamp(totalSeconds?: number | null): string {
   if (totalSeconds === undefined || totalSeconds === null || isNaN(totalSeconds) || totalSeconds < 0) {
@@ -121,7 +121,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             <div className="flex items-center justify-between gap-2">
               <div className="min-w-0">
                 <Link
-                  href={`/player/${encodeURIComponent(match.player1_name)}`}
+                  href={`/player/${playerNameToSlug(match.player1_name)}`}
                   className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors truncate block"
                 >
                   {match.player1_name} {match.player1_country && `[${match.player1_country}]`}
@@ -157,7 +157,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
             <div className="flex items-center justify-between gap-2">
               <div className="min-w-0">
                 <Link
-                  href={`/player/${encodeURIComponent(match.player2_name)}`}
+                  href={`/player/${playerNameToSlug(match.player2_name)}`}
                   className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors truncate block"
                 >
                   {match.player2_name} {match.player2_country && `[${match.player2_country}]`}
