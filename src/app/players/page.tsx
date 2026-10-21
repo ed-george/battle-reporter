@@ -163,7 +163,7 @@ export default async function PlayersDirectoryPage({ searchParams }: PageProps) 
                   </div>
 
                   {/* Middle: Stats (Matches, Record, Win Rate) */}
-                  <div className="grid grid-cols-3 gap-4 text-xs md:w-64 shrink-0">
+                  <div className="grid grid-cols-3 gap-1 text-xs md:w-80 shrink-0">
                     <div>
                       <span className="text-slate-400 dark:text-slate-500 block text-[11px]">Matches</span>
                       <div className="flex items-center gap-1 font-bold text-slate-900 dark:text-white text-sm mt-0.5">

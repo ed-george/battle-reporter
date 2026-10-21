@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Tournament, DeckArchetype } from '@/types/database';
-import { POPULAR_ARCHETYPES } from '@/lib/limitless';
 import { CheckCircle2, AlertCircle, Sparkles, Loader2 } from 'lucide-react';
 import { submitMatchAction } from '@/app/actions/moderation';
 
@@ -14,7 +13,7 @@ interface StreamTaggingStudioProps {
 
 export function StreamTaggingStudio({
   tournaments,
-  archetypes = POPULAR_ARCHETYPES,
+  archetypes,
   initialTournamentId,
 }: StreamTaggingStudioProps) {
   const sortedArchetypes = React.useMemo(() => {
@@ -26,7 +25,6 @@ export function StreamTaggingStudio({
   const [tournamentId, setTournamentId] = useState(initialTournamentId || tournaments[0]?.id || '');
   const [roundName, setRoundName] = useState('Swiss Round 1');
   const [division, setDivision] = useState<'masters' | 'seniors' | 'juniors'>('masters');
-  const [tableNumber, setTableNumber] = useState<string>('');
 
   // Players & Decks
   const [player1Name, setPlayer1Name] = useState('');
@@ -104,7 +102,7 @@ export function StreamTaggingStudio({
       tournament_id: tournamentId,
       round_name: roundName,
       division,
-      table_number: tableNumber ? parseInt(tableNumber, 10) : null,
+      table_number: null,
       player1_name: player1Name,
       player1_country: player1Country,
       player1_deck_archetype: player1Archetype,
@@ -171,13 +169,13 @@ export function StreamTaggingStudio({
       <div>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-xs font-bold mb-2">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Assisted Tagging Studio</span>
+          <span>Help us out!</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
           Tag a Stream Match
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-          Add YouTube broadcast timestamps to archive a tournament match with game accuracy.
+          Submit an official YouTube stream game with timestamps.
         </p>
       </div>
 
@@ -235,16 +233,6 @@ export function StreamTaggingStudio({
               </select>
             </div>
 
-            <div>
-              <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Feature Table Number (Optional)</label>
-              <input
-                type="number"
-                value={tableNumber}
-                onChange={(e) => setTableNumber(e.target.value)}
-                placeholder="e.g. 3001"
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
-              />
-            </div>
           </div>
         </div>
 
@@ -291,7 +279,7 @@ export function StreamTaggingStudio({
                 >
                   {sortedArchetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
-                      {a.name}
+                      {a.name} ({a.identifier})
                     </option>
                   ))}
                 </select>
@@ -334,7 +322,7 @@ export function StreamTaggingStudio({
                 >
                   {sortedArchetypes.map((a) => (
                     <option key={a.identifier} value={a.identifier}>
-                      {a.name}
+                      {a.name} ({a.identifier})
                     </option>
                   ))}
                 </select>
@@ -427,7 +415,7 @@ export function StreamTaggingStudio({
         {/* Section 4: Result & Score */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
-            4. Match Outcome (Protected by Spoiler Shield)
+            4. Match Outcome
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">

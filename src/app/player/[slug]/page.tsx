@@ -143,10 +143,10 @@ export default async function PlayerProfilePage({ params }: PageProps) {
       <section className="space-y-6">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Streamed Matches Featuring {stats.name}
+            On Stream Matches
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            All broadcast games on record, grouped by tournament from latest to oldest
+            All broadcast games, grouped by tournament
           </p>
         </div>
 
@@ -160,13 +160,9 @@ export default async function PlayerProfilePage({ params }: PageProps) {
               <div key={group.tournamentId} className="space-y-4">
                 {/* Divider between tournaments */}
                 {!isFirst && (
-                  <div className="pt-6 pb-2" role="separator" aria-label="Tournament divider">
+                  <div className="pt pb-2" role="separator" aria-label="Tournament divider">
                     <div className="relative flex items-center justify-center">
                       <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-                      <span className="absolute bg-slate-50 dark:bg-slate-950 px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
-                        <Trophy className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
-                        <span>Tournament Divider</span>
-                      </span>
                     </div>
                   </div>
                 )}

@@ -65,82 +65,6 @@ export const ALL_LIMITLESS_ARCHETYPES: DeckArchetype[] = Object.entries(LIMITLES
   }))
   .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
-// Default popular current archetypes sorted alphabetically by name
-export const POPULAR_ARCHETYPES: DeckArchetype[] = [
-  {
-    identifier: 'charizard-ex',
-    name: 'Charizard ex',
-    icons: ['charizard'],
-    priority: 100,
-  },
-  {
-    identifier: 'dragapult-ex',
-    name: 'Dragapult ex',
-    icons: ['dragapult'],
-    priority: 90,
-  },
-  {
-    identifier: 'gardevoir-ex',
-    name: 'Gardevoir ex',
-    icons: ['gardevoir'],
-    priority: 95,
-  },
-  {
-    identifier: 'gholdengo-ex',
-    name: 'Gholdengo Palkia',
-    icons: ['gholdengo', 'palkia-origin'],
-    priority: 75,
-  },
-  {
-    identifier: 'iron-thorns-ex',
-    name: 'Iron Thorns ex',
-    icons: ['iron-thorns'],
-    priority: 70,
-  },
-  {
-    identifier: 'lugia-vstar',
-    name: 'Lugia Archeops',
-    icons: ['lugia', 'archeops'],
-    priority: 85,
-  },
-  {
-    identifier: 'miraidon-ex',
-    name: 'Miraidon ex',
-    icons: ['miraidon'],
-    priority: 80,
-  },
-  {
-    identifier: 'raging-bolt-ogerpon',
-    name: 'Raging Bolt / Ogerpon',
-    icons: ['raging-bolt', 'ogerpon-teal'],
-    priority: 90,
-  },
-  {
-    identifier: 'regidrago-vstar',
-    name: 'Regidrago VSTAR',
-    icons: ['regidrago'],
-    priority: 85,
-  },
-  {
-    identifier: 'roaring-moon',
-    name: 'Roaring Moon',
-    icons: ['roaring-moon'],
-    priority: 75,
-  },
-  {
-    identifier: 'snorlax-stall',
-    name: 'Snorlax Stall',
-    icons: ['snorlax'],
-    priority: 70,
-  },
-  {
-    identifier: 'terapagos-ex',
-    name: 'Terapagos ex / Dusknoir',
-    icons: ['terapagos-terastal', 'dusknoir'],
-    priority: 80,
-  },
-];
-
 /**
  * Fetch deck definitions and rules from the official Limitless TCG Play API
  */
@@ -148,8 +72,8 @@ export async function fetchLimitlessDecks(apiKey?: string): Promise<DeckArchetyp
   const key = apiKey || process.env.LIMITLESS_API_KEY;
 
   if (!key) {
-    console.warn('LIMITLESS_API_KEY not found; using fallback archetypes.');
-    return POPULAR_ARCHETYPES;
+    console.error('LIMITLESS_API_KEY not found');
+    return [];
   }
 
   try {
@@ -157,24 +81,21 @@ export async function fetchLimitlessDecks(apiKey?: string): Promise<DeckArchetyp
       headers: {
         'X-Access-Key': key,
       },
-      next: { revalidate: 86400 }, // Cache for 24 hours
+      next: { revalidate: 1800 }, // Cache for 30 mins
     });
 
     if (!res.ok) {
       console.warn(`Limitless API responded with status ${res.status}: ${res.statusText}`);
-      return POPULAR_ARCHETYPES;
+      return [];
     }
 
-    const data: DeckArchetype[] = await res.json();
-    const result = Array.isArray(data) && data.length > 0 ? data : POPULAR_ARCHETYPES;
+    const result: DeckArchetype[] = await res.json();
     return result
       .filter((d) => d && d.identifier && d.name)
       .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
   } catch (error) {
     console.error('Error fetching Limitless decks:', error);
-    return [...POPULAR_ARCHETYPES].sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
-    );
+    return [];
   }
 }
 
@@ -192,7 +113,7 @@ export function getArchetypeIconUrl(iconName: string): string {
  */
 export function classifyDecklist(
   decklist: string[] | undefined | null,
-  archetypes: DeckArchetype[] = POPULAR_ARCHETYPES
+  archetypes: DeckArchetype[],
 ): DeckArchetype | undefined {
   if (!decklist || !Array.isArray(decklist) || decklist.length === 0) {
     return undefined;

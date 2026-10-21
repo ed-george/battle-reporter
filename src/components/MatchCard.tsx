@@ -25,19 +25,10 @@ export function MatchCard({ match }: MatchCardProps) {
       {/* Tournament & Round Information */}
       <div className="flex items-center gap-3 shrink-0 md:w-56">
         <div className="flex flex-col gap-1">
-          <Link
-            href={`/tournament/${match.tournament_id}`}
-            className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline inline-flex items-center gap-1"
-          >
-            {match.tournament?.name || 'Tournament'}
-          </Link>
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
               {match.round_name}
             </span>
-            {match.table_number && (
-              <span className="text-[11px] text-slate-400 dark:text-slate-500">Table {match.table_number}</span>
-            )}
           </div>
         </div>
       </div>

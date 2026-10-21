@@ -95,27 +95,6 @@ export default async function MatchesExplorerPage({ searchParams }: PageProps) {
             Filter
           </button>
         </form>
-
-        {/* Quick filter links */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-          <span className="font-bold text-slate-500 dark:text-slate-400">Popular Archetypes:</span>
-          {sortedArchetypes.slice(0, 8).map((arch) => {
-            const isSelected = archetype === arch.identifier;
-            return (
-              <Link
-                key={arch.identifier}
-                href={isSelected ? '/matches' : `/matches?archetype=${arch.identifier}`}
-                className={`px-2.5 py-1 rounded-lg border font-medium transition-all ${
-                  isSelected
-                    ? 'bg-red-600 text-white border-red-600'
-                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
-                }`}
-              >
-                {arch.name}
-              </Link>
-            );
-          })}
-        </div>
       </div>
 
       {/* Results Header */}

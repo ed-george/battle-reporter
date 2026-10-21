@@ -8,7 +8,7 @@ import {
   rejectSubmissionAction,
 } from '@/app/actions/moderation';
 import { Tournament, DeckArchetype } from '@/types/database';
-import { POPULAR_ARCHETYPES, getArchetypeDisplayName } from '@/lib/limitless';
+import { getArchetypeDisplayName } from '@/lib/limitless';
 import { createClient } from '@/lib/supabase/client';
 import { isMatchTie } from '@/lib/matches';
 import { useRouter } from 'next/navigation';
@@ -42,7 +42,7 @@ export function ModerationDashboard({
   userEmail,
   initialSubmissions,
   tournaments = [],
-  archetypes = POPULAR_ARCHETYPES,
+  archetypes = [],
 }: ModerationDashboardProps) {
   const router = useRouter();
   const [submissions, setSubmissions] = useState<PendingSubmissionRecord[]>(initialSubmissions);

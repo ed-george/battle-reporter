@@ -34,9 +34,9 @@ export function isMatchTie(winnerName?: string | null, score?: string | null): b
  */
 export function formatRecord(wins: number, losses: number, ties: number = 0): string {
   if (ties > 0) {
-    return `${wins}W - ${losses}L - ${ties}T`;
+    return `${wins}-${losses}-${ties}`;
   }
-  return `${wins}W - ${losses}L`;
+  return `${wins}-${losses}`;
 }
 
 /**
