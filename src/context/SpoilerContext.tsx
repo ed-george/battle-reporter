@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useSyncExternalStore } from 'react';
+import React, { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react';
 
 interface SpoilerContextType {
   spoilersHidden: boolean;
@@ -18,15 +18,37 @@ const SpoilerContext = createContext<SpoilerContextType>({
   isMatchRevealed: () => false,
 });
 
+let isHydrated = false;
+const listeners = new Set<() => void>();
+
+function notify() {
+  listeners.forEach((cb) => cb());
+}
+
 function subscribe(callback: () => void) {
-  window.addEventListener('storage', callback);
-  return () => window.removeEventListener('storage', callback);
+  listeners.add(callback);
+  const handleStorage = (e: StorageEvent) => {
+    if (e.key === 'ptcg_spoilers_hidden') {
+      notify();
+    }
+  };
+  window.addEventListener('storage', handleStorage);
+  return () => {
+    listeners.delete(callback);
+    window.removeEventListener('storage', handleStorage);
+  };
 }
 
 function getSnapshot(): boolean {
-  if (typeof window === 'undefined') return true;
-  const saved = localStorage.getItem('ptcg_spoilers_hidden');
-  return saved !== null ? saved === 'true' : true;
+  if (!isHydrated || typeof window === 'undefined') {
+    return true;
+  }
+  try {
+    const saved = localStorage.getItem('ptcg_spoilers_hidden');
+    return saved !== null ? saved === 'true' : true;
+  } catch {
+    return true;
+  }
 }
 
 function getServerSnapshot(): boolean {
@@ -37,10 +59,19 @@ export function SpoilerProvider({ children }: { children: React.ReactNode }) {
   const spoilersHidden = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [revealedMatchIds, setRevealedMatchIds] = useState<Set<string>>(new Set());
 
+  useEffect(() => {
+    if (!isHydrated) {
+      isHydrated = true;
+      notify();
+    }
+  }, []);
+
   const toggleSpoilers = () => {
     const current = getSnapshot();
-    localStorage.setItem('ptcg_spoilers_hidden', String(!current));
-    window.dispatchEvent(new Event('storage'));
+    try {
+      localStorage.setItem('ptcg_spoilers_hidden', String(!current));
+    } catch {}
+    notify();
   };
 
   const revealMatch = (matchId: string) => {
@@ -70,3 +101,7 @@ export function SpoilerProvider({ children }: { children: React.ReactNode }) {
 export function useSpoilers() {
   return useContext(SpoilerContext);
 }
+
+
+
+

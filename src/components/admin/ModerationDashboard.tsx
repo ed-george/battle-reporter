@@ -736,7 +736,9 @@ export function ModerationDashboard({
                       {m.player1_name} ({m.player1_deck_archetype}) vs {m.player2_name} ({m.player2_deck_archetype})
                     </h3>
                     <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
-                      <span>Submitted: {new Date(sub.created_at).toLocaleDateString()}</span>
+                      <span suppressHydrationWarning>
+                        Submitted: {new Date(sub.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                      </span>
                       {m.match_score && (
                         <>
                           <span>•</span>

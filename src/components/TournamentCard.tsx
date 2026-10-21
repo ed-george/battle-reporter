@@ -10,23 +10,52 @@ interface TournamentCardProps {
   streamMatchCount?: number;
 }
 
-export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentCardProps) {
-  // Format readable dates: "Feb 13 - 15, 2026"
-  const formatDateRange = (start?: string | null, end?: string | null) => {
-    if (!start) return 'Dates TBD';
-    try {
-      const s = new Date(start);
-      const e = end ? new Date(end) : s;
-      const month = s.toLocaleDateString('en-US', { month: 'short' });
-      const year = s.getFullYear();
-      if (s.getMonth() === e.getMonth()) {
-        return `${month} ${s.getDate()} - ${e.getDate()}, ${year}`;
-      }
-      return `${month} ${s.getDate()} - ${e.toLocaleDateString('en-US', { month: 'short' })} ${e.getDate()}, ${year}`;
-    } catch {
-      return start;
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function parseDateParts(dateStr?: string | null): { year: number; month: number; day: number } | null {
+  if (!dateStr) return null;
+  const match = dateStr.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (match) {
+    return {
+      year: parseInt(match[1], 10),
+      month: parseInt(match[2], 10) - 1,
+      day: parseInt(match[3], 10),
+    };
+  }
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    return {
+      year: d.getUTCFullYear(),
+      month: d.getUTCMonth(),
+      day: d.getUTCDate(),
+    };
+  }
+  return null;
+}
+
+function formatDateRange(start?: string | null, end?: string | null): string {
+  const s = parseDateParts(start);
+  if (!s) return 'Dates TBD';
+  const e = parseDateParts(end) || s;
+
+  const startMonth = MONTH_NAMES[s.month] || '';
+  const endMonth = MONTH_NAMES[e.month] || '';
+
+  if (s.month === e.month && s.year === e.year) {
+    if (s.day === e.day) {
+      return `${startMonth} ${s.day}, ${s.year}`;
     }
-  };
+    return `${startMonth} ${s.day} - ${e.day}, ${s.year}`;
+  }
+
+  if (s.year === e.year) {
+    return `${startMonth} ${s.day} - ${endMonth} ${e.day}, ${s.year}`;
+  }
+
+  return `${startMonth} ${s.day}, ${s.year} - ${endMonth} ${e.day}, ${e.year}`;
+}
+
+export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentCardProps) {
 
   return (
     <Link
@@ -65,7 +94,7 @@ export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentC
         </div>
         <div className="flex items-center gap-1.5 truncate justify-end">
           <Users className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-          <span>{tournament.total_players?.toLocaleString() || '—'} Players</span>
+          <span>{tournament.total_players ? new Intl.NumberFormat('en-US').format(tournament.total_players) : '—'} Players</span>
         </div>
         {tournament.location && (
           <div className="col-span-2 flex items-center gap-1.5 truncate text-slate-400 dark:text-slate-500">

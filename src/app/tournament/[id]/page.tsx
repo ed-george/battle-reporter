@@ -107,7 +107,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
             <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Masters Players</span>
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100">
               <Users className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-              <span>{tournament.total_players?.toLocaleString() || '—'}</span>
+              <span>{tournament.total_players ? new Intl.NumberFormat('en-US').format(tournament.total_players) : '—'}</span>
             </div>
           </div>
 
