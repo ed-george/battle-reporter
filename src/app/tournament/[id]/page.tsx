@@ -13,11 +13,11 @@ export async function generateMetadata({ params }: PageProps) {
   const tournament = await getTournamentById(id);
 
   if (!tournament) {
-    return { title: 'Tournament Not Found — Battle Reporter' };
+    return { title: 'Tournament Not Found - Battle Reporter' };
   }
 
   return {
-    title: `${tournament.name} — Battle Reporter`,
+    title: `${tournament.name} - Battle Reporter`,
     description: `Browse all broadcast stream matches from ${tournament.name}.`,
   };
 }
@@ -41,7 +41,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
           className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to All Tournaments</span>
+          <span>Back to Tournaments</span>
         </Link>
       </div>
 
@@ -71,7 +71,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors"
               >
-                <span>RK9 Pairings</span>
+                <span>RK9 Tournament</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
@@ -91,15 +91,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
             <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Dates</span>
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100">
               <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-              <span>{tournament.start_date || 'TBD'}</span>
-            </div>
-          </div>
-
-          <div>
-            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Location</span>
-            <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 truncate">
-              <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-              <span className="truncate">{tournament.location || 'Official Venue'}</span>
+              <span>{tournament.start_date || 'TBD'} to {tournament.end_date || 'TBD'}</span>
             </div>
           </div>
 
@@ -143,7 +135,7 @@ export default async function TournamentDetailPage({ params }: PageProps) {
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white">No Stream Matches Tagged Yet</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-              Be the first to tag matches that were broadcast on stream from this tournament!
+              Be the first to tag matches that were broadcast on an official stream from this tournament!
             </p>
             <div className="pt-2">
               <Link

@@ -52,7 +52,7 @@ export default async function PlayerProfilePage({ params }: PageProps) {
               {stats.name}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Competitive Pokémon TCG Broadcast Stream Record
+              Broadcast Stream Record
             </p>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default async function PlayerProfilePage({ params }: PageProps) {
           </div>
 
           <div>
-            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Stream Record</span>
+            <span className="text-slate-400 dark:text-slate-500 block mb-0.5">On Stream Record</span>
             <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 text-base">
               <Trophy className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
               <span>{formatRecord(stats.wins, stats.losses, stats.ties)}</span>

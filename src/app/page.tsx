@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getTournaments, getStreamedMatches } from '@/lib/data-repository';
 import { TournamentCard } from '@/components/TournamentCard';
 import { MatchCard } from '@/components/MatchCard';
-import { Trophy, Video, Sparkles, ArrowRight } from 'lucide-react';
+import { Trophy, Video, Sparkles, ArrowRight, User } from 'lucide-react';
 
 export default async function HomePage() {
   const [tournaments, allMatches] = await Promise.all([
@@ -27,6 +27,8 @@ export default async function HomePage() {
   const seasons = Object.keys(groupedTournaments).sort().reverse();
   const recentMatches = allMatches.slice(0, 3);
 
+  const uniquePlayers = [...new Set(allMatches.map(item => Array.of(item.player1_name, item.player2_name)).flat())]
+
   return (
     <div className="space-y-10">
       {/* Hero Banner */}
@@ -35,13 +37,13 @@ export default async function HomePage() {
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-300 text-xs font-bold border border-red-500/30">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Community Stream Broadcast Archive</span>
+            <span>Stream Game Archive</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-            Relive Every Pokémon TCG Stream Match
+            Rewatch Every Pokémon TCG Stream Match
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Browse official tournament broadcasts, search by deck archetype or player, and jump directly to Game 1, 2, or 3 with full spoiler protection.
+            Browse official tournament stream games, search by deck archetype or player, and jump directly to Game 1, 2, or 3.
           </p>
 
           {/* Quick Metrics */}
@@ -53,6 +55,10 @@ export default async function HomePage() {
             <div className="flex items-center gap-2">
               <Video className="w-4 h-4 text-red-400" />
               <span><strong>{allMatches.length}</strong> Streamed Matches Archived</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-green-400" />
+              <span><strong>{uniquePlayers.length}</strong> Unique Players</span>
             </div>
           </div>
         </div>

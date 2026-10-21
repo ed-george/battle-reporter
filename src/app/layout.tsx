@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Battle Reporter — Pokémon TCG Stream Match Archive',
   description:
-    'Search and watch official Pokémon Trading Card Game broadcast stream matches from YouTube, inspired by Limitless TCG.',
+    'Search and watch official Pokémon Trading Card Game broadcast stream matches from YouTube',
 };
 
 export default function RootLayout({
@@ -43,10 +43,10 @@ export default function RootLayout({
           <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 mt-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2">
               <p className="font-bold text-slate-700 dark:text-slate-200">
-                Battle Reporter — Pokémon TCG Stream Game Archive © 2026
+                Battle Reporter - Stream Game Archive © 2026
               </p>
               <p>
-                An open-source community archive inspired by Limitless TCG. Powered by PokeData.ovh and Limitless TCG Play API.
+                An open-source community archive powered by PokeData.ovh and Limitless TCG Play API.
               </p>
               <p className="text-slate-400 dark:text-slate-500">
                 All video and tournament broadcast rights belong to The Pokémon Company International & official event broadcasters.

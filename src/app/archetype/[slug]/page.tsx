@@ -45,9 +45,6 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
             <ArchetypeIcon icon={icon} className="w-12 h-12" />
           </div>
           <div>
-            <span className="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
-              Canonical Deck Archetype
-            </span>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {stats.archetype.name}
             </h1>
@@ -86,9 +83,9 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
       <section className="space-y-4">
         <div>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Stream Matches Featuring {stats.archetype.name}
+            Stream Matches
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Every recorded game played by this deck on broadcast</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Every recorded game played by this deck on stream</p>
         </div>
 
         {stats.matches.length > 0 ? (
