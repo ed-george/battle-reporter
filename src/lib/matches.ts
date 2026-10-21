@@ -74,3 +74,53 @@ export function isPlayerSlugMatch(playerName?: string | null, targetSlugOrName?:
   return normalizePlayerSlug(playerName) === normalizePlayerSlug(targetSlugOrName);
 }
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+export function parseDateParts(dateStr?: string | null): { year: number; month: number; day: number } | null {
+  if (!dateStr) return null;
+  const match = dateStr.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (match) {
+    return {
+      year: parseInt(match[1], 10),
+      month: parseInt(match[2], 10) - 1,
+      day: parseInt(match[3], 10),
+    };
+  }
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    return {
+      year: d.getUTCFullYear(),
+      month: d.getUTCMonth(),
+      day: d.getUTCDate(),
+    };
+  }
+  return null;
+}
+
+/**
+ * Deterministic and timezone-safe date range formatter.
+ * e.g., "Oct 17 - 18, 2026" or "May 16 - 18, 2026"
+ */
+export function formatDateRange(start?: string | null, end?: string | null): string {
+  const s = parseDateParts(start);
+  if (!s) return 'Dates TBD';
+  const e = parseDateParts(end) || s;
+
+  const startMonth = MONTH_NAMES[s.month] || '';
+  const endMonth = MONTH_NAMES[e.month] || '';
+
+  if (s.month === e.month && s.year === e.year) {
+    if (s.day === e.day) {
+      return `${startMonth} ${s.day}, ${s.year}`;
+    }
+    return `${startMonth} ${s.day} - ${e.day}, ${s.year}`;
+  }
+
+  if (s.year === e.year) {
+    return `${startMonth} ${s.day} - ${endMonth} ${e.day}, ${s.year}`;
+  }
+
+  return `${startMonth} ${s.day}, ${s.year} - ${endMonth} ${e.day}, ${s.year}`;
+}
+
+

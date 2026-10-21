@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTournamentById, getStreamedMatches } from '@/lib/data-repository';
 import { MatchCard } from '@/components/MatchCard';
-import { Calendar, MapPin, Users, ExternalLink, Video, PlusCircle, ArrowLeft } from 'lucide-react';
+import { Calendar, Users, ExternalLink, Video, PlusCircle, ArrowLeft } from 'lucide-react';
 
 interface PageProps {
   params: Promise<{ id: string }>;
