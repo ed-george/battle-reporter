@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Play, Eye, Trophy } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
@@ -10,9 +11,12 @@ import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
 interface MatchCardProps {
   match: StreamedMatch;
+  showTournament?: boolean;
 }
 
-export function MatchCard({ match }: MatchCardProps) {
+export function MatchCard({ match, showTournament }: MatchCardProps) {
+  const pathname = usePathname();
+  const displayTournament = showTournament !== undefined ? showTournament : pathname === '/matches';
   const { isMatchRevealed, revealMatch } = useSpoilers();
   const revealed = isMatchRevealed(match.id);
 
@@ -24,9 +28,22 @@ export function MatchCard({ match }: MatchCardProps) {
     <div className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
       {/* Tournament & Round Information */}
       <div className="flex items-center gap-3 shrink-0 md:w-56">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 min-w-0">
+          {displayTournament && (
+            <Link
+              href={`/tournament/${match.tournament_id}`}
+              className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline inline-flex items-center gap-1 truncate max-w-full"
+              title={match.tournament?.name || 'Tournament'}
+            >
+              {match.tournament?.name || 'Tournament'}
+            </Link>
+          )}
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+            <span
+              className={`${
+                displayTournament ? 'text-xs' : 'text-sm'
+              } font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded`}
+            >
               {match.round_name}
             </span>
           </div>

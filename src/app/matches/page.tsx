@@ -113,7 +113,7 @@ export default async function MatchesExplorerPage({ searchParams }: PageProps) {
       {matches.length > 0 ? (
         <div className="space-y-3">
           {matches.map((match) => (
-            <MatchCard key={match.id} match={match} />
+            <MatchCard key={match.id} match={match} showTournament={true} />
           ))}
         </div>
       ) : (
