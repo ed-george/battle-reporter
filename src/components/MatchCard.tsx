@@ -11,12 +11,11 @@ import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
 interface MatchCardProps {
   match: StreamedMatch;
-  showTournament?: boolean;
+  displayTournament: boolean;
 }
 
-export function MatchCard({ match, showTournament }: MatchCardProps) {
+export function MatchCard({ match, displayTournament }: MatchCardProps) {
   const pathname = usePathname();
-  const displayTournament = showTournament !== undefined ? showTournament : pathname === '/matches';
   const { isMatchRevealed, revealMatch } = useSpoilers();
   const revealed = isMatchRevealed(match.id);
 
@@ -32,18 +31,15 @@ export function MatchCard({ match, showTournament }: MatchCardProps) {
           {displayTournament && (
             <Link
               href={`/tournament/${match.tournament_id}`}
-              className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline inline-flex items-center gap-1 truncate max-w-full"
-              title={match.tournament?.name || 'Tournament'}
+              className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:underline inline-flex items-center gap-1 mb-2 max-w-full"
+              title={match.tournament?.name || 'Unknown Tournament'}
             >
-              {match.tournament?.name || 'Tournament'}
+              {match.tournament?.name || 'Unknown Tournament'}
             </Link>
           )}
           <div className="flex items-center gap-1.5 flex-wrap">
             <span
-              className={`${
-                displayTournament ? 'text-xs' : 'text-sm'
-              } font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded`}
-            >
+              className="text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
               {match.round_name}
             </span>
           </div>

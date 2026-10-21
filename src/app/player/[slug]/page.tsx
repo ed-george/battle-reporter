@@ -213,7 +213,7 @@ export default async function PlayerProfilePage({ params }: PageProps) {
                 {/* Match Cards for this tournament */}
                 <div className="space-y-3">
                   {group.matches.map((m) => (
-                    <MatchCard key={m.id} match={m} />
+                    <MatchCard key={m.id} match={m} displayTournament={false} />
                   ))}
                 </div>
               </div>
