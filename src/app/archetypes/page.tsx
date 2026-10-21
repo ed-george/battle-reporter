@@ -25,8 +25,6 @@ export default async function ArchetypesDirectoryPage() {
       {streamedArchetypes.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {streamedArchetypes.map(({ archetype, streamMatchCount }) => {
-            const icon = archetype.icons?.[0] || archetype.identifier.split('-')[0];
-
             return (
               <Link
                 key={archetype.identifier}
@@ -34,7 +32,12 @@ export default async function ArchetypesDirectoryPage() {
                 className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-500/50 rounded-xl p-4 shadow-xs hover:shadow-md transition-all flex items-center gap-3.5"
               >
                 <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0 p-1 group-hover:scale-105 transition-transform">
-                  <ArchetypeIcon icon={icon} className="w-10 h-10" />
+                  <ArchetypeIcon
+                    icons={archetype.icons}
+                    identifier={archetype.identifier}
+                    className="w-10 h-10"
+                    alt={archetype.name}
+                  />
                 </div>
 
                 <div className="min-w-0 flex-1">

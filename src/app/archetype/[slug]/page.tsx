@@ -23,8 +23,6 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const stats = await getArchetypeStats(slug);
 
-  const icon = stats.archetype.icons?.[0] || stats.archetype.identifier.split('-')[0];
-
   return (
     <div className="space-y-8">
       {/* Back button */}
@@ -42,7 +40,12 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center p-2 shrink-0">
-            <ArchetypeIcon icon={icon} className="w-12 h-12" />
+            <ArchetypeIcon
+              icons={stats.archetype.icons}
+              identifier={stats.archetype.identifier}
+              className="w-12 h-12"
+              alt={stats.archetype.name}
+            />
           </div>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">

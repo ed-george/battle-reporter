@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Play, Eye, Trophy } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
@@ -11,11 +10,10 @@ import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
 interface MatchCardProps {
   match: StreamedMatch;
-  displayTournament: boolean;
+  displayTournament?: boolean;
 }
 
-export function MatchCard({ match, displayTournament }: MatchCardProps) {
-  const pathname = usePathname();
+export function MatchCard({ match, displayTournament = false }: MatchCardProps) {
   const { isMatchRevealed, revealMatch } = useSpoilers();
   const revealed = isMatchRevealed(match.id);
 

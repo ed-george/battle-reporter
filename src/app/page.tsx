@@ -83,7 +83,7 @@ export default async function HomePage() {
 
           <div className="space-y-3">
             {recentMatches.map((match) => (
-              <MatchCard key={match.id} match={match} displayTournament={true} />
+              <MatchCard key={match.id} match={match} />
             ))}
           </div>
         </section>
