@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getStreamedMatchById, getStreamedMatches } from '@/lib/data-repository';
+import { getStreamedMatchById, getStreamedMatches, getArchetypeDisplayName } from '@/lib/data-repository';
 import { MatchTheaterView } from '@/components/MatchTheaterView';
 
 interface PageProps {
@@ -14,9 +14,12 @@ export async function generateMetadata({ params }: PageProps) {
     return { title: 'Match Not Found — Battle Reporter' };
   }
 
+  const p1Deck = getArchetypeDisplayName(match.player1_deck_archetype);
+  const p2Deck = getArchetypeDisplayName(match.player2_deck_archetype);
+
   return {
     title: `${match.player1_name} vs ${match.player2_name} (${match.round_name}) — Battle Reporter`,
-    description: `Watch ${match.player1_name} (${match.player1_deck_archetype}) vs ${match.player2_name} (${match.player2_deck_archetype}) from ${match.tournament?.name || 'Tournament'} on official broadcast stream.`,
+    description: `Watch ${match.player1_name} (${p1Deck}) vs ${match.player2_name} (${p2Deck}) from ${match.tournament?.name || 'Tournament'} on official broadcast stream.`,
   };
 }
 

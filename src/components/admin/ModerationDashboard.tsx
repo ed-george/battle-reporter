@@ -8,7 +8,7 @@ import {
   rejectSubmissionAction,
 } from '@/app/actions/moderation';
 import { Tournament, DeckArchetype } from '@/types/database';
-import { POPULAR_ARCHETYPES } from '@/lib/limitless';
+import { POPULAR_ARCHETYPES, getArchetypeDisplayName } from '@/lib/limitless';
 import { createClient } from '@/lib/supabase/client';
 import { isMatchTie } from '@/lib/matches';
 import { useRouter } from 'next/navigation';
@@ -484,7 +484,7 @@ export function ModerationDashboard({
                             {editForm.player1_deck_archetype &&
                               !sortedArchetypes.some((a) => a.identifier === editForm.player1_deck_archetype) && (
                                 <option value={editForm.player1_deck_archetype}>
-                                  {editForm.player1_deck_archetype}
+                                  {getArchetypeDisplayName(editForm.player1_deck_archetype)}
                                 </option>
                               )}
                           </select>
@@ -545,7 +545,7 @@ export function ModerationDashboard({
                             {editForm.player2_deck_archetype &&
                               !sortedArchetypes.some((a) => a.identifier === editForm.player2_deck_archetype) && (
                                 <option value={editForm.player2_deck_archetype}>
-                                  {editForm.player2_deck_archetype}
+                                  {getArchetypeDisplayName(editForm.player2_deck_archetype)}
                                 </option>
                               )}
                           </select>
@@ -733,7 +733,7 @@ export function ModerationDashboard({
                       {m.table_number ? `(Table ${m.table_number})` : ''}
                     </span>
                     <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                      {m.player1_name} ({m.player1_deck_archetype}) vs {m.player2_name} ({m.player2_deck_archetype})
+                      {m.player1_name} ({getArchetypeDisplayName(m.player1_deck_archetype)}) vs {m.player2_name} ({getArchetypeDisplayName(m.player2_deck_archetype)})
                     </h3>
                     <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
                       <span suppressHydrationWarning>

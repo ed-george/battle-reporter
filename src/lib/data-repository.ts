@@ -1,14 +1,23 @@
 import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
-import { POPULAR_ARCHETYPES } from '@/lib/limitless';
+import {
+  ALL_LIMITLESS_ARCHETYPES,
+  getArchetypeDisplayName,
+  getArchetypeIcons,
+  getArchetypePrimaryIcon,
+} from '@/lib/limitless';
 import { isMatchTie, formatRecord, playerNameToSlug, isPlayerSlugMatch, normalizePlayerSlug } from '@/lib/matches';
 
-export { isMatchTie, formatRecord, playerNameToSlug, isPlayerSlugMatch, normalizePlayerSlug };
-
-function getArchetypeDisplayName(identifier: string): string {
-  const found = POPULAR_ARCHETYPES.find((x) => x.identifier === identifier);
-  return found?.name || identifier.replace(/-/g, ' ');
-}
+export {
+  isMatchTie,
+  formatRecord,
+  playerNameToSlug,
+  isPlayerSlugMatch,
+  normalizePlayerSlug,
+  getArchetypeDisplayName,
+  getArchetypeIcons,
+  getArchetypePrimaryIcon,
+};
 
 export interface MatchFilterParams {
   tournamentId?: string;
@@ -102,13 +111,15 @@ export async function getStreamedMatches(filters: MatchFilterParams = {}): Promi
   let matches = (data || []) as StreamedMatch[];
 
   if (filters.query) {
-    const q = filters.query.toLowerCase();
+    const q = filters.query.toLowerCase().trim();
     matches = matches.filter(
       (m) =>
         m.player1_name.toLowerCase().includes(q) ||
         m.player2_name.toLowerCase().includes(q) ||
         m.player1_deck_archetype?.toLowerCase().includes(q) ||
         m.player2_deck_archetype?.toLowerCase().includes(q) ||
+        getArchetypeDisplayName(m.player1_deck_archetype).toLowerCase().includes(q) ||
+        getArchetypeDisplayName(m.player2_deck_archetype).toLowerCase().includes(q) ||
         m.round_name.toLowerCase().includes(q) ||
         m.tournament?.name.toLowerCase().includes(q)
     );
@@ -214,30 +225,16 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
     return [];
   }
 
-  // 3. Only query deck_archetypes for the active identifiers, selecting only lightweight columns
-  const { data: archetypesData, error: archError } = await supabase
-    .from('deck_archetypes')
-    .select('identifier, name, icons')
-    .in('identifier', activeIdentifiers);
-
-  if (archError) {
-    console.error('Error fetching archetype details:', archError);
-  }
-
-  const archetypeMap = new Map((archetypesData || []).map((a) => [a.identifier, a]));
-
+  // 3. Build summary using authoritative Limitless names & icons
   const result: StreamedArchetypeSummary[] = activeIdentifiers
-    .map((identifier) => {
-      const meta = archetypeMap.get(identifier);
-      return {
-        archetype: {
-          identifier,
-          name: meta?.name || identifier.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
-          icons: meta?.icons || [identifier.split('-')[0]],
-        },
-        streamMatchCount: matchCounts.get(identifier) || 0,
-      };
-    })
+    .map((identifier) => ({
+      archetype: {
+        identifier,
+        name: getArchetypeDisplayName(identifier),
+        icons: getArchetypeIcons(identifier),
+      },
+      streamMatchCount: matchCounts.get(identifier) || 0,
+    }))
     .sort((a, b) => {
       if (b.streamMatchCount !== a.streamMatchCount) {
         return b.streamMatchCount - a.streamMatchCount;
@@ -263,21 +260,53 @@ export async function getDeckArchetypes(): Promise<DeckArchetype[]> {
 
   const supabase = await createServerSupabaseClient();
   if (!supabase) {
-    console.error('Supabase client not initialized.');
-    return [];
+    return ALL_LIMITLESS_ARCHETYPES;
   }
 
   const { data, error } = await supabase
     .from('deck_archetypes')
-    .select('identifier, name, icons, priority')
-    .order('name', { ascending: true });
+    .select('identifier, name, icons, priority, variants');
 
-  if (error) {
-    console.error('Error fetching deck archetypes from Supabase:', error);
-    return cachedDeckArchetypes?.data || [];
+  if (error || !data || data.length === 0) {
+    return ALL_LIMITLESS_ARCHETYPES;
   }
 
-  const sorted = ((data || []) as DeckArchetype[]).sort((a, b) =>
+  // Combine top-level and variants from Supabase and Limitless dictionary
+  const deckMap = new Map<string, DeckArchetype>();
+  for (const arch of ALL_LIMITLESS_ARCHETYPES) {
+    deckMap.set(arch.identifier, arch);
+  }
+
+  for (const d of data as Array<{
+    identifier?: string;
+    name?: string;
+    icons?: string[];
+    priority?: number;
+    variants?: Array<{ identifier?: string; name?: string; icon?: string }>;
+  }>) {
+    if (d.identifier && d.name) {
+      deckMap.set(d.identifier, {
+        identifier: d.identifier,
+        name: d.name,
+        icons: Array.isArray(d.icons) ? d.icons : [d.identifier.split('-')[0]],
+        priority: d.priority ?? 10,
+      });
+    }
+    if (Array.isArray(d.variants)) {
+      for (const v of d.variants) {
+        if (v && v.identifier && v.name) {
+          deckMap.set(v.identifier, {
+            identifier: v.identifier,
+            name: v.name,
+            icons: v.icon ? [v.icon] : (Array.isArray(d.icons) ? d.icons : [v.identifier.split('-')[0]]),
+            priority: d.priority ?? 10,
+          });
+        }
+      }
+    }
+  }
+
+  const sorted = Array.from(deckMap.values()).sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
   );
 
@@ -515,22 +544,8 @@ export async function getStreamPlayers(options: {
  */
 export async function getArchetypeStats(archetypeIdentifier: string) {
   const allMatches = await getStreamedMatches({ archetype: archetypeIdentifier });
-  const supabase = await createServerSupabaseClient();
-  let archetypeName = archetypeIdentifier.replace(/-/g, ' ').toUpperCase();
-  let icons: string[] = [];
-
-  if (supabase) {
-    const { data } = await supabase
-      .from('deck_archetypes')
-      .select('name, icons')
-      .eq('identifier', archetypeIdentifier)
-      .single();
-
-    if (data) {
-      archetypeName = data.name;
-      icons = data.icons || [];
-    }
-  }
+  const archetypeName = getArchetypeDisplayName(archetypeIdentifier);
+  const icons = getArchetypeIcons(archetypeIdentifier);
 
   const archetype: DeckArchetype = {
     identifier: archetypeIdentifier,

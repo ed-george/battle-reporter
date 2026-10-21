@@ -1,0 +1,7057 @@
+{
+  "aegislash-par": {
+    "name": "Aegislash",
+    "icons": [
+      "aegislash"
+    ],
+    "priority": 10
+  },
+  "alolan-exeggutor-ex": {
+    "name": "Alolan Exeggutor ex",
+    "icons": [
+      "exeggutor-alola"
+    ],
+    "priority": 10
+  },
+  "arcanine-ex-sv": {
+    "name": "Arcanine",
+    "icons": [
+      "arcanine"
+    ],
+    "priority": 10
+  },
+  "azumarill-ssp": {
+    "name": "Azumarill",
+    "icons": [
+      "azumarill"
+    ],
+    "priority": 10
+  },
+  "beedrill-ex-cri": {
+    "name": "Beedrill",
+    "icons": [
+      "beedrill"
+    ],
+    "priority": 10
+  },
+  "blastoise-ex": {
+    "name": "Blastoise",
+    "icons": [
+      "blastoise"
+    ],
+    "priority": 10
+  },
+  "blissey-ex": {
+    "name": "Blissey",
+    "icons": [
+      "blissey"
+    ],
+    "priority": 10
+  },
+  "bronzong-tef": {
+    "name": "Bronzong",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 10
+  },
+  "charizard-greninja": {
+    "name": "Charizard Greninja",
+    "icons": [
+      "greninja"
+    ],
+    "priority": 15
+  },
+  "chien-pao-baxcalibur": {
+    "name": "Chien-Pao Baxcalibur",
+    "icons": [
+      "chien-pao",
+      "baxcalibur"
+    ],
+    "priority": 10
+  },
+  "chien-pao-noctowl": {
+    "name": "Chien-Pao Noctowl",
+    "icons": [
+      "chien-pao",
+      "noctowl"
+    ],
+    "priority": 10
+  },
+  "clefable-ex": {
+    "name": "Clefable",
+    "icons": [
+      "clefable"
+    ],
+    "priority": 10
+  },
+  "cofagrigus-ex": {
+    "name": "Cofagrigus",
+    "icons": [
+      "cofagrigus"
+    ],
+    "priority": 10
+  },
+  "conkeldurr-twm": {
+    "name": "Conkeldurr",
+    "icons": [
+      "conkeldurr"
+    ],
+    "priority": 10
+  },
+  "cynthia-garchomp-ex": {
+    "name": "Cynthia's Garchomp",
+    "icons": [
+      "garchomp"
+    ],
+    "priority": 10
+  },
+  "decidueye-ex": {
+    "name": "Decidueye",
+    "icons": [
+      "decidueye"
+    ],
+    "priority": 10
+  },
+  "dhelmise-pbl": {
+    "name": "Dhelmise",
+    "icons": [
+      "dhelmise",
+      "banette"
+    ],
+    "priority": 10
+  },
+  "dondozo-svi": {
+    "name": "Dondozo",
+    "icons": [
+      "dondozo",
+      "tatsugiri"
+    ],
+    "priority": 10
+  },
+  "doublade-por": {
+    "name": "Doublade",
+    "icons": [
+      "doublade"
+    ],
+    "priority": 10
+  },
+  "erikas-victreebel": {
+    "name": "Erika's Victreebel",
+    "icons": [
+      "victreebel",
+      "tangela"
+    ],
+    "priority": 10
+  },
+  "ethan-magcargo": {
+    "name": "Ethan's Magcargo",
+    "icons": [
+      "magcargo",
+      "ho-oh"
+    ],
+    "priority": 10
+  },
+  "ethan-typhlosion": {
+    "name": "Ethan's Typhlosion",
+    "icons": [
+      "typhlosion"
+    ],
+    "priority": 10
+  },
+  "festival-lead": {
+    "name": "Festival Lead",
+    "icons": [
+      "dipplin",
+      "thwackey"
+    ],
+    "priority": 10
+  },
+  "flareon-ex": {
+    "name": "Flareon",
+    "icons": [
+      "flareon"
+    ],
+    "priority": 10
+  },
+  "flareon-noctowl": {
+    "name": "Flareon Noctowl",
+    "icons": [
+      "noctowl"
+    ],
+    "priority": 10
+  },
+  "forretress-ex": {
+    "name": "Forretress",
+    "icons": [
+      "forretress"
+    ],
+    "priority": 10
+  },
+  "garchomp-ex": {
+    "name": "Garchomp",
+    "icons": [
+      "garchomp"
+    ],
+    "priority": 10
+  },
+  "gengar-ex": {
+    "name": "Gengar",
+    "icons": [
+      "gengar"
+    ],
+    "priority": 10
+  },
+  "gholdengo-ex": {
+    "name": "Gholdengo",
+    "icons": [
+      "gholdengo"
+    ],
+    "priority": 10
+  },
+  "gholdengo-dragapult": {
+    "name": "Gholdengo Dragapult",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 10
+  },
+  "gholdengo-dudunsparce": {
+    "name": "Gholdengo Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 10
+  },
+  "gholdengo-joltik-box": {
+    "name": "Gholdengo Joltik Box",
+    "icons": [
+      "joltik"
+    ],
+    "priority": 10
+  },
+  "gholdengo-lunatone": {
+    "name": "Gholdengo Lunatone",
+    "icons": [
+      "lunatone"
+    ],
+    "priority": 10
+  },
+  "gholdengo-typhlosion": {
+    "name": "Gholdengo Typhlosion",
+    "icons": [
+      "typhlosion"
+    ],
+    "priority": 10
+  },
+  "glimmora-ex": {
+    "name": "Glimmora",
+    "icons": [
+      "glimmora"
+    ],
+    "priority": 10
+  },
+  "heatran-metang": {
+    "name": "Heatran Metang",
+    "icons": [
+      "heatran",
+      "metang"
+    ],
+    "priority": 10
+  },
+  "ho-oh-armarouge": {
+    "name": "Ho-Oh Armarouge",
+    "icons": [
+      "ho-oh",
+      "armarouge"
+    ],
+    "priority": 10
+  },
+  "hop-zacian": {
+    "name": "Hop's Zacian",
+    "icons": [
+      "zacian-crowned",
+      "snorlax"
+    ],
+    "priority": 10
+  },
+  "hops-trevenant": {
+    "name": "Hop's Trevenant",
+    "icons": [
+      "trevenant"
+    ],
+    "priority": 10
+  },
+  "incineroar-ex": {
+    "name": "Incineroar",
+    "icons": [
+      "incineroar"
+    ],
+    "priority": 10
+  },
+  "iron-hands-ex": {
+    "name": "Future Hands",
+    "icons": [
+      "iron-hands",
+      "iron-crown"
+    ],
+    "priority": 10
+  },
+  "kangaskhan-bouffalant": {
+    "name": "Kangaskhan Bouffalant",
+    "icons": [
+      "bouffalant"
+    ],
+    "priority": 10
+  },
+  "kangaskhan-forretress": {
+    "name": "Kangaskhan Forretress",
+    "icons": [
+      "forretress"
+    ],
+    "priority": 10
+  },
+  "lillie-clefairy": {
+    "name": "Lillie's Clefairy",
+    "icons": [
+      "clefairy"
+    ],
+    "priority": 10
+  },
+  "clefairy-ogerpon": {
+    "name": "Clefairy Ogerpon",
+    "icons": [
+      "ogerpon"
+    ],
+    "priority": 10
+  },
+  "luxray-ex": {
+    "name": "Luxray",
+    "icons": [
+      "luxray"
+    ],
+    "priority": 10
+  },
+  "magnezone-ex": {
+    "name": "Magnezone",
+    "icons": [
+      "magnezone"
+    ],
+    "priority": 10
+  },
+  "mega-abomasnow-ex": {
+    "name": "Mega Abomasnow",
+    "icons": [
+      "abomasnow-mega"
+    ],
+    "priority": 10
+  },
+  "mega-chandelure-ex": {
+    "name": "Mega Chandelure",
+    "icons": [
+      "chandelure-mega"
+    ],
+    "priority": 10
+  },
+  "mega-darkrai-ex": {
+    "name": "Mega Darkrai",
+    "icons": [
+      "darkrai-mega"
+    ],
+    "priority": 10
+  },
+  "mega-diancie-ex": {
+    "name": "Mega Diancie",
+    "icons": [
+      "diancie-mega"
+    ],
+    "priority": 10
+  },
+  "diancie-dusknoir": {
+    "name": "Diancie Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 10
+  },
+  "mega-excadrill-ex": {
+    "name": "Mega Excadrill",
+    "icons": [
+      "excadrill-mega"
+    ],
+    "priority": 10
+  },
+  "mega-venusaur-ex": {
+    "name": "Mega Venusaur",
+    "icons": [
+      "venusaur-mega"
+    ],
+    "priority": 10
+  },
+  "meowscarada-ex": {
+    "name": "Meowscarada",
+    "icons": [
+      "meowscarada"
+    ],
+    "priority": 10
+  },
+  "misty-gyarados": {
+    "name": "Misty's Gyarados",
+    "icons": [
+      "gyarados",
+      "psyduck"
+    ],
+    "priority": 10
+  },
+  "noivern-ex": {
+    "name": "Noivern",
+    "icons": [
+      "noivern"
+    ],
+    "priority": 10
+  },
+  "oinkologne-ex": {
+    "name": "Oinkologne",
+    "icons": [
+      "oinkologne"
+    ],
+    "priority": 10
+  },
+  "okidogi-twm": {
+    "name": "Okidogi",
+    "icons": [
+      "okidogi"
+    ],
+    "priority": 10
+  },
+  "okidogi-garchomp": {
+    "name": "Okidogi Garchomp",
+    "icons": [
+      "garchomp"
+    ],
+    "priority": 10
+  },
+  "okidogi-barbaracle": {
+    "name": "Okidogi Barbaracle",
+    "icons": [
+      "barbaracle"
+    ],
+    "priority": 10
+  },
+  "paldean-tauros-pfl": {
+    "name": "Paldean Tauros",
+    "icons": [
+      "tauros-paldea"
+    ],
+    "priority": 10
+  },
+  "rocket-mewtwo-ex": {
+    "name": "Rocket's Mewtwo",
+    "icons": [
+      "mewtwo",
+      "spidops"
+    ],
+    "priority": 10
+  },
+  "rocket-nidoking-ex": {
+    "name": "Rocket's Nidoking",
+    "icons": [
+      "nidoking"
+    ],
+    "priority": 10
+  },
+  "rocket-porygon-z": {
+    "name": "Rocket's Porygon-Z",
+    "icons": [
+      "porygon-z"
+    ],
+    "priority": 10
+  },
+  "rockets-honchkrow": {
+    "name": "Rocket's Honchkrow",
+    "icons": [
+      "honchkrow",
+      "porygon2"
+    ],
+    "priority": 10
+  },
+  "scizor-ex": {
+    "name": "Scizor",
+    "icons": [
+      "scizor"
+    ],
+    "priority": 10
+  },
+  "scovillain-ex": {
+    "name": "Scovillain",
+    "icons": [
+      "scovillain"
+    ],
+    "priority": 10
+  },
+  "seaking-pre": {
+    "name": "Seaking Festival Lead",
+    "icons": [
+      "seaking",
+      "thwackey"
+    ],
+    "priority": 10
+  },
+  "sinistcha-ogerpon": {
+    "name": "Sinistcha Ogerpon",
+    "icons": [
+      "sinistcha",
+      "ogerpon"
+    ],
+    "priority": 10
+  },
+  "slaking-ex": {
+    "name": "Slaking",
+    "icons": [
+      "slaking"
+    ],
+    "priority": 10
+  },
+  "spidops-ex": {
+    "name": "Spidops",
+    "icons": [
+      "spidops"
+    ],
+    "priority": 10
+  },
+  "spidops-venomoth": {
+    "name": "Spidops Venomoth",
+    "icons": [
+      "venomoth"
+    ],
+    "priority": 10
+  },
+  "steelix-par": {
+    "name": "Steelix",
+    "icons": [
+      "steelix"
+    ],
+    "priority": 10
+  },
+  "steelix-dodrio": {
+    "name": "Steelix Dodrio",
+    "icons": [
+      "dodrio"
+    ],
+    "priority": 10
+  },
+  "sylveon-pre": {
+    "name": "Sylveon",
+    "icons": [
+      "sylveon"
+    ],
+    "priority": 10
+  },
+  "ting-lu-ex": {
+    "name": "Ting-Lu",
+    "icons": [
+      "ting-lu"
+    ],
+    "priority": 10
+  },
+  "tinkaton-ex": {
+    "name": "Tinkaton",
+    "icons": [
+      "tinkaton"
+    ],
+    "priority": 10
+  },
+  "tinkaton-gardevoir": {
+    "name": "Tinkaton Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 10
+  },
+  "toedscruel-ex": {
+    "name": "Toedscruel Ogerpon",
+    "icons": [
+      "toedscruel",
+      "ogerpon"
+    ],
+    "priority": 10
+  },
+  "toucannon-pbl": {
+    "name": "Toucannon",
+    "icons": [
+      "toucannon"
+    ],
+    "priority": 10
+  },
+  "toxtricity-pfl": {
+    "name": "Toxtricity",
+    "icons": [
+      "toxtricity"
+    ],
+    "priority": 10
+  },
+  "toxtricity-box": {
+    "name": "Toxtricity Box",
+    "icons": [
+      "absol-mega"
+    ],
+    "priority": 10
+  },
+  "toxtricity-brute-bonnet": {
+    "name": "Toxtricity Brute Bonnet",
+    "icons": [
+      "brute-bonnet"
+    ],
+    "priority": 10
+  },
+  "tyranitar-ex": {
+    "name": "Tyranitar",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "tyranitar-jtg": {
+    "name": "Tyranitar",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "united-wings": {
+    "name": "United Wings",
+    "icons": [
+      "murkrow",
+      "flamigo"
+    ],
+    "priority": 10
+  },
+  "venomoth-mew": {
+    "name": "Venomoth",
+    "icons": [
+      "venomoth"
+    ],
+    "priority": 10
+  },
+  "venomoth-froslass": {
+    "name": "Venomoth Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 10
+  },
+  "wailord-ex-pbl": {
+    "name": "Wailord",
+    "icons": [
+      "wailord"
+    ],
+    "priority": 10
+  },
+  "walking-wake-ex": {
+    "name": "Walking Wake",
+    "icons": [
+      "walking-wake"
+    ],
+    "priority": 10
+  },
+  "wugtrio-svi": {
+    "name": "Wugtrio Mill",
+    "icons": [
+      "wugtrio"
+    ],
+    "priority": 10
+  },
+  "yanmega-ex": {
+    "name": "Yanmega",
+    "icons": [
+      "yanmega"
+    ],
+    "priority": 10
+  },
+  "alakazam-ex": {
+    "name": "Alakazam",
+    "icons": [
+      "alakazam"
+    ],
+    "priority": 11
+  },
+  "alakazam-meg": {
+    "name": "Alakazam",
+    "icons": [
+      "alakazam"
+    ],
+    "priority": 11
+  },
+  "alakazam-dudunsparce": {
+    "name": "Alakazam Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 11
+  },
+  "alakazam-dusknoir": {
+    "name": "Alakazam Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "ancient-box": {
+    "name": "Ancient Box",
+    "icons": [
+      "flutter-mane"
+    ],
+    "priority": 11
+  },
+  "roaring-moon-dudunsparce": {
+    "name": "Roaring Moon Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 11
+  },
+  "archaludon-ex": {
+    "name": "Archaludon",
+    "icons": [
+      "archaludon"
+    ],
+    "priority": 11
+  },
+  "archaludon-dialga": {
+    "name": "Archaludon Dialga",
+    "icons": [
+      "dialga-origin"
+    ],
+    "priority": 11
+  },
+  "poison-archaludon": {
+    "name": "Poison Archaludon",
+    "icons": [
+      "brute-bonnet"
+    ],
+    "priority": 11
+  },
+  "archaludon-zoroark": {
+    "name": "Archaludon Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 11
+  },
+  "archaludon-dudunsparce": {
+    "name": "Archaludon Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 11
+  },
+  "banette-ex-sv": {
+    "name": "Banette",
+    "icons": [
+      "banette"
+    ],
+    "priority": 11
+  },
+  "banette-gardevoir": {
+    "name": "Banette Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 11
+  },
+  "banette-dusknoir": {
+    "name": "Banette Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "cinccino-ex": {
+    "name": "Cinccino",
+    "icons": [
+      "cinccino"
+    ],
+    "priority": 11
+  },
+  "cinderace-ex": {
+    "name": "Cinderace",
+    "icons": [
+      "cinderace"
+    ],
+    "priority": 11
+  },
+  "dragapult-ex": {
+    "name": "Dragapult",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 11
+  },
+  "dragapult-lz-box": {
+    "name": "Dragapult LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 11
+  },
+  "dragapult-charizard": {
+    "name": "Dragapult Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 11
+  },
+  "dragapult-pidgeot": {
+    "name": "Dragapult Pidgeot",
+    "icons": [
+      "pidgeot"
+    ],
+    "priority": 11
+  },
+  "dragapult-dusknoir": {
+    "name": "Dragapult Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "dragapult-iron-thorns": {
+    "name": "Dragapult Iron Thorns",
+    "icons": [
+      "iron-thorns"
+    ],
+    "priority": 11
+  },
+  "dragapult-froslass": {
+    "name": "Dragapult Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 11
+  },
+  "dragapult-zoroark": {
+    "name": "Dragapult Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 11
+  },
+  "dragapult-blaziken": {
+    "name": "Dragapult Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 11
+  },
+  "dragapult-dudunsparce": {
+    "name": "Dragapult Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 11
+  },
+  "eelektrik-blk": {
+    "name": "Eelektrik",
+    "icons": [
+      "eelektrik"
+    ],
+    "priority": 11
+  },
+  "flygon-ex-ssp": {
+    "name": "Flygon",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 11
+  },
+  "future-box": {
+    "name": "Future Box",
+    "icons": [
+      "miraidon",
+      "iron-crown"
+    ],
+    "priority": 11
+  },
+  "galvantula-ex": {
+    "name": "Galvantula",
+    "icons": [
+      "galvantula"
+    ],
+    "priority": 11
+  },
+  "great-tusk-tef": {
+    "name": "Great Tusk Mill",
+    "icons": [
+      "great-tusk"
+    ],
+    "priority": 11
+  },
+  "hydreigon-ex": {
+    "name": "Hydreigon",
+    "icons": [
+      "hydreigon"
+    ],
+    "priority": 11
+  },
+  "iron-hands-magneton": {
+    "name": "Iron Hands Magneton",
+    "icons": [
+      "iron-hands",
+      "magneton"
+    ],
+    "priority": 11
+  },
+  "jellicent-dusknoir": {
+    "name": "Jellicent Dusknoir",
+    "icons": [
+      "jellicent",
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "klawf-par": {
+    "name": "Klawf",
+    "icons": [
+      "klawf",
+      "brute-bonnet"
+    ],
+    "priority": 11
+  },
+  "klawf-cramorant": {
+    "name": "Klawf Cramorant",
+    "icons": [
+      "cramorant"
+    ],
+    "priority": 11
+  },
+  "koraidon-ex": {
+    "name": "Koraidon",
+    "icons": [
+      "koraidon"
+    ],
+    "priority": 11
+  },
+  "marnie-grimmsnarl-ex": {
+    "name": "Marnie's Grimmsnarl",
+    "icons": [
+      "grimmsnarl"
+    ],
+    "priority": 11
+  },
+  "grimmsnarl-froslass": {
+    "name": "Grimmsnarl Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 11
+  },
+  "mega-camerupt-ex": {
+    "name": "Mega Camerupt",
+    "icons": [
+      "camerupt-mega"
+    ],
+    "priority": 11
+  },
+  "mega-feraligatr-ex": {
+    "name": "Mega Feraligatr",
+    "icons": [
+      "feraligatr-mega"
+    ],
+    "priority": 11
+  },
+  "mega-greninja-ex": {
+    "name": "Mega Greninja",
+    "icons": [
+      "greninja-mega"
+    ],
+    "priority": 11
+  },
+  "mega-latias-ex": {
+    "name": "Mega Latias",
+    "icons": [
+      "latias-mega"
+    ],
+    "priority": 11
+  },
+  "poison-mega-latias": {
+    "name": "Poison Latias",
+    "icons": [
+      "brute-bonnet"
+    ],
+    "priority": 11
+  },
+  "mega-manectric-ex-meg": {
+    "name": "Mega Manectric",
+    "icons": [
+      "manectric-mega"
+    ],
+    "priority": 11
+  },
+  "manectric-eelektrik": {
+    "name": "Manectric Eelektrik",
+    "icons": [
+      "eelektrik"
+    ],
+    "priority": 11
+  },
+  "mew-ex-30c": {
+    "name": "Mew Box",
+    "icons": [
+      "mew",
+      "clefairy"
+    ],
+    "priority": 11
+  },
+  "n-zoroark": {
+    "name": "N's Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 11
+  },
+  "n-zoroark-lucario": {
+    "name": "Zoroark Lucario",
+    "icons": [
+      "lucario-mega"
+    ],
+    "priority": 11
+  },
+  "zoroark-crustle": {
+    "name": "Zoroark Crustle",
+    "icons": [
+      "crustle"
+    ],
+    "priority": 11
+  },
+  "palafin-ex": {
+    "name": "Palafin",
+    "icons": [
+      "palafin-hero"
+    ],
+    "priority": 11
+  },
+  "palafin-lz-box": {
+    "name": "Palafin LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 11
+  },
+  "slowking-scr": {
+    "name": "Slowking",
+    "icons": [
+      "slowking"
+    ],
+    "priority": 11
+  },
+  "stevens-metagross": {
+    "name": "Steven's Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 11
+  },
+  "torterra-ex": {
+    "name": "Torterra",
+    "icons": [
+      "torterra"
+    ],
+    "priority": 11
+  },
+  "tsareena-ex": {
+    "name": "Tsareena",
+    "icons": [
+      "tsareena"
+    ],
+    "priority": 11
+  },
+  "gardevoir-ex-sv": {
+    "name": "Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 12
+  },
+  "gardevoir-mewtwo": {
+    "name": "Gardevoir Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 12
+  },
+  "gardevoir-jellicent": {
+    "name": "Gardevoir Jellicent",
+    "icons": [
+      "jellicent"
+    ],
+    "priority": 12
+  },
+  "iron-thorns-ex": {
+    "name": "Iron Thorns",
+    "icons": [
+      "iron-thorns"
+    ],
+    "priority": 12
+  },
+  "iron-thorns-crown": {
+    "name": "Future Thorns",
+    "icons": [
+      "iron-crown"
+    ],
+    "priority": 12
+  },
+  "iron-thorns-crustle": {
+    "name": "Iron Thorns Crustle",
+    "icons": [
+      "crustle"
+    ],
+    "priority": 12
+  },
+  "crustle-dri": {
+    "name": "Crustle",
+    "icons": [
+      "crustle"
+    ],
+    "priority": 13
+  },
+  "poison-terapagos": {
+    "name": "Poison Terapagos",
+    "icons": [
+      "terapagos",
+      "brute-bonnet"
+    ],
+    "priority": 14
+  },
+  "raging-bolt-ex": {
+    "name": "Raging Bolt",
+    "icons": [
+      "raging-bolt"
+    ],
+    "priority": 14
+  },
+  "raging-bolt-lz-box": {
+    "name": "Raging Bolt LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 14
+  },
+  "raging-bolt-palkia": {
+    "name": "Raging Bolt Palkia",
+    "icons": [
+      "palkia-origin"
+    ],
+    "priority": 14
+  },
+  "raging-bolt-ogerpon": {
+    "name": "Raging Bolt Ogerpon",
+    "icons": [
+      "ogerpon"
+    ],
+    "priority": 14
+  },
+  "ranging-bolt-sandy-shocks": {
+    "name": "Raging Bolt Sandy Shocks",
+    "icons": [
+      "sandy-shocks"
+    ],
+    "priority": 14
+  },
+  "raging-bolt-entei": {
+    "name": "Raging Bolt Entei",
+    "icons": [
+      "entei"
+    ],
+    "priority": 14
+  },
+  "reging-bolt-bellibolt": {
+    "name": "Raging Bolt Bellibolt",
+    "icons": [
+      "bellibolt"
+    ],
+    "priority": 14
+  },
+  "bloodmoon-ursaluna-sfa": {
+    "name": "Bloodmoon Ursaluna",
+    "icons": [
+      "ursaluna-bloodmoon"
+    ],
+    "priority": 15
+  },
+  "ursaluna-iron-valiant": {
+    "name": "Ursaluna Iron Valiant",
+    "icons": [
+      "iron-valiant"
+    ],
+    "priority": 15
+  },
+  "ursaluna-lunatone": {
+    "name": "Ursaluna Lunatone",
+    "icons": [
+      "lunatone"
+    ],
+    "priority": 15
+  },
+  "ceruledge-ex": {
+    "name": "Ceruledge",
+    "icons": [
+      "ceruledge"
+    ],
+    "priority": 15
+  },
+  "charizard-ex": {
+    "name": "Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 15
+  },
+  "charizard-arceus": {
+    "name": "Charizard Arceus",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 15
+  },
+  "charizard-lz-box": {
+    "name": "Charizard LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 15
+  },
+  "charizard-gallade": {
+    "name": "Charizard Gallade",
+    "icons": [
+      "gallade"
+    ],
+    "priority": 15
+  },
+  "charizard-noctowl": {
+    "name": "Charizard Noctowl",
+    "icons": [
+      "noctowl"
+    ],
+    "priority": 15
+  },
+  "charizard-pidgeot": {
+    "name": "Charizard Pidgeot",
+    "icons": [
+      "pidgeot"
+    ],
+    "priority": 15
+  },
+  "charizard-dusknoir": {
+    "name": "Charizard Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 15
+  },
+  "charizard-dragapult": {
+    "name": "Charizard Dragapult",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 15
+  },
+  "copperajah-ex": {
+    "name": "Copperajah",
+    "icons": [
+      "copperajah"
+    ],
+    "priority": 15
+  },
+  "espathra-ex": {
+    "name": "Espathra",
+    "icons": [
+      "espathra"
+    ],
+    "priority": 15
+  },
+  "espathra-xatu": {
+    "name": "Espathra Xatu",
+    "icons": [
+      "xatu"
+    ],
+    "priority": 15
+  },
+  "espathra-froslass": {
+    "name": "Espathra Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 15
+  },
+  "iono-bellibolt": {
+    "name": "Iono's Bellibolt",
+    "icons": [
+      "bellibolt",
+      "voltorb"
+    ],
+    "priority": 15
+  },
+  "joltik-box": {
+    "name": "Joltik Box",
+    "icons": [
+      "joltik",
+      "pikachu"
+    ],
+    "priority": 15
+  },
+  "mamoswine-ex": {
+    "name": "Mamoswine",
+    "icons": [
+      "mamoswine"
+    ],
+    "priority": 15
+  },
+  "mega-absol-box": {
+    "name": "Mega Absol Box",
+    "icons": [
+      "absol-mega",
+      "kangaskhan-mega"
+    ],
+    "priority": 15
+  },
+  "mega-charizard-x-ex": {
+    "name": "Mega Charizard X",
+    "icons": [
+      "charizard-mega-x"
+    ],
+    "priority": 15
+  },
+  "mega-dragonite-ex": {
+    "name": "Mega Dragonite",
+    "icons": [
+      "dragonite-mega"
+    ],
+    "priority": 15
+  },
+  "dragonite-eelektrik": {
+    "name": "Dragonite Eelektrik",
+    "icons": [
+      "eelektrik"
+    ],
+    "priority": 15
+  },
+  "mega-gengar-ex": {
+    "name": "Mega Gengar",
+    "icons": [
+      "gengar-mega"
+    ],
+    "priority": 15
+  },
+  "mega-lucario-ex": {
+    "name": "Mega Lucario",
+    "icons": [
+      "lucario-mega"
+    ],
+    "priority": 15
+  },
+  "lucario-hariyama": {
+    "name": "Lucario Hariyama",
+    "icons": [
+      "hariyama"
+    ],
+    "priority": 15
+  },
+  "mega-sharpedo-ex": {
+    "name": "Mega Sharpedo",
+    "icons": [
+      "sharpedo-mega"
+    ],
+    "priority": 15
+  },
+  "sharpedo-toxtricity": {
+    "name": "Sharpedo Toxtricity",
+    "icons": [
+      "toxtricity"
+    ],
+    "priority": 15
+  },
+  "metagross-cri": {
+    "name": "Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 15
+  },
+  "miraidon-ex": {
+    "name": "Miraidon",
+    "icons": [
+      "miraidon"
+    ],
+    "priority": 15
+  },
+  "miraidon-regieleki": {
+    "name": "Miraidon Regieleki",
+    "icons": [
+      "regieleki"
+    ],
+    "priority": 15
+  },
+  "miraidon-flaaffy": {
+    "name": "Miraidon Flaaffy",
+    "icons": [
+      "flaaffy"
+    ],
+    "priority": 15
+  },
+  "miraidon-eelektrik": {
+    "name": "Miraidon Eelektrik",
+    "icons": [
+      "eelektrik"
+    ],
+    "priority": 15
+  },
+  "ogerpon-meganium": {
+    "name": "Ogerpon Meganium",
+    "icons": [
+      "ogerpon",
+      "meganium"
+    ],
+    "priority": 15
+  },
+  "ogerpon-meganium-arboliva": {
+    "name": "Ogerpon Meganium Arboliva",
+    "icons": [
+      "arboliva"
+    ],
+    "priority": 15
+  },
+  "ogerpon-meganium-hydrapple": {
+    "name": "Ogerpon Meganium Hydrapple",
+    "icons": [
+      "hydrapple"
+    ],
+    "priority": 15
+  },
+  "reversal-gardevoir": {
+    "name": "Reversal Gardevoir",
+    "icons": [
+      "gardevoir",
+      "mewtwo"
+    ],
+    "priority": 15
+  },
+  "rocket-spidops": {
+    "name": "Rocket's Spidops",
+    "icons": [
+      "spidops"
+    ],
+    "priority": 15
+  },
+  "basic-box-m": {
+    "name": "Basic Box",
+    "icons": [
+      "ogerpon",
+      "clefairy"
+    ],
+    "priority": 20
+  },
+  "blaziken-ex-jtg": {
+    "name": "Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 20
+  },
+  "blaziken-zoroark": {
+    "name": "Blaziken Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 20
+  },
+  "dudunsparce-control": {
+    "name": "Dudunsparce Control",
+    "icons": [
+      "dudunsparce",
+      "elgyem"
+    ],
+    "priority": 20
+  },
+  "farigiraf-ex": {
+    "name": "Farigiraf",
+    "icons": [
+      "farigiraf"
+    ],
+    "priority": 20
+  },
+  "farigiraf-milotic": {
+    "name": "Farigiraf Milotic",
+    "icons": [
+      "milotic"
+    ],
+    "priority": 20
+  },
+  "farigiraf-crustle": {
+    "name": "Farigiraf Crustle",
+    "icons": [
+      "crustle"
+    ],
+    "priority": 20
+  },
+  "feraligatr-tef": {
+    "name": "Feraligatr",
+    "icons": [
+      "feraligatr"
+    ],
+    "priority": 20
+  },
+  "gouging-fire-ex": {
+    "name": "Gouging Fire",
+    "icons": [
+      "gouging-fire"
+    ],
+    "priority": 20
+  },
+  "greninja-ex": {
+    "name": "Greninja",
+    "icons": [
+      "greninja"
+    ],
+    "priority": 20
+  },
+  "greninja-froslass": {
+    "name": "Greninja Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 20
+  },
+  "greninja-blaziken": {
+    "name": "Greninja Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 20
+  },
+  "hydrapple-ex": {
+    "name": "Hydrapple",
+    "icons": [
+      "hydrapple"
+    ],
+    "priority": 20
+  },
+  "hydrapple-ogerpon": {
+    "name": "Hydrapple Ogerpon",
+    "icons": [
+      "ogerpon"
+    ],
+    "priority": 20
+  },
+  "iron-valiant-ex": {
+    "name": "Iron Valiant",
+    "icons": [
+      "iron-valiant"
+    ],
+    "priority": 20
+  },
+  "iron-valiant-xatu": {
+    "name": "Iron Valiant Xatu",
+    "icons": [
+      "xatu"
+    ],
+    "priority": 20
+  },
+  "mega-starmie-ex": {
+    "name": "Mega Starmie",
+    "icons": [
+      "starmie-mega"
+    ],
+    "priority": 20
+  },
+  "starmie-froslass": {
+    "name": "Starmie Froslass",
+    "icons": [
+      "froslass"
+    ],
+    "priority": 20
+  },
+  "starmie-dusknoir": {
+    "name": "Starmie Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 20
+  },
+  "mimikyu-ogerpon": {
+    "name": "Mimikyu Ogerpon",
+    "icons": [
+      "mimikyu",
+      "ogerpon-cornerstone"
+    ],
+    "priority": 20
+  },
+  "okidogi-ex": {
+    "name": "Okidogi",
+    "icons": [
+      "okidogi"
+    ],
+    "priority": 20
+  },
+  "tera-box": {
+    "name": "Tera Box",
+    "icons": [
+      "noctowl",
+      "ogerpon-wellspring"
+    ],
+    "priority": 20
+  },
+  "terapagos-noctowl": {
+    "name": "Terapagos Noctowl",
+    "icons": [
+      "terapagos",
+      "noctowl"
+    ],
+    "priority": 20
+  },
+  "froslass-munkidori": {
+    "name": "Froslass Munkidori",
+    "icons": [
+      "froslass",
+      "munkidori"
+    ],
+    "priority": 21
+  },
+  "milotic-ex": {
+    "name": "Milotic",
+    "icons": [
+      "milotic"
+    ],
+    "priority": 21
+  },
+  "milotic-farigiraf": {
+    "name": "Milotic Farigiraf",
+    "icons": [
+      "farigiraf"
+    ],
+    "priority": 21
+  },
+  "cornerstone-mask-ogerpon-ex": {
+    "name": "Cornerstone Mask Ogerpon",
+    "icons": [
+      "ogerpon-cornerstone"
+    ],
+    "priority": 25
+  },
+  "ogerpon-noivern": {
+    "name": "Ogerpon Noivern",
+    "icons": [
+      "noivern"
+    ],
+    "priority": 25
+  },
+  "mega-zygarde-ex": {
+    "name": "Mega Zygarde",
+    "icons": [
+      "zygarde-mega"
+    ],
+    "priority": 25
+  },
+  "zygarde-barbaracle": {
+    "name": "Zygarde Barbaracle",
+    "icons": [
+      "barbaracle"
+    ],
+    "priority": 25
+  },
+  "ogerpon-ex": {
+    "name": "Ogerpon",
+    "icons": [
+      "ogerpon",
+      "ogerpon-wellspring"
+    ],
+    "priority": 25
+  },
+  "pidgeot-control": {
+    "name": "Pidgeot Control",
+    "icons": [
+      "pidgeot"
+    ],
+    "priority": 25
+  },
+  "luxray-pidgeot": {
+    "name": "Luxray Control",
+    "icons": [
+      "luxray"
+    ],
+    "priority": 25
+  },
+  "roaring-moon-ex": {
+    "name": "Roaring Moon",
+    "icons": [
+      "roaring-moon"
+    ],
+    "priority": 25
+  },
+  "mega-froslass-ex": {
+    "name": "Mega Froslass",
+    "icons": [
+      "froslass-mega"
+    ],
+    "priority": 30
+  },
+  "mega-froslass-dudunsparce": {
+    "name": "Froslass Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 30
+  },
+  "mega-lopunny-ex": {
+    "name": "Mega Lopunny",
+    "icons": [
+      "lopunny-mega"
+    ],
+    "priority": 30
+  },
+  "lopunny-dusknoir": {
+    "name": "Lopunny Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 30
+  },
+  "lopunny-dudunsparce": {
+    "name": "Lopunny Dudunsparce",
+    "icons": [
+      "dudunsparce"
+    ],
+    "priority": 30
+  },
+  "alolan-vulpix-vstar": {
+    "name": "Alolan Vulpix",
+    "icons": [
+      "vulpix-alola"
+    ],
+    "priority": 10
+  },
+  "amazing-kyogre": {
+    "name": "Amazing Kyogre",
+    "icons": [
+      "kyogre"
+    ],
+    "priority": 10
+  },
+  "amazing-raikou": {
+    "name": "Amazing Raikou",
+    "icons": [
+      "raikou"
+    ],
+    "priority": 10
+  },
+  "amazing-reshiram": {
+    "name": "Amazing Reshiram",
+    "icons": [
+      "reshiram"
+    ],
+    "priority": 10
+  },
+  "articuno-sit": {
+    "name": "Articuno Inteleon",
+    "icons": [
+      "articuno"
+    ],
+    "priority": 10
+  },
+  "articuno-inteleon": {
+    "name": "Articuno Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "articuno-munkidori": {
+    "name": "Articuno Munkidori",
+    "icons": [
+      "munkidori"
+    ],
+    "priority": 10
+  },
+  "aurora-welder-box": {
+    "name": "Aurora Welder Box",
+    "icons": [
+      "rhyperior",
+      "volcanion"
+    ],
+    "priority": 10
+  },
+  "ball-juggling": {
+    "name": "Ball Juggling",
+    "icons": [
+      "mr-rime",
+      "yamper"
+    ],
+    "priority": 10
+  },
+  "blastoise-vmax": {
+    "name": "Blastoise",
+    "icons": [
+      "blastoise-gmax"
+    ],
+    "priority": 10
+  },
+  "blissey-v": {
+    "name": "Blissey",
+    "icons": [
+      "blissey"
+    ],
+    "priority": 10
+  },
+  "blissey-porygon-z": {
+    "name": "Blissey Porygon",
+    "icons": [
+      "porygon-z"
+    ],
+    "priority": 10
+  },
+  "boltund-bst": {
+    "name": "Boltund",
+    "icons": [
+      "boltund"
+    ],
+    "priority": 10
+  },
+  "boltund-inteleon": {
+    "name": "Boltund Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "bronzong-metal-box": {
+    "name": "Bronzong Metal Box",
+    "icons": [
+      "bronzong",
+      "zacian-crowned"
+    ],
+    "priority": 10
+  },
+  "castform-cre": {
+    "name": "Castform",
+    "icons": [
+      "castform-sunny",
+      "castform-snowy"
+    ],
+    "priority": 10
+  },
+  "centiskorch-control": {
+    "name": "Centiskorch Control",
+    "icons": [
+      "centiskorch-gmax",
+      "pidgeotto"
+    ],
+    "priority": 10
+  },
+  "centiskorch-vmax": {
+    "name": "Centiskorch",
+    "icons": [
+      "centiskorch-gmax"
+    ],
+    "priority": 10
+  },
+  "greens-centiskorch": {
+    "name": "Green's Centiskorch",
+    "icons": [
+      "centiskorch-gmax"
+    ],
+    "priority": 10
+  },
+  "charizard-viv": {
+    "name": "Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 10
+  },
+  "charizard-vstar": {
+    "name": "Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 10
+  },
+  "cinccino-control": {
+    "name": "Cinccino Control",
+    "icons": [
+      "cinccino",
+      "bunnelby"
+    ],
+    "priority": 10
+  },
+  "cinderace-ssh": {
+    "name": "Cinderace",
+    "icons": [
+      "cinderace"
+    ],
+    "priority": 10
+  },
+  "cinderace-cinccino": {
+    "name": "Cinderace Cinccino",
+    "icons": [
+      "cinccino"
+    ],
+    "priority": 10
+  },
+  "cinderace-vmax": {
+    "name": "Cinderace (VMAX)",
+    "icons": [
+      "cinderace"
+    ],
+    "priority": 10
+  },
+  "coalossal-rcl": {
+    "name": "Coalossal (Tar Generator)",
+    "icons": [
+      "coalossal"
+    ],
+    "priority": 10
+  },
+  "coalossal-vmax": {
+    "name": "Coalossal",
+    "icons": [
+      "coalossal-gmax"
+    ],
+    "priority": 10
+  },
+  "crabominable-v": {
+    "name": "Crabominable",
+    "icons": [
+      "crabominable"
+    ],
+    "priority": 10
+  },
+  "crabominable-inteleon": {
+    "name": "Crabominable Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "cramorant-porygon": {
+    "name": "Cramorant Porygon",
+    "icons": [
+      "cramorant",
+      "porygon-z"
+    ],
+    "priority": 10
+  },
+  "donphan-moltres": {
+    "name": "Donphan Moltres",
+    "icons": [
+      "donphan",
+      "moltres-galar"
+    ],
+    "priority": 10
+  },
+  "donphan-viv": {
+    "name": "Donphan",
+    "icons": [
+      "donphan"
+    ],
+    "priority": 10
+  },
+  "dracozolt-vmax": {
+    "name": "Dracozolt",
+    "icons": [
+      "dracozolt"
+    ],
+    "priority": 10
+  },
+  "dragapult-rcl": {
+    "name": "Dragapult (Infiltrator)",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 10
+  },
+  "drednaw-vmax": {
+    "name": "Drednaw",
+    "icons": [
+      "drednaw-gmax"
+    ],
+    "priority": 10
+  },
+  "durant-bst": {
+    "name": "Durant",
+    "icons": [
+      "durant"
+    ],
+    "priority": 10
+  },
+  "entei-v": {
+    "name": "Entei",
+    "icons": [
+      "entei"
+    ],
+    "priority": 10
+  },
+  "entei-ludicolo": {
+    "name": "Entei Ludicolo",
+    "icons": [
+      "ludicolo"
+    ],
+    "priority": 10
+  },
+  "entei-inteleon": {
+    "name": "Entei Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "entei-iron-valiant": {
+    "name": "Entei Iron Valiant",
+    "icons": [
+      "iron-valiant"
+    ],
+    "priority": 10
+  },
+  "eternatus-vmax": {
+    "name": "Eternatus",
+    "icons": [
+      "eternatus-eternamax"
+    ],
+    "priority": 10
+  },
+  "eternatus-zoroark": {
+    "name": "Eternatus Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 10
+  },
+  "eternatus-weavile": {
+    "name": "Eternatus Weavile",
+    "icons": [
+      "weavile"
+    ],
+    "priority": 10
+  },
+  "falinks": {
+    "name": "Falinks",
+    "icons": [
+      "falinks"
+    ],
+    "priority": 10
+  },
+  "flapple-vmax": {
+    "name": "Flapple",
+    "icons": [
+      "flapple-gmax"
+    ],
+    "priority": 10
+  },
+  "flareon-vmax": {
+    "name": "Flareon",
+    "icons": [
+      "flareon"
+    ],
+    "priority": 10
+  },
+  "galarian-darmanitan-vmax": {
+    "name": "Galarian Darmanitan",
+    "icons": [
+      "darmanitan-galar"
+    ],
+    "priority": 10
+  },
+  "gardevoir-vmax": {
+    "name": "Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 10
+  },
+  "genesect-toxtricity": {
+    "name": "Genesect Toxtricity",
+    "icons": [
+      "genesect",
+      "toxtricity-low-key"
+    ],
+    "priority": 10
+  },
+  "glaceon-vstar": {
+    "name": "Glaceon",
+    "icons": [
+      "glaceon"
+    ],
+    "priority": 10
+  },
+  "greedent-daa": {
+    "name": "Greedent",
+    "icons": [
+      "greedent"
+    ],
+    "priority": 10
+  },
+  "hariyama-fst": {
+    "name": "Hariyama",
+    "icons": [
+      "hariyama",
+      "houndoom"
+    ],
+    "priority": 10
+  },
+  "hisuian-arcanine-lor": {
+    "name": "Hisuian Arcanine",
+    "icons": [
+      "arcanine-hisui"
+    ],
+    "priority": 10
+  },
+  "arcanine-zoroark": {
+    "name": "Arcanine Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 10
+  },
+  "hisuian-arcanine-v": {
+    "name": "Hisuian Arcanine",
+    "icons": [
+      "arcanine-hisui",
+      "zapdos-galar"
+    ],
+    "priority": 10
+  },
+  "hisuian-decidueye-vstar": {
+    "name": "Hisuian Decidueye",
+    "icons": [
+      "decidueye-hisui"
+    ],
+    "priority": 10
+  },
+  "hisuian-lilligant-vstar": {
+    "name": "Hisuian Lilligant",
+    "icons": [
+      "lilligant-hisui"
+    ],
+    "priority": 10
+  },
+  "hisuian-zoroark-vstar": {
+    "name": "Hisuian Zoroark",
+    "icons": [
+      "zoroark-hisui"
+    ],
+    "priority": 10
+  },
+  "hoopa-genesect": {
+    "name": "Hoopa Genesect",
+    "icons": [
+      "hoopa-unbound",
+      "genesect"
+    ],
+    "priority": 10
+  },
+  "jolteon-vmax": {
+    "name": "Jolteon",
+    "icons": [
+      "jolteon"
+    ],
+    "priority": 10
+  },
+  "jolteon-inteleon": {
+    "name": "Jolteon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "kyurem-vmax": {
+    "name": "Kyurem",
+    "icons": [
+      "kyurem"
+    ],
+    "priority": 10
+  },
+  "kyurem-palkia": {
+    "name": "Kyurem Palkia",
+    "icons": [
+      "palkia-origin"
+    ],
+    "priority": 10
+  },
+  "lapras-vmax": {
+    "name": "Lapras",
+    "icons": [
+      "lapras-gmax"
+    ],
+    "priority": 10
+  },
+  "leafeon-vmax": {
+    "name": "Leafeon",
+    "icons": [
+      "leafeon"
+    ],
+    "priority": 10
+  },
+  "leafeon-jellicent": {
+    "name": "Leafeon Jellicent",
+    "icons": [
+      "jellicent"
+    ],
+    "priority": 10
+  },
+  "leafeon-moltres": {
+    "name": "Leafeon Moltres",
+    "icons": [
+      "moltres-galar"
+    ],
+    "priority": 10
+  },
+  "leafeon-inteleon": {
+    "name": "Leafeon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "lucario-brs": {
+    "name": "Lucario",
+    "icons": [
+      "lucario"
+    ],
+    "priority": 10
+  },
+  "lugia-archeops": {
+    "name": "Lugia Archeops",
+    "icons": [
+      "lugia",
+      "archeops"
+    ],
+    "priority": 10
+  },
+  "lugia-archeops-single-strike": {
+    "name": "Single Strike Lugia",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "lunarock-pgo": {
+    "name": "Lunatone Solrock",
+    "icons": [
+      "lunatone",
+      "solrock"
+    ],
+    "priority": 10
+  },
+  "luxray-v": {
+    "name": "Luxray",
+    "icons": [
+      "luxray"
+    ],
+    "priority": 10
+  },
+  "mad-party": {
+    "name": "Mad Party",
+    "icons": [
+      "polteageist",
+      "bunnelby"
+    ],
+    "priority": 10
+  },
+  "magikarp-pgo": {
+    "name": "Magikarp",
+    "icons": [
+      "magikarp",
+      "ditto"
+    ],
+    "priority": 10
+  },
+  "maractus-cherrim": {
+    "name": "Maractus Cherrim",
+    "icons": [
+      "maractus",
+      "cherrim-sunshine"
+    ],
+    "priority": 10
+  },
+  "metagross-vmax": {
+    "name": "Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 10
+  },
+  "mew-genesect": {
+    "name": "Mew Genesect",
+    "icons": [
+      "mew",
+      "genesect"
+    ],
+    "priority": 10
+  },
+  "mew-meloetta": {
+    "name": "Fusion Mew",
+    "icons": [
+      "meloetta"
+    ],
+    "priority": 10
+  },
+  "mewtwo-gengar": {
+    "name": "Mewtwo Gengar",
+    "icons": [
+      "mewtwo",
+      "gengar"
+    ],
+    "priority": 10
+  },
+  "mienshao-bst": {
+    "name": "Mienshao",
+    "icons": [
+      "mienshao"
+    ],
+    "priority": 10
+  },
+  "milotic-v": {
+    "name": "Milotic",
+    "icons": [
+      "milotic"
+    ],
+    "priority": 10
+  },
+  "mimikyu-vmax": {
+    "name": "Mimikyu",
+    "icons": [
+      "mimikyu"
+    ],
+    "priority": 10
+  },
+  "morpeko-diancie": {
+    "name": "Morpeko Diancie",
+    "icons": [
+      "morpeko",
+      "diancie"
+    ],
+    "priority": 10
+  },
+  "morpeko-fst": {
+    "name": "Morpeko",
+    "icons": [
+      "morpeko",
+      "houndoom"
+    ],
+    "priority": 10
+  },
+  "morpeko-vmax": {
+    "name": "Morpeko",
+    "icons": [
+      "morpeko"
+    ],
+    "priority": 10
+  },
+  "morpeko-dusknoir": {
+    "name": "Morpeko Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 10
+  },
+  "obstagoon-fst": {
+    "name": "Obstagoon",
+    "icons": [
+      "obstagoon"
+    ],
+    "priority": 10
+  },
+  "obstagoon-inteleon": {
+    "name": "Obstagoon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "obstagoon-ssh": {
+    "name": "Galarian Obstagoon",
+    "icons": [
+      "obstagoon"
+    ],
+    "priority": 10
+  },
+  "omastar-archeops": {
+    "name": "Omastar Archeops",
+    "icons": [
+      "omastar",
+      "archeops"
+    ],
+    "priority": 10
+  },
+  "orbeetle-vmax": {
+    "name": "Orbeetle",
+    "icons": [
+      "orbeetle-gmax"
+    ],
+    "priority": 10
+  },
+  "pachirisu-brs": {
+    "name": "Pachirisu",
+    "icons": [
+      "pachirisu"
+    ],
+    "priority": 10
+  },
+  "pachirisu-honchkrow": {
+    "name": "Pachirisu Honchkrow",
+    "icons": [
+      "honchkrow"
+    ],
+    "priority": 10
+  },
+  "pikachu-v": {
+    "name": "Pikachu",
+    "icons": [
+      "pikachu"
+    ],
+    "priority": 10
+  },
+  "pikachu-vmax": {
+    "name": "Pikachu",
+    "icons": [
+      "pikachu-gmax"
+    ],
+    "priority": 10
+  },
+  "primeape-bst": {
+    "name": "Primeape",
+    "icons": [
+      "primeape"
+    ],
+    "priority": 10
+  },
+  "rapid-strike-urshifu-cre": {
+    "name": "Rapid Strike Urshifu",
+    "icons": [
+      "urshifu"
+    ],
+    "priority": 10
+  },
+  "regidrago-evs": {
+    "name": "Regidrago",
+    "icons": [
+      "regidrago"
+    ],
+    "priority": 10
+  },
+  "regidrago-cherrim": {
+    "name": "Regidrago Cherrim",
+    "icons": [
+      "cherrim-sunshine"
+    ],
+    "priority": 10
+  },
+  "regigigas-asr": {
+    "name": "Regis",
+    "icons": [
+      "regigigas"
+    ],
+    "priority": 10
+  },
+  "pikachu-regigigas": {
+    "name": "Pikachu Regis",
+    "icons": [
+      "pikachu"
+    ],
+    "priority": 10
+  },
+  "regigigas-vstar": {
+    "name": "Regigigas",
+    "icons": [
+      "regigigas"
+    ],
+    "priority": 10
+  },
+  "rillaboom-vmax": {
+    "name": "Rillaboom",
+    "icons": [
+      "rillaboom"
+    ],
+    "priority": 10
+  },
+  "salamence-vmax": {
+    "name": "Salamence",
+    "icons": [
+      "salamence"
+    ],
+    "priority": 10
+  },
+  "salazzle-weepinbell": {
+    "name": "Salazzle Weepinbell",
+    "icons": [
+      "salazzle",
+      "weepinbell"
+    ],
+    "priority": 10
+  },
+  "sandaconda-bst": {
+    "name": "Sandaconda",
+    "icons": [
+      "sandaconda"
+    ],
+    "priority": 10
+  },
+  "scizor-vmax": {
+    "name": "Scizor",
+    "icons": [
+      "scizor"
+    ],
+    "priority": 10
+  },
+  "seaking-ssh": {
+    "name": "Seaking",
+    "icons": [
+      "seaking"
+    ],
+    "priority": 10
+  },
+  "serperior-vstar": {
+    "name": "Serperior",
+    "icons": [
+      "serperior"
+    ],
+    "priority": 10
+  },
+  "shadow-rider-calyrex-vmax": {
+    "name": "Shadow Rider Calyrex",
+    "icons": [
+      "calyrex-shadow-rider"
+    ],
+    "priority": 10
+  },
+  "calyrex-alcremie": {
+    "name": "Calyrex Alcremie",
+    "icons": [
+      "alcremie-gmax"
+    ],
+    "priority": 10
+  },
+  "calyrex-dragapult": {
+    "name": "Calyrex Dragapult",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 10
+  },
+  "calyrex-whimsicott": {
+    "name": "Shadow Rider Whimsicott",
+    "icons": [
+      "whimsicott"
+    ],
+    "priority": 10
+  },
+  "single-strike-urshifu-cre": {
+    "name": "Single Strike Urshifu",
+    "icons": [
+      "urshifu",
+      "houndoom"
+    ],
+    "priority": 10
+  },
+  "sirfetchd-moltres": {
+    "name": "Sirfetch'd Moltres",
+    "icons": [
+      "sirfetchd",
+      "moltres-galar"
+    ],
+    "priority": 10
+  },
+  "smeargle-evs": {
+    "name": "Smeargle",
+    "icons": [
+      "smeargle",
+      "eldegoss"
+    ],
+    "priority": 10
+  },
+  "snorlax-lor": {
+    "name": "Snorlax",
+    "icons": [
+      "snorlax"
+    ],
+    "priority": 10
+  },
+  "snorlax-cherrim": {
+    "name": "Snorlax Cherrim",
+    "icons": [
+      "cherrim-sunshine"
+    ],
+    "priority": 10
+  },
+  "snorlax-xatu": {
+    "name": "Snorlax Xatu",
+    "icons": [
+      "xatu"
+    ],
+    "priority": 10
+  },
+  "ss-umbreon-urshifu": {
+    "name": "Umbreon Urshifu",
+    "icons": [
+      "umbreon",
+      "urshifu-gmax"
+    ],
+    "priority": 10
+  },
+  "suicune-moltres": {
+    "name": "Suicune Moltres",
+    "icons": [
+      "suicune",
+      "moltres-galar"
+    ],
+    "priority": 10
+  },
+  "tapu-bulu-cherrim": {
+    "name": "Tapu Bulu Cherrim",
+    "icons": [
+      "tapu-bulu",
+      "cherrim-sunshine"
+    ],
+    "priority": 10
+  },
+  "togekiss-vmax": {
+    "name": "Togekiss",
+    "icons": [
+      "togekiss"
+    ],
+    "priority": 10
+  },
+  "togekiss-bronzong": {
+    "name": "Togekiss Bronzong",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 10
+  },
+  "togekiss-inteleon": {
+    "name": "Togekiss Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "torkoal-v": {
+    "name": "Torkoal",
+    "icons": [
+      "torkoal"
+    ],
+    "priority": 10
+  },
+  "torterra-brs": {
+    "name": "Torterra",
+    "icons": [
+      "torterra"
+    ],
+    "priority": 10
+  },
+  "toxtricity-vmax": {
+    "name": "Toxtricity",
+    "icons": [
+      "toxtricity-gmax"
+    ],
+    "priority": 10
+  },
+  "tsareena-v": {
+    "name": "Tsareena",
+    "icons": [
+      "tsareena"
+    ],
+    "priority": 10
+  },
+  "tyranitar-v": {
+    "name": "Tyranitar",
+    "icons": [
+      "tyranitar",
+      "houndoom"
+    ],
+    "priority": 10
+  },
+  "vaporeon-vmax": {
+    "name": "Vaporeon",
+    "icons": [
+      "vaporeon"
+    ],
+    "priority": 10
+  },
+  "vaporeon-inteleon": {
+    "name": "Vaporeon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "venusaur-vmax": {
+    "name": "Venusaur",
+    "icons": [
+      "venusaur-gmax"
+    ],
+    "priority": 10
+  },
+  "vikavolt-fst": {
+    "name": "Vikavolt",
+    "icons": [
+      "vikavolt"
+    ],
+    "priority": 10
+  },
+  "vikavolt-fst-inteleon": {
+    "name": "Vikavolt Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "volcarona-v": {
+    "name": "Volcarona",
+    "icons": [
+      "volcarona"
+    ],
+    "priority": 10
+  },
+  "wailord-v": {
+    "name": "Wailord",
+    "icons": [
+      "wailord"
+    ],
+    "priority": 10
+  },
+  "whimsicott-viv": {
+    "name": "Whimsicott",
+    "icons": [
+      "whimsicott"
+    ],
+    "priority": 10
+  },
+  "zarude-v": {
+    "name": "Zarude",
+    "icons": [
+      "zarude"
+    ],
+    "priority": 10
+  },
+  "zeraora-v": {
+    "name": "Zeraora",
+    "icons": [
+      "zeraora"
+    ],
+    "priority": 10
+  },
+  "zeraora-inteleon": {
+    "name": "Zeraora Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 10
+  },
+  "arceus-vstar": {
+    "name": "Arceus",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 11
+  },
+  "arceus-duraludon": {
+    "name": "Arceus Duraludon",
+    "icons": [
+      "duraludon-gmax"
+    ],
+    "priority": 11
+  },
+  "arceus-ice-rider-calyrex": {
+    "name": "Arceus Ice Rider",
+    "icons": [
+      "calyrex-ice-rider"
+    ],
+    "priority": 11
+  },
+  "arceus-flygon": {
+    "name": "Arceus Flygon",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 11
+  },
+  "arceus-charizard": {
+    "name": "Arceus Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 11
+  },
+  "arceus-raichu": {
+    "name": "Arceus Raichu",
+    "icons": [
+      "raichu"
+    ],
+    "priority": 11
+  },
+  "arceus-inteleon": {
+    "name": "Arceus Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "arceus-malamar": {
+    "name": "Arceus Malamar",
+    "icons": [
+      "malamar"
+    ],
+    "priority": 11
+  },
+  "arceus-lycanroc": {
+    "name": "Arceus Lycanroc",
+    "icons": [
+      "lycanroc-dusk"
+    ],
+    "priority": 11
+  },
+  "arceus-stonjourner": {
+    "name": "Arceus Stonjourner",
+    "icons": [
+      "stonjourner"
+    ],
+    "priority": 11
+  },
+  "arceus-gyarados": {
+    "name": "Arceus Gyarados",
+    "icons": [
+      "gyarados"
+    ],
+    "priority": 11
+  },
+  "arceus-rayquaza": {
+    "name": "Arceus Rayquaza",
+    "icons": [
+      "rayquaza"
+    ],
+    "priority": 11
+  },
+  "arceus-tapu-koko": {
+    "name": "Arceus Tapu Koko",
+    "icons": [
+      "tapu-koko"
+    ],
+    "priority": 11
+  },
+  "arceus-flying-pikachu": {
+    "name": "Arceus Flying Pikachu",
+    "icons": [
+      "pikachu"
+    ],
+    "priority": 11
+  },
+  "arceus-mewtwo": {
+    "name": "Arceus Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 11
+  },
+  "arceus-giratina": {
+    "name": "Arceus Giratina",
+    "icons": [
+      "giratina-origin"
+    ],
+    "priority": 11
+  },
+  "arceus-aggron": {
+    "name": "Arceus Aggron",
+    "icons": [
+      "aggron"
+    ],
+    "priority": 11
+  },
+  "arceus-goodra": {
+    "name": "Arceus Goodra",
+    "icons": [
+      "goodra-hisui"
+    ],
+    "priority": 11
+  },
+  "arceus-regidrago": {
+    "name": "Arceus Regidrago",
+    "icons": [
+      "regidrago"
+    ],
+    "priority": 11
+  },
+  "arceus-vulpix": {
+    "name": "Arceus Vulpix",
+    "icons": [
+      "vulpix-alola"
+    ],
+    "priority": 11
+  },
+  "arceus-decidueye": {
+    "name": "Arceus Decidueye",
+    "icons": [
+      "decidueye-hisui"
+    ],
+    "priority": 11
+  },
+  "arceus-umbreon": {
+    "name": "Arceus Umbreon",
+    "icons": [
+      "umbreon"
+    ],
+    "priority": 11
+  },
+  "arceus-charizard-2": {
+    "name": "Arceus Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 11
+  },
+  "arceus-armarouge": {
+    "name": "Arceus Armarouge",
+    "icons": [
+      "armarouge"
+    ],
+    "priority": 11
+  },
+  "arceus-aerodactyl": {
+    "name": "Arceus Aerodactyl",
+    "icons": [
+      "aerodactyl"
+    ],
+    "priority": 11
+  },
+  "arceus-dusknoir": {
+    "name": "Arceus Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "boltund-vmax": {
+    "name": "Boltund",
+    "icons": [
+      "boltund"
+    ],
+    "priority": 11
+  },
+  "boltund-flaaffy": {
+    "name": "Boltund Flaaffy",
+    "icons": [
+      "flaaffy"
+    ],
+    "priority": 11
+  },
+  "charizard-vmax": {
+    "name": "Charizard",
+    "icons": [
+      "charizard-gmax"
+    ],
+    "priority": 11
+  },
+  "charizard-salamence": {
+    "name": "Charizard Salamence",
+    "icons": [
+      "salamence"
+    ],
+    "priority": 11
+  },
+  "dakrai-vstar": {
+    "name": "Darkrai",
+    "icons": [
+      "darkrai"
+    ],
+    "priority": 11
+  },
+  "darkrai-weezing": {
+    "name": "Darkrai Weezing",
+    "icons": [
+      "weezing-galar"
+    ],
+    "priority": 11
+  },
+  "darkrai-dusknoir": {
+    "name": "Darkrai Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 11
+  },
+  "dragapult-vmax": {
+    "name": "Dragapult",
+    "icons": [
+      "dragapult"
+    ],
+    "priority": 11
+  },
+  "dragapult-garbodor": {
+    "name": "Dragapult Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 11
+  },
+  "dragapult-urshifu": {
+    "name": "Dragapult Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 11
+  },
+  "dragapult-inteleon": {
+    "name": "Dragapult Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "duraludon-vmax": {
+    "name": "Duraludon",
+    "icons": [
+      "duraludon-gmax"
+    ],
+    "priority": 11
+  },
+  "duraludon-adp": {
+    "name": "Duraludon ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 11
+  },
+  "gengar-vmax": {
+    "name": "Gengar",
+    "icons": [
+      "gengar-gmax"
+    ],
+    "priority": 11
+  },
+  "gengar-umbreon": {
+    "name": "Gengar Umbreon",
+    "icons": [
+      "umbreon"
+    ],
+    "priority": 11
+  },
+  "gengar-inteleon": {
+    "name": "Gengar Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "glaceon-vmax": {
+    "name": "Glaceon",
+    "icons": [
+      "glaceon"
+    ],
+    "priority": 11
+  },
+  "glaceon-inteleon": {
+    "name": "Glaceon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "hisuian-samurott-vstar": {
+    "name": "Hisuian Samurott",
+    "icons": [
+      "samurott-hisui"
+    ],
+    "priority": 11
+  },
+  "hisuian-samurott-inteleon": {
+    "name": "Samurott Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "samurott-weezing": {
+    "name": "Samurott Weezing",
+    "icons": [
+      "weezing-galar"
+    ],
+    "priority": 11
+  },
+  "ice-rider-calyrex-vmax": {
+    "name": "Ice Rider Calyrex",
+    "icons": [
+      "calyrex-ice-rider"
+    ],
+    "priority": 11
+  },
+  "ice-rider-calyrex-inteleon": {
+    "name": "Calyrex Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "ice-rider-calyrex-cinccino": {
+    "name": "Calyrex Cinccino",
+    "icons": [
+      "cinccino"
+    ],
+    "priority": 11
+  },
+  "ice-rider-calyrex-palkia": {
+    "name": "Calyrex Palkia",
+    "icons": [
+      "palkia-origin"
+    ],
+    "priority": 11
+  },
+  "inteleon-vmax": {
+    "name": "Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "inteleon-omastar": {
+    "name": "Inteleon Omastar",
+    "icons": [
+      "omastar"
+    ],
+    "priority": 11
+  },
+  "inteleon-vmax-fst": {
+    "name": "Inteleon",
+    "icons": [
+      "inteleon-gmax"
+    ],
+    "priority": 11
+  },
+  "inteleon-x2": {
+    "name": "Inteleon Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "inteleon-urshifu": {
+    "name": "Inteleon Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 11
+  },
+  "leafeon-vstar": {
+    "name": "Leafeon",
+    "icons": [
+      "leafeon"
+    ],
+    "priority": 11
+  },
+  "leafeon-vstar-moltres": {
+    "name": "Leafeon Moltres",
+    "icons": [
+      "moltres-galar"
+    ],
+    "priority": 11
+  },
+  "leafeon-rillaboom": {
+    "name": "Leafeon Rillaboom",
+    "icons": [
+      "rillaboom"
+    ],
+    "priority": 11
+  },
+  "malamar-cre": {
+    "name": "Rapid Strike Malamar",
+    "icons": [
+      "malamar"
+    ],
+    "priority": 11
+  },
+  "meloetta-fst": {
+    "name": "Meloetta Turbo",
+    "icons": [
+      "meloetta"
+    ],
+    "priority": 11
+  },
+  "miltank-asr": {
+    "name": "Miltank",
+    "icons": [
+      "miltank"
+    ],
+    "priority": 11
+  },
+  "miltank-mightyena": {
+    "name": "Miltank Mightyena",
+    "icons": [
+      "mightyena"
+    ],
+    "priority": 11
+  },
+  "miltank-yveltal": {
+    "name": "Miltank Yveltal",
+    "icons": [
+      "yveltal"
+    ],
+    "priority": 11
+  },
+  "rayquaza-vmax": {
+    "name": "Rayquaza",
+    "icons": [
+      "rayquaza"
+    ],
+    "priority": 11
+  },
+  "rayquaza-flaaffy": {
+    "name": "Rayquaza Flaaffy",
+    "icons": [
+      "flaaffy"
+    ],
+    "priority": 11
+  },
+  "rayquaza-victini": {
+    "name": "Rayquaza Victini",
+    "icons": [
+      "victini"
+    ],
+    "priority": 11
+  },
+  "regidrago-vstar": {
+    "name": "Regidrago",
+    "icons": [
+      "regidrago"
+    ],
+    "priority": 11
+  },
+  "sandaconda-vmax": {
+    "name": "Sandaconda",
+    "icons": [
+      "sandaconda-gmax"
+    ],
+    "priority": 11
+  },
+  "sandaconda-inteleon": {
+    "name": "Sandaconda Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 11
+  },
+  "seviper-cre": {
+    "name": "Single Strike Seviper",
+    "icons": [
+      "seviper",
+      "houndoom"
+    ],
+    "priority": 11
+  },
+  "stonjourner-bst": {
+    "name": "Single Strike Stonjourner",
+    "icons": [
+      "stonjourner",
+      "houndoom"
+    ],
+    "priority": 11
+  },
+  "stonjourner-vmax": {
+    "name": "Stonjourner",
+    "icons": [
+      "stonjourner"
+    ],
+    "priority": 11
+  },
+  "sylveon-vmax": {
+    "name": "Sylveon",
+    "icons": [
+      "sylveon"
+    ],
+    "priority": 11
+  },
+  "sylveon-arceus": {
+    "name": "Sylveon Arceus",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 11
+  },
+  "tapu-koko-vmax": {
+    "name": "Tapu Koko",
+    "icons": [
+      "tapu-koko"
+    ],
+    "priority": 11
+  },
+  "tapu-koko-electrode": {
+    "name": "Tapu Koko Electrode",
+    "icons": [
+      "electrode"
+    ],
+    "priority": 11
+  },
+  "wall-stall-2": {
+    "name": "Wall Stall",
+    "icons": [
+      "pyroar",
+      "clefairy"
+    ],
+    "priority": 11
+  },
+  "wormadam-brs": {
+    "name": "Wormadam Box",
+    "icons": [
+      "wormadam-sandy",
+      "zoroark"
+    ],
+    "priority": 11
+  },
+  "zoroark-evs": {
+    "name": "Zoroark Box",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 11
+  },
+  "zoroark-stinger-combo": {
+    "name": "Zoroark Stinger Combo",
+    "icons": [
+      "zoroark",
+      "naganadel"
+    ],
+    "priority": 11
+  },
+  "coviknight-vmax": {
+    "name": "Corviknight",
+    "icons": [
+      "corviknight-gmax"
+    ],
+    "priority": 12
+  },
+  "cramorant-lor": {
+    "name": "Cramorant",
+    "icons": [
+      "cramorant",
+      "articuno"
+    ],
+    "priority": 12
+  },
+  "crobat-vmax": {
+    "name": "Crobat",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 12
+  },
+  "crobat-weezing": {
+    "name": "Crobat Weezing",
+    "icons": [
+      "weezing-galar"
+    ],
+    "priority": 12
+  },
+  "dialga-vstar": {
+    "name": "Dialga",
+    "icons": [
+      "dialga-origin"
+    ],
+    "priority": 12
+  },
+  "dialga-bronzong": {
+    "name": "Dialga Bronzong",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 12
+  },
+  "dialga-lost-zone": {
+    "name": "Dialga LZ",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 12
+  },
+  "dialga-magnezone": {
+    "name": "Dialga Magnezone",
+    "icons": [
+      "magnezone"
+    ],
+    "priority": 12
+  },
+  "dialga-metang": {
+    "name": "Dialga Metang",
+    "icons": [
+      "metang"
+    ],
+    "priority": 12
+  },
+  "giratina-vstar": {
+    "name": "Giratina",
+    "icons": [
+      "giratina-origin"
+    ],
+    "priority": 12
+  },
+  "giratina-lz-box": {
+    "name": "Giratina LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 12
+  },
+  "hisuian-goodra-vstar": {
+    "name": "Hisuian Goodra",
+    "icons": [
+      "goodra-hisui"
+    ],
+    "priority": 12
+  },
+  "goodra-lz-box": {
+    "name": "Goodra LZ Box",
+    "icons": [
+      "comfey"
+    ],
+    "priority": 12
+  },
+  "rayquaza-lz-box": {
+    "name": "Rayquaza LZ Box",
+    "icons": [
+      "comfey",
+      "rayquaza"
+    ],
+    "priority": 12
+  },
+  "rotom-v": {
+    "name": "Rotom",
+    "icons": [
+      "rotom"
+    ],
+    "priority": 12
+  },
+  "snorlax-stall": {
+    "name": "Snorlax Stall",
+    "icons": [
+      "snorlax"
+    ],
+    "priority": 12
+  },
+  "snorlax-pidgeot": {
+    "name": "Snorlax Pidgeot",
+    "icons": [
+      "pidgeot"
+    ],
+    "priority": 12
+  },
+  "suicune-v": {
+    "name": "Suicune",
+    "icons": [
+      "suicune"
+    ],
+    "priority": 12
+  },
+  "suicune-ludicolo": {
+    "name": "Suicune Ludicolo",
+    "icons": [
+      "ludicolo"
+    ],
+    "priority": 12
+  },
+  "suicune-inteleon": {
+    "name": "Suicune Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 12
+  },
+  "victini-vmax": {
+    "name": "Victini",
+    "icons": [
+      "victini"
+    ],
+    "priority": 12
+  },
+  "victini-cinccino": {
+    "name": "Victini Cinccino",
+    "icons": [
+      "cinccino"
+    ],
+    "priority": 12
+  },
+  "victini-inteleon": {
+    "name": "Victini Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 12
+  },
+  "victini-umbreon": {
+    "name": "Victini Umbreon",
+    "icons": [
+      "umbreon"
+    ],
+    "priority": 12
+  },
+  "whimsicott-vstar": {
+    "name": "Whimsicott",
+    "icons": [
+      "whimsicott"
+    ],
+    "priority": 12
+  },
+  "whimsicott-arceus": {
+    "name": "Whimsicott Arceus",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 12
+  },
+  "blaziken-vmax": {
+    "name": "Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 15
+  },
+  "blaziken-zeraora": {
+    "name": "Blaziken Zeraora",
+    "icons": [
+      "zeraora"
+    ],
+    "priority": 15
+  },
+  "blaziken-inteleon": {
+    "name": "Blaziken Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 15
+  },
+  "cleafairy-lor": {
+    "name": "Clefairy",
+    "icons": [
+      "clefairy"
+    ],
+    "priority": 15
+  },
+  "clefairy-basculegion": {
+    "name": "Clefairy Basculegion",
+    "icons": [
+      "basculegion"
+    ],
+    "priority": 15
+  },
+  "clefairy-wyrdeer": {
+    "name": "Clefairy Wyrdeer",
+    "icons": [
+      "wyrdeer"
+    ],
+    "priority": 15
+  },
+  "dhelmise-vmax": {
+    "name": "Dhelmise",
+    "icons": [
+      "dhelmise"
+    ],
+    "priority": 15
+  },
+  "dhelmise-rillaboom": {
+    "name": "Dhelmise Rillaboom",
+    "icons": [
+      "rillaboom"
+    ],
+    "priority": 15
+  },
+  "dragonite-v": {
+    "name": "Dragonite",
+    "icons": [
+      "dragonite"
+    ],
+    "priority": 15
+  },
+  "galarian-weezing-rcl": {
+    "name": "Galarian Weezing",
+    "icons": [
+      "weezing-galar"
+    ],
+    "priority": 15
+  },
+  "weezing-inteleon": {
+    "name": "Weezing Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 15
+  },
+  "weezing-aerodactyl": {
+    "name": "Weezing Aerodactyl",
+    "icons": [
+      "aerodactyl"
+    ],
+    "priority": 15
+  },
+  "gardevoir-cre": {
+    "name": "Gardevoir Gallade",
+    "icons": [
+      "gardevoir",
+      "gallade"
+    ],
+    "priority": 15
+  },
+  "grimmsnarl-vmax": {
+    "name": "Grimmsnarl",
+    "icons": [
+      "grimmsnarl-gmax"
+    ],
+    "priority": 15
+  },
+  "grimmsnarl-weavile": {
+    "name": "Grimmsnarl Weavile",
+    "icons": [
+      "weavile"
+    ],
+    "priority": 15
+  },
+  "malamar-vmax": {
+    "name": "Malamar (VMAX)",
+    "icons": [
+      "malamar"
+    ],
+    "priority": 15
+  },
+  "malamar-electrode": {
+    "name": "Malamar Electrode",
+    "icons": [
+      "electrode"
+    ],
+    "priority": 15
+  },
+  "malamar-weavile": {
+    "name": "Malamar Weavile",
+    "icons": [
+      "weavile"
+    ],
+    "priority": 15
+  },
+  "mewtwo-control": {
+    "name": "Mewtwo Control",
+    "icons": [
+      "mewtwo",
+      "yveltal"
+    ],
+    "priority": 15
+  },
+  "mewtwo-vstar": {
+    "name": "Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 15
+  },
+  "mewtwo-lunarock": {
+    "name": "Mewtwo Lunarock",
+    "icons": [
+      "solrock"
+    ],
+    "priority": 15
+  },
+  "rapid-strike-urshifu-vmax": {
+    "name": "Rapid Strike Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 15
+  },
+  "urshifu-cinccino": {
+    "name": "Urshifu Cinccino",
+    "icons": [
+      "cinccino"
+    ],
+    "priority": 15
+  },
+  "urshifu-inteleon": {
+    "name": "Urshifu Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 15
+  },
+  "urshifu-moltres": {
+    "name": "Urshifu Moltres",
+    "icons": [
+      "moltres-galar"
+    ],
+    "priority": 15
+  },
+  "urshifu-blaziken": {
+    "name": "Urshifu Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 15
+  },
+  "urshifu-iron-valiant": {
+    "name": "Urshifu Iron Valiant",
+    "icons": [
+      "iron-valiant"
+    ],
+    "priority": 15
+  },
+  "single-strike-urshifu-vmax": {
+    "name": "Single Strike Urshifu",
+    "icons": [
+      "urshifu-gmax",
+      "houndoom"
+    ],
+    "priority": 15
+  },
+  "snorlax-vmax": {
+    "name": "Snorlax",
+    "icons": [
+      "snorlax-gmax"
+    ],
+    "priority": 15
+  },
+  "snorlax-zoroark": {
+    "name": "Snorlax Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 15
+  },
+  "snorlax-munchlax": {
+    "name": "Snorlax Munchlax",
+    "icons": [
+      "munchlax"
+    ],
+    "priority": 15
+  },
+  "tornadus-vmax": {
+    "name": "Tornadus",
+    "icons": [
+      "tornadus",
+      "houndoom"
+    ],
+    "priority": 15
+  },
+  "umbreon-vmax": {
+    "name": "Umbreon",
+    "icons": [
+      "umbreon",
+      "houndoom"
+    ],
+    "priority": 15
+  },
+  "vikavolt-v": {
+    "name": "Vikavolt",
+    "icons": [
+      "vikavolt"
+    ],
+    "priority": 15
+  },
+  "vikavolt-amoonguss": {
+    "name": "Vikavolt Amoonguss",
+    "icons": [
+      "amoonguss"
+    ],
+    "priority": 15
+  },
+  "vikavolt-regieleki": {
+    "name": "Vikavolt Regieleki",
+    "icons": [
+      "regieleki"
+    ],
+    "priority": 15
+  },
+  "zacian-v": {
+    "name": "Zacian",
+    "icons": [
+      "zacian-crowned"
+    ],
+    "priority": 15
+  },
+  "zacian-lm": {
+    "name": "Zacian Lucmetal",
+    "icons": [
+      "lucario"
+    ],
+    "priority": 15
+  },
+  "zacian-urshifu": {
+    "name": "Zacian Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 15
+  },
+  "zacian-inteleon": {
+    "name": "Zacian Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 15
+  },
+  "zacian-moltres": {
+    "name": "Zacian Moltres",
+    "icons": [
+      "moltres-galar"
+    ],
+    "priority": 15
+  },
+  "zacian-ludicolo": {
+    "name": "Zacian Ludicolo",
+    "icons": [
+      "ludicolo"
+    ],
+    "priority": 15
+  },
+  "bronzong-box": {
+    "name": "Bronzong Box",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 19
+  },
+  "altaria-cpa": {
+    "name": "Altaria",
+    "icons": [
+      "altaria"
+    ],
+    "priority": 20
+  },
+  "altaria-kangaskhan": {
+    "name": "Altaria Kangaskhan",
+    "icons": [
+      "kangaskhan"
+    ],
+    "priority": 20
+  },
+  "altaria-obstagoon": {
+    "name": "Altaria Obstagoon",
+    "icons": [
+      "obstagoon"
+    ],
+    "priority": 20
+  },
+  "altaria-hitmonchan": {
+    "name": "Altaria Hitmonchan",
+    "icons": [
+      "hitmonchan"
+    ],
+    "priority": 20
+  },
+  "flaaffy-evs": {
+    "name": "Flaaffy",
+    "icons": [
+      "flaaffy"
+    ],
+    "priority": 20
+  },
+  "flaaffy-raichu": {
+    "name": "Flaaffy Raichu",
+    "icons": [
+      "raichu"
+    ],
+    "priority": 20
+  },
+  "flaaffy-zekrom": {
+    "name": "Flaaffy Zekrom",
+    "icons": [
+      "zekrom"
+    ],
+    "priority": 20
+  },
+  "frosmoth-ssh": {
+    "name": "Frosmoth Box",
+    "icons": [
+      "frosmoth"
+    ],
+    "priority": 20
+  },
+  "frosmoth-inteleon": {
+    "name": "Frosmoth Inteleon Box",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 20
+  },
+  "machamp-vmax": {
+    "name": "Machamp",
+    "icons": [
+      "machamp"
+    ],
+    "priority": 20
+  },
+  "orbeetle-bst": {
+    "name": "Orbeetle (Evomancy)",
+    "icons": [
+      "orbeetle"
+    ],
+    "priority": 20
+  },
+  "palkia-vstar": {
+    "name": "Palkia",
+    "icons": [
+      "palkia-origin"
+    ],
+    "priority": 20
+  },
+  "palkia-inteleon": {
+    "name": "Palkia Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 20
+  },
+  "palkia-vikavolt": {
+    "name": "Palkia Vikavolt",
+    "icons": [
+      "vikavolt"
+    ],
+    "priority": 20
+  },
+  "palkia-gardevoir": {
+    "name": "Palkia Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 20
+  },
+  "palkia-chien-pao": {
+    "name": "Palkia Chien-Pao",
+    "icons": [
+      "chien-pao"
+    ],
+    "priority": 20
+  },
+  "palkia-dusknoir": {
+    "name": "Palkia Dusknoir",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 20
+  },
+  "palkia-noctowl": {
+    "name": "Palkia Noctowl",
+    "icons": [
+      "noctowl"
+    ],
+    "priority": 20
+  },
+  "sableye-v": {
+    "name": "Sableye",
+    "icons": [
+      "sableye"
+    ],
+    "priority": 20
+  },
+  "sableye-flapple": {
+    "name": "Sableye Flapple",
+    "icons": [
+      "flapple"
+    ],
+    "priority": 20
+  },
+  "sableye-roxie": {
+    "name": "Sableye Roxie",
+    "icons": [
+      "weezing"
+    ],
+    "priority": 20
+  },
+  "sableye-crobat": {
+    "name": "Sableye Crobat",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 20
+  },
+  "sableye-inteleon": {
+    "name": "Sableye Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 20
+  },
+  "yveltal-control": {
+    "name": "Yveltal Control",
+    "icons": [
+      "yveltal",
+      "eldegoss"
+    ],
+    "priority": 20
+  },
+  "inteleon-dark-box": {
+    "name": "Dark Inteleon",
+    "icons": [
+      "moltres-galar",
+      "inteleon"
+    ],
+    "priority": 21
+  },
+  "arceus-moltres-inteleon": {
+    "name": "Dark Inteleon + Arceus",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 21
+  },
+  "alcremie-vmax": {
+    "name": "Alcremie",
+    "icons": [
+      "alcremie-gmax"
+    ],
+    "priority": 25
+  },
+  "hoopa-moltres": {
+    "name": "Hoopa Moltres",
+    "icons": [
+      "hoopa-unbound",
+      "moltres-galar"
+    ],
+    "priority": 25
+  },
+  "hydreigon-daa": {
+    "name": "Hydreigon Box",
+    "icons": [
+      "hydreigon"
+    ],
+    "priority": 25
+  },
+  "inteleon-box": {
+    "name": "Inteleon Box",
+    "icons": [
+      "inteleon",
+      "charizard"
+    ],
+    "priority": 25
+  },
+  "lost-zone-box": {
+    "name": "Lost Zone Box",
+    "icons": [
+      "comfey",
+      "cramorant"
+    ],
+    "priority": 25
+  },
+  "lzb-charizard": {
+    "name": "Lost Box Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 25
+  },
+  "decidueye-daa": {
+    "name": "Decidueye",
+    "icons": [
+      "decidueye"
+    ],
+    "priority": 30
+  },
+  "decidueye-obstagoon": {
+    "name": "Decidueye Obstagoon",
+    "icons": [
+      "obstagoon"
+    ],
+    "priority": 30
+  },
+  "decidueye-adp": {
+    "name": "Decidueye ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 30
+  },
+  "decidueye-inteleon": {
+    "name": "Decidueye Inteleon",
+    "icons": [
+      "inteleon"
+    ],
+    "priority": 30
+  },
+  "aerodactyl-teu": {
+    "name": "Aerodactyl",
+    "icons": [
+      "aerodactyl"
+    ],
+    "priority": 10
+  },
+  "aerodactyl-golisopod": {
+    "name": "Aerodactyl Golisopod",
+    "icons": [
+      "golisopod"
+    ],
+    "priority": 10
+  },
+  "alolan-exeggutor-fli": {
+    "name": "Alolan Exeggutor",
+    "icons": [
+      "exeggutor-alola"
+    ],
+    "priority": 10
+  },
+  "alolan-ninetales-gx": {
+    "name": "Alolan Ninetales",
+    "icons": [
+      "ninetales-alola"
+    ],
+    "priority": 10
+  },
+  "banette-garbodor": {
+    "name": "Banette Garbodor",
+    "icons": [
+      "banette",
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "bird-trio-gx": {
+    "name": "Bird Trio",
+    "icons": [
+      "moltres"
+    ],
+    "priority": 10
+  },
+  "greens-bird-trio": {
+    "name": "Green's Bird Trio",
+    "icons": [
+      "victini"
+    ],
+    "priority": 10
+  },
+  "bird-trio-ho-oh": {
+    "name": "Bird Trio Ho-Oh",
+    "icons": [
+      "ho-oh"
+    ],
+    "priority": 10
+  },
+  "blacephalon-gx": {
+    "name": "Blacephalon (GX)",
+    "icons": [
+      "blacephalon"
+    ],
+    "priority": 10
+  },
+  "blacephalon-naganadel": {
+    "name": "Blacephalon Naganadel",
+    "icons": [
+      "naganadel"
+    ],
+    "priority": 10
+  },
+  "blacephalon-adp": {
+    "name": "Blacephalon ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 10
+  },
+  "greens-blacephalon-gx": {
+    "name": "Green's Blacephalon (GX)",
+    "icons": [
+      "blacephalon"
+    ],
+    "priority": 10
+  },
+  "blacephalon-unb": {
+    "name": "Blacephalon",
+    "icons": [
+      "blacephalon"
+    ],
+    "priority": 10
+  },
+  "greens-blacephalon": {
+    "name": "Green's Blacephalon",
+    "icons": [
+      "blacephalon"
+    ],
+    "priority": 10
+  },
+  "blacephalon-pidgeotto": {
+    "name": "Blacephalon Pidgeotto",
+    "icons": [
+      "pidgeotto"
+    ],
+    "priority": 10
+  },
+  "buzzwole-gx": {
+    "name": "Buzzwole",
+    "icons": [
+      "buzzwole"
+    ],
+    "priority": 10
+  },
+  "buzzwole-lycanroc": {
+    "name": "Buzzwole Lycanroc",
+    "icons": [
+      "buzzwole",
+      "lycanroc-midnight"
+    ],
+    "priority": 20
+  },
+  "buzzwole-garbodor": {
+    "name": "Buzzwole Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "buzzwole-adp": {
+    "name": "Buzzwole ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 10
+  },
+  "celebi-venusaur-gx": {
+    "name": "Celebi Venusaur",
+    "icons": [
+      "venusaur",
+      "celebi"
+    ],
+    "priority": 10
+  },
+  "chandelure-unm": {
+    "name": "Chandelure",
+    "icons": [
+      "chandelure"
+    ],
+    "priority": 10
+  },
+  "charizard-braixen-gx": {
+    "name": "Charizard Braixen",
+    "icons": [
+      "charizard",
+      "braixen"
+    ],
+    "priority": 10
+  },
+  "charizard-teu": {
+    "name": "Charizard",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 10
+  },
+  "commander-blastoise": {
+    "name": "Blastoise",
+    "icons": [
+      "blastoise"
+    ],
+    "priority": 10
+  },
+  "commander-dragonite": {
+    "name": "Dragonite",
+    "icons": [
+      "dragonite"
+    ],
+    "priority": 10
+  },
+  "commander-unown-hand": {
+    "name": "Unown HAND",
+    "icons": [
+      "unown-h",
+      "shuckle"
+    ],
+    "priority": 10
+  },
+  "espeon-garbodor": {
+    "name": "Espeon Garbodor",
+    "icons": [
+      "espeon",
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "excadrill-cec": {
+    "name": "Excadrill",
+    "icons": [
+      "excadrill"
+    ],
+    "priority": 10
+  },
+  "excadrill-loop": {
+    "name": "Excadrill Focus Sash",
+    "icons": [
+      "excadrill"
+    ],
+    "priority": 10
+  },
+  "florges-doll-stall": {
+    "name": "Florges Doll Stall",
+    "icons": [
+      "florges",
+      "clefairy"
+    ],
+    "priority": 10
+  },
+  "flygon-gx": {
+    "name": "Flygon",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 10
+  },
+  "fossil-lock": {
+    "name": "Fossil Lock",
+    "icons": [
+      "omastar",
+      "cradily"
+    ],
+    "priority": 10
+  },
+  "gardevoir-gx": {
+    "name": "Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 10
+  },
+  "gardevoir-sylveon": {
+    "name": "Gardevoir Sylveon",
+    "icons": [
+      "sylveon"
+    ],
+    "priority": 10
+  },
+  "gardevoir-sylveon-gx": {
+    "name": "Gardevoir Sylveon",
+    "icons": [
+      "gardevoir",
+      "sylveon"
+    ],
+    "priority": 10
+  },
+  "gardevoir-sylveon-aromatisse": {
+    "name": "Gardeon Aromatisse",
+    "icons": [
+      "aromatisse"
+    ],
+    "priority": 10
+  },
+  "genkyu-omastar": {
+    "name": "Genkyu Omastar",
+    "icons": [
+      "gengar",
+      "omastar"
+    ],
+    "priority": 10
+  },
+  "glaceon-gx": {
+    "name": "Glaceon",
+    "icons": [
+      "glaceon"
+    ],
+    "priority": 10
+  },
+  "golisopod-gx": {
+    "name": "Golisopod",
+    "icons": [
+      "golisopod"
+    ],
+    "priority": 10
+  },
+  "golisopod-garbodor": {
+    "name": "Golisopod Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "golurk-cec": {
+    "name": "Golurk",
+    "icons": [
+      "golurk"
+    ],
+    "priority": 10
+  },
+  "granbull-lot": {
+    "name": "Granbull",
+    "icons": [
+      "granbull"
+    ],
+    "priority": 10
+  },
+  "gyarados-teu": {
+    "name": "Gyarados",
+    "icons": [
+      "gyarados"
+    ],
+    "priority": 10
+  },
+  "ho-oh-gx": {
+    "name": "Ho-Oh",
+    "icons": [
+      "ho-oh"
+    ],
+    "priority": 10
+  },
+  "honchkrow-gx": {
+    "name": "Honchkrow",
+    "icons": [
+      "honchkrow"
+    ],
+    "priority": 10
+  },
+  "kartana-unb": {
+    "name": "Kartana",
+    "icons": [
+      "kartana"
+    ],
+    "priority": 10
+  },
+  "lapras-gx": {
+    "name": "Lapras",
+    "icons": [
+      "lapras"
+    ],
+    "priority": 10
+  },
+  "lickilicky-unm": {
+    "name": "Lickilicky",
+    "icons": [
+      "lickilicky"
+    ],
+    "priority": 10
+  },
+  "limitation-lock": {
+    "name": "Limitation Lock",
+    "icons": [
+      "sableye"
+    ],
+    "priority": 10
+  },
+  "lost-march": {
+    "name": "Lost March",
+    "icons": [
+      "jumpluff",
+      "natu"
+    ],
+    "priority": 10
+  },
+  "lucario-gx": {
+    "name": "Lucario",
+    "icons": [
+      "lucario"
+    ],
+    "priority": 10
+  },
+  "lurantis-gx": {
+    "name": "Lurantis",
+    "icons": [
+      "lurantis"
+    ],
+    "priority": 10
+  },
+  "malamar-fli": {
+    "name": "Malamar",
+    "icons": [
+      "malamar"
+    ],
+    "priority": 10
+  },
+  "malamar-ultra": {
+    "name": "Malamar Ultra Necrozma",
+    "icons": [
+      "necrozma-ultra"
+    ],
+    "priority": 10
+  },
+  "malamar-spread": {
+    "name": "Malamar Spread",
+    "icons": [
+      "tapu-koko"
+    ],
+    "priority": 10
+  },
+  "malamar-necrozma": {
+    "name": "Malamar Necrozma",
+    "icons": [
+      "necrozma"
+    ],
+    "priority": 10
+  },
+  "malamar-giratina": {
+    "name": "Malamar Giratina",
+    "icons": [
+      "giratina"
+    ],
+    "priority": 10
+  },
+  "metagross-gx": {
+    "name": "Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 10
+  },
+  "metagross-solgaleo": {
+    "name": "Metagross Solgaleo",
+    "icons": [
+      "solgaleo"
+    ],
+    "priority": 10
+  },
+  "noivern-gx": {
+    "name": "Noivern",
+    "icons": [
+      "noivern"
+    ],
+    "priority": 10
+  },
+  "noivern-garbodor": {
+    "name": "Noivern Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "passimian-sum": {
+    "name": "Passimian",
+    "icons": [
+      "passimian"
+    ],
+    "priority": 10
+  },
+  "pidgeotto-control": {
+    "name": "Pidgeotto Control",
+    "icons": [
+      "oranguru",
+      "pidgeotto"
+    ],
+    "priority": 10
+  },
+  "pikachu-zekrom-gx": {
+    "name": "Pikarom",
+    "icons": [
+      "zekrom",
+      "pikachu"
+    ],
+    "priority": 10
+  },
+  "greens-pikarom": {
+    "name": "Green's Pikarom",
+    "icons": [
+      "boltund"
+    ],
+    "priority": 10
+  },
+  "raichu-electrode": {
+    "name": "Raichu Electrode",
+    "icons": [
+      "raichu",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "rayquaza-gx": {
+    "name": "Rayquaza",
+    "icons": [
+      "rayquaza"
+    ],
+    "priority": 10
+  },
+  "rayquaza-vikavolt": {
+    "name": "Rayquaza Vikavolt",
+    "icons": [
+      "vikavolt"
+    ],
+    "priority": 10
+  },
+  "reshiram-zekrom-gx": {
+    "name": "Reshirom",
+    "icons": [
+      "reshiram",
+      "zekrom"
+    ],
+    "priority": 10
+  },
+  "steelix-cec": {
+    "name": "Steelix",
+    "icons": [
+      "steelix"
+    ],
+    "priority": 10
+  },
+  "sylveon-gx": {
+    "name": "Sylveon",
+    "icons": [
+      "sylveon"
+    ],
+    "priority": 10
+  },
+  "tapu-bulu-vikavolt": {
+    "name": "Tapu Bulu Vikavolt",
+    "icons": [
+      "tapu-bulu",
+      "vikavolt"
+    ],
+    "priority": 10
+  },
+  "trevnoir-combo": {
+    "name": "Trevnoir Combo",
+    "icons": [
+      "dusknoir",
+      "trevenant"
+    ],
+    "priority": 10
+  },
+  "turtonator-gx": {
+    "name": "Turtonator",
+    "icons": [
+      "turtonator"
+    ],
+    "priority": 10
+  },
+  "ultra-necrozma-cec": {
+    "name": "Ultra Necrozma",
+    "icons": [
+      "necrozma-ultra"
+    ],
+    "priority": 10
+  },
+  "ultra-necrozma-garbodor": {
+    "name": "Ultra Necrozma Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "vileplume-stall": {
+    "name": "Vileplume Stall",
+    "icons": [
+      "vileplume",
+      "lucario"
+    ],
+    "priority": 10
+  },
+  "wall-stall": {
+    "name": "Wall Stall",
+    "icons": [
+      "snorlax",
+      "clefairy"
+    ],
+    "priority": 10
+  },
+  "weezing-unb": {
+    "name": "Weezing",
+    "icons": [
+      "weezing"
+    ],
+    "priority": 10
+  },
+  "whimsicott-porygon": {
+    "name": "Whimsicott Porygon",
+    "icons": [
+      "whimsicott",
+      "porygon-z"
+    ],
+    "priority": 10
+  },
+  "white-kyurem-lot": {
+    "name": "White Kyurem",
+    "icons": [
+      "kyurem-white"
+    ],
+    "priority": 10
+  },
+  "wishiwashi-gx": {
+    "name": "Wishiwashi",
+    "icons": [
+      "wishiwashi"
+    ],
+    "priority": 10
+  },
+  "drampa-garbodor": {
+    "name": "Drampa Garbodor",
+    "icons": [
+      "drampa",
+      "garbodor"
+    ],
+    "priority": 11
+  },
+  "meganium-lot": {
+    "name": "Meganium Box",
+    "icons": [
+      "meganium",
+      "swampert"
+    ],
+    "priority": 11
+  },
+  "meganium-greninja": {
+    "name": "Meganium Greninja",
+    "icons": [
+      "greninja"
+    ],
+    "priority": 11
+  },
+  "regigigas-stall": {
+    "name": "Regigigas Stall",
+    "icons": [
+      "regigigas",
+      "hoopa-unbound"
+    ],
+    "priority": 11
+  },
+  "blacephalon-reshizard": {
+    "name": "Blacephalon Reshizard",
+    "icons": [
+      "blacephalon",
+      "charizard"
+    ],
+    "priority": 12
+  },
+  "dark-box-expanded": {
+    "name": "Dark Box",
+    "icons": [
+      "weavile",
+      "darkrai"
+    ],
+    "priority": 12
+  },
+  "garchomp-giratina-gx": {
+    "name": "Garchomp Giratina",
+    "icons": [
+      "garchomp",
+      "giratina-origin"
+    ],
+    "priority": 12
+  },
+  "shock-lock": {
+    "name": "Shock Lock",
+    "icons": [
+      "raichu"
+    ],
+    "priority": 12
+  },
+  "turbo-dark": {
+    "name": "Turbo Dark",
+    "icons": [
+      "darkrai",
+      "greninja"
+    ],
+    "priority": 12
+  },
+  "turbo-dark-adp": {
+    "name": "Turbo Dark ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 12
+  },
+  "zygarde-lycanroc": {
+    "name": "Zygarde Lycanroc",
+    "icons": [
+      "zygarde-complete",
+      "lycanroc-midnight"
+    ],
+    "priority": 12
+  },
+  "arceus-dialga-palkia-gx": {
+    "name": "ADP",
+    "icons": [
+      "arceus"
+    ],
+    "priority": 15
+  },
+  "adp-keldeo": {
+    "name": "ADP Keldeo",
+    "icons": [
+      "keldeo"
+    ],
+    "priority": 15
+  },
+  "adp-moltres": {
+    "name": "ADP Moltres",
+    "icons": [
+      "moltres-galar"
+    ],
+    "priority": 15
+  },
+  "adp-zacian": {
+    "name": "ADP Zacian",
+    "icons": [
+      "zacian-crowned"
+    ],
+    "priority": 15
+  },
+  "adp-dragonite": {
+    "name": "ADP Dragonite",
+    "icons": [
+      "dragonite"
+    ],
+    "priority": 15
+  },
+  "caturday": {
+    "name": "Caturday",
+    "icons": [
+      "espurr",
+      "persian"
+    ],
+    "priority": 15
+  },
+  "electrode-box": {
+    "name": "Electrode Box",
+    "icons": [
+      "gardevoir",
+      "electrode"
+    ],
+    "priority": 15
+  },
+  "marshadow-box": {
+    "name": "Marshadow Box",
+    "icons": [
+      "marshadow"
+    ],
+    "priority": 15
+  },
+  "marshadow-shedinja": {
+    "name": "Marshadow Shedinja",
+    "icons": [
+      "shedinja"
+    ],
+    "priority": 15
+  },
+  "naganadel-guzzlord-gx": {
+    "name": "Naganadel Guzzlord",
+    "icons": [
+      "naganadel",
+      "guzzlord"
+    ],
+    "priority": 15
+  },
+  "reshiram-charizard-gx": {
+    "name": "Reshizard",
+    "icons": [
+      "reshiram",
+      "charizard"
+    ],
+    "priority": 15
+  },
+  "greens-reshizard": {
+    "name": "Green's Reshizard",
+    "icons": [
+      "reshiram",
+      "charizard"
+    ],
+    "priority": 15
+  },
+  "spiritomb-unb": {
+    "name": "Spiritomb",
+    "icons": [
+      "spiritomb"
+    ],
+    "priority": 15
+  },
+  "spiritomb-stunfisk": {
+    "name": "Spiritomb Stunfisk",
+    "icons": [
+      "stunfisk"
+    ],
+    "priority": 15
+  },
+  "tapu-koko-spread": {
+    "name": "Tapu Koko Spread",
+    "icons": [
+      "tapu-koko"
+    ],
+    "priority": 15
+  },
+  "zapdos-teu": {
+    "name": "Zapdos",
+    "icons": [
+      "zapdos",
+      "jirachi"
+    ],
+    "priority": 15
+  },
+  "zapdos-ultra-beasts": {
+    "name": "Zapdos Ultra Beasts",
+    "icons": [
+      "buzzwole"
+    ],
+    "priority": 15
+  },
+  "mewtwo-mew-gx": {
+    "name": "Mewtwo Mew",
+    "icons": [
+      "mewtwo",
+      "mew"
+    ],
+    "priority": 18
+  },
+  "water-mewtwo": {
+    "name": "Water Mewtwo",
+    "icons": [
+      "blastoise"
+    ],
+    "priority": 18
+  },
+  "psychic-mewtwo": {
+    "name": "Psychic Mewtwo",
+    "icons": [
+      "dusknoir"
+    ],
+    "priority": 18
+  },
+  "lightning-mewtwo": {
+    "name": "Lightning Mewtwo",
+    "icons": [
+      "boltund"
+    ],
+    "priority": 18
+  },
+  "mewtwo-hydreigon": {
+    "name": "Mewtwo Hydreigon",
+    "icons": [
+      "hydreigon"
+    ],
+    "priority": 18
+  },
+  "mewtwo-rillaboom": {
+    "name": "Mewtwo Rillaboom",
+    "icons": [
+      "rillaboom"
+    ],
+    "priority": 18
+  },
+  "welder-mewtwo": {
+    "name": "Welder Mewtwo",
+    "icons": [
+      "charizard"
+    ],
+    "priority": 18
+  },
+  "mewtwo-urshifu": {
+    "name": "Mewtwo Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 18
+  },
+  "mewtwo-weavile": {
+    "name": "Mewtwo Weavile",
+    "icons": [
+      "weavile"
+    ],
+    "priority": 18
+  },
+  "hoopa-slg": {
+    "name": "Attacking Hoopa",
+    "icons": [
+      "hoopa-unbound"
+    ],
+    "priority": 20
+  },
+  "rowlet-exeggutor-gx": {
+    "name": "Rowlet Exeggutor",
+    "icons": [
+      "exeggutor-alola",
+      "rowlet"
+    ],
+    "priority": 20
+  },
+  "rowegg-rillaboom": {
+    "name": "Rowegg Rillaboom",
+    "icons": [
+      "rillaboom"
+    ],
+    "priority": 20
+  },
+  "rowegg-vileplume": {
+    "name": "Rowegg Vileplume",
+    "icons": [
+      "vileplume"
+    ],
+    "priority": 20
+  },
+  "volcanion-ex": {
+    "name": "Volcanion",
+    "icons": [
+      "volcanion"
+    ],
+    "priority": 10
+  },
+  "zoroark-gx": {
+    "name": "Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 20
+  },
+  "zoroark-raticate": {
+    "name": "Zoroark Raticate",
+    "icons": [
+      "raticate"
+    ],
+    "priority": 20
+  },
+  "zoroark-persian": {
+    "name": "Zoroark Persian",
+    "icons": [
+      "persian"
+    ],
+    "priority": 20
+  },
+  "zoroark-gardevoir": {
+    "name": "Zoroark Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 20
+  },
+  "zoroark-lycanroc": {
+    "name": "Zoroark Lycanroc",
+    "icons": [
+      "lycanroc-midnight"
+    ],
+    "priority": 20
+  },
+  "zoroark-dewgong": {
+    "name": "Zoroark Dewgong",
+    "icons": [
+      "dewgong"
+    ],
+    "priority": 20
+  },
+  "zoroark-counters": {
+    "name": "Zoroark Counters",
+    "icons": [
+      "celebi"
+    ],
+    "priority": 20
+  },
+  "zoroark-garbodor": {
+    "name": "Zoroark Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 20
+  },
+  "zoroark-golisopod": {
+    "name": "Zoroark Golisopod",
+    "icons": [
+      "golisopod"
+    ],
+    "priority": 20
+  },
+  "zoroark-glaceon": {
+    "name": "Zoroark Glaceon",
+    "icons": [
+      "glaceon"
+    ],
+    "priority": 20
+  },
+  "zoroark-urshifu": {
+    "name": "Zoroark Urshifu",
+    "icons": [
+      "urshifu-rapid-strike-gmax"
+    ],
+    "priority": 20
+  },
+  "zoroark-decidueye": {
+    "name": "Zoroark Decidueye",
+    "icons": [
+      "decidueye"
+    ],
+    "priority": 20
+  },
+  "zoroark-gyarados": {
+    "name": "Zoroark Gyarados",
+    "icons": [
+      "gyarados"
+    ],
+    "priority": 20
+  },
+  "decidueye-gx": {
+    "name": "Decidueye",
+    "icons": [
+      "decidueye"
+    ],
+    "priority": 21
+  },
+  "decidueye-vileplume": {
+    "name": "Decidueye Vileplume",
+    "icons": [
+      "vileplume"
+    ],
+    "priority": 21
+  },
+  "decidueye-ninetales": {
+    "name": "Decidueye Ninetales",
+    "icons": [
+      "ninetales-alola"
+    ],
+    "priority": 21
+  },
+  "excadrill-control": {
+    "name": "Excadrill Control",
+    "icons": [
+      "excadrill",
+      "weezing"
+    ],
+    "priority": 25
+  },
+  "munchlax-control": {
+    "name": "Munchlax Control",
+    "icons": [
+      "munchlax"
+    ],
+    "priority": 25
+  },
+  "trevenant-dusknoir-gx": {
+    "name": "Trevenant Dusknoir",
+    "icons": [
+      "dusknoir",
+      "trevenant"
+    ],
+    "priority": 25
+  },
+  "buzzwole-fli": {
+    "name": "Buzzwole",
+    "icons": [
+      "buzzwole"
+    ],
+    "priority": 30
+  },
+  "buzzwole-garbodor-shrine": {
+    "name": "Buzzwole Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 30
+  },
+  "bronzong-phf": {
+    "name": "Bronzong Box",
+    "icons": [
+      "bronzong",
+      "aegislash"
+    ],
+    "priority": 10
+  },
+  "entei-aor": {
+    "name": "Entei",
+    "icons": [
+      "entei"
+    ],
+    "priority": 10
+  },
+  "gallade-bkt": {
+    "name": "Gallade",
+    "icons": [
+      "gallade"
+    ],
+    "priority": 10
+  },
+  "giratina-ex": {
+    "name": "Giratina",
+    "icons": [
+      "giratina-origin"
+    ],
+    "priority": 10
+  },
+  "greninja-break": {
+    "name": "Greninja",
+    "icons": [
+      "greninja"
+    ],
+    "priority": 10
+  },
+  "gyarados-aor": {
+    "name": "Gyarados",
+    "icons": [
+      "gyarados"
+    ],
+    "priority": 10
+  },
+  "manectric-crobat": {
+    "name": "Manectric Crobat",
+    "icons": [
+      "manectric",
+      "crobat"
+    ],
+    "priority": 10
+  },
+  "mega-audino-ex": {
+    "name": "Mega Audino",
+    "icons": [
+      "audino-mega"
+    ],
+    "priority": 10
+  },
+  "mega-gardevoir-ex-prc": {
+    "name": "Mega Gardevoir",
+    "icons": [
+      "gardevoir-mega"
+    ],
+    "priority": 10
+  },
+  "mega-gardevoir-ex-sts": {
+    "name": "Mega Gardevoir",
+    "icons": [
+      "gardevoir-mega"
+    ],
+    "priority": 10
+  },
+  "mega-manectric-ex": {
+    "name": "Mega Manectric",
+    "icons": [
+      "manectric-mega"
+    ],
+    "priority": 10
+  },
+  "mega-mewtwo-ex": {
+    "name": "Mega Mewtwo",
+    "icons": [
+      "mewtwo-mega-y"
+    ],
+    "priority": 10
+  },
+  "mega-rayquaza-ex": {
+    "name": "Mega Rayquaza",
+    "icons": [
+      "rayquaza-mega"
+    ],
+    "priority": 10
+  },
+  "metal-mega-rayquaza": {
+    "name": "Metal Rayquaza",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 10
+  },
+  "mega-sceptile-ex": {
+    "name": "Mega Sceptile",
+    "icons": [
+      "sceptile-mega"
+    ],
+    "priority": 10
+  },
+  "mega-scizor-ex": {
+    "name": "Mega Scizor",
+    "icons": [
+      "scizor-mega"
+    ],
+    "priority": 10
+  },
+  "mew-fco": {
+    "name": "Mew Box",
+    "icons": [
+      "mew",
+      "cramorant"
+    ],
+    "priority": 10
+  },
+  "night-march": {
+    "name": "Night March",
+    "icons": [
+      "joltik",
+      "pumpkaboo"
+    ],
+    "priority": 10
+  },
+  "primal-groudon-ex": {
+    "name": "Primal Groudon",
+    "icons": [
+      "groudon-primal"
+    ],
+    "priority": 10
+  },
+  "raichu-xy": {
+    "name": "Raichu",
+    "icons": [
+      "raichu"
+    ],
+    "priority": 10
+  },
+  "raichu-lycanroc": {
+    "name": "Raichu Lycanroc",
+    "icons": [
+      "lycanroc-midnight"
+    ],
+    "priority": 10
+  },
+  "raichu-crobat": {
+    "name": "Raichu Crobat",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 10
+  },
+  "torchic-prc": {
+    "name": "Torchic",
+    "icons": [
+      "torchic"
+    ],
+    "priority": 10
+  },
+  "trevenant-break": {
+    "name": "Trevenant",
+    "icons": [
+      "trevenant"
+    ],
+    "priority": 10
+  },
+  "vespiquen-aor": {
+    "name": "Vespiquen",
+    "icons": [
+      "vespiquen"
+    ],
+    "priority": 10
+  },
+  "vespiquen-vileplume": {
+    "name": "Vespiquen Vileplume",
+    "icons": [
+      "vileplume"
+    ],
+    "priority": 10
+  },
+  "wailord-stall": {
+    "name": "Wailord Stall",
+    "icons": [
+      "wailord"
+    ],
+    "priority": 10
+  },
+  "xerneas-bkt": {
+    "name": "Rainbow Force",
+    "icons": [
+      "xerneas"
+    ],
+    "priority": 10
+  },
+  "xerneas-break": {
+    "name": "Xerneas",
+    "icons": [
+      "xerneas"
+    ],
+    "priority": 10
+  },
+  "yveltal-break": {
+    "name": "Yveltal",
+    "icons": [
+      "yveltal"
+    ],
+    "priority": 10
+  },
+  "yveltal-zoroark-gallade": {
+    "name": "YZG",
+    "icons": [
+      "yveltal",
+      "zoroark"
+    ],
+    "priority": 10
+  },
+  "zoroark-bkt": {
+    "name": "Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 10
+  },
+  "zoroark-drampa": {
+    "name": "Zoroark Drampa",
+    "icons": [
+      "drampa"
+    ],
+    "priority": 10
+  },
+  "zoroark-umbreon": {
+    "name": "Zoroark Umbreon",
+    "icons": [
+      "umbreon"
+    ],
+    "priority": 10
+  },
+  "aromatisse-xy": {
+    "name": "Aromatisse",
+    "icons": [
+      "aromatisse"
+    ],
+    "priority": 11
+  },
+  "aromatisse-box": {
+    "name": "Aromatisse Box",
+    "icons": [
+      "seismitoad"
+    ],
+    "priority": 11
+  },
+  "aromatisse-kangaskhan": {
+    "name": "Aromatisse Kangaskhan",
+    "icons": [
+      "kangaskhan-mega"
+    ],
+    "priority": 11
+  },
+  "aromatisse-diancie": {
+    "name": "Aromatisse Diancie",
+    "icons": [
+      "diancie-mega"
+    ],
+    "priority": 11
+  },
+  "pyroar-flf": {
+    "name": "Pyroar",
+    "icons": [
+      "pyroar"
+    ],
+    "priority": 11
+  },
+  "seismitoad-ex": {
+    "name": "Seismitoad",
+    "icons": [
+      "seismitoad"
+    ],
+    "priority": 12
+  },
+  "seismitoad-garbodor": {
+    "name": "Seismitoad Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 12
+  },
+  "seismitoad-slurpuff": {
+    "name": "Seismitoad Slurpuff",
+    "icons": [
+      "slurpuff"
+    ],
+    "priority": 12
+  },
+  "seismitoad-giratina": {
+    "name": "Seismitoad Giratina",
+    "icons": [
+      "giratina-origin"
+    ],
+    "priority": 12
+  },
+  "seismitoad-waterbox": {
+    "name": "Seismitoad Waterbox",
+    "icons": [
+      "manaphy"
+    ],
+    "priority": 12
+  },
+  "seismitoad-zoroark": {
+    "name": "Seismitoad Zoroark",
+    "icons": [
+      "zoroark"
+    ],
+    "priority": 12
+  },
+  "seismitoad-crobat": {
+    "name": "Seismitoad Crobat",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 12
+  },
+  "darkrai-ex-bkp": {
+    "name": "Darkrai",
+    "icons": [
+      "darkrai"
+    ],
+    "priority": 15
+  },
+  "dakrai-dragonair": {
+    "name": "Darkrai Dragonair",
+    "icons": [
+      "dragonair"
+    ],
+    "priority": 15
+  },
+  "darkrai-giratina": {
+    "name": "Darkrai Giratina",
+    "icons": [
+      "giratina-origin"
+    ],
+    "priority": 15
+  },
+  "yveltal-ex": {
+    "name": "Yveltal",
+    "icons": [
+      "yveltal"
+    ],
+    "priority": 20
+  },
+  "yveltal-garbodor": {
+    "name": "Yveltal Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 20
+  },
+  "yveltal-gallade": {
+    "name": "Yveltal Gallade",
+    "icons": [
+      "gallade"
+    ],
+    "priority": 20
+  },
+  "yveltal-maxie": {
+    "name": "Yveltal Maxie",
+    "icons": [
+      "archeops"
+    ],
+    "priority": 20
+  },
+  "archies-blastoise": {
+    "name": "Archie's Blastoise",
+    "icons": [
+      "blastoise"
+    ],
+    "priority": 8
+  },
+  "donphan-pls": {
+    "name": "Donphan",
+    "icons": [
+      "donphan"
+    ],
+    "priority": 10
+  },
+  "durant-nvi": {
+    "name": "Durant",
+    "icons": [
+      "durant"
+    ],
+    "priority": 10
+  },
+  "empoleon-dex": {
+    "name": "Empoleon Dusknoir",
+    "icons": [
+      "empoleon",
+      "dusknoir"
+    ],
+    "priority": 10
+  },
+  "fighting-bats": {
+    "name": "Fighting Bats",
+    "icons": [
+      "landorus-therian",
+      "crobat"
+    ],
+    "priority": 10
+  },
+  "flareon-plf": {
+    "name": "Flareon",
+    "icons": [
+      "flareon"
+    ],
+    "priority": 10
+  },
+  "flareon-donphan": {
+    "name": "Flareon Donphan",
+    "icons": [
+      "donphan"
+    ],
+    "priority": 10
+  },
+  "flareon-vespiquen": {
+    "name": "Flareon Vespiquen",
+    "icons": [
+      "vespiquen"
+    ],
+    "priority": 10
+  },
+  "flygon-bcr": {
+    "name": "Flygon Dusknoir",
+    "icons": [
+      "flygon",
+      "dusknoir"
+    ],
+    "priority": 10
+  },
+  "garchomp-altaria": {
+    "name": "Garchomp Altaria",
+    "icons": [
+      "garchomp",
+      "altaria"
+    ],
+    "priority": 10
+  },
+  "genesect-celebi": {
+    "name": "Genesect Celebi",
+    "icons": [
+      "genesect",
+      "celebi"
+    ],
+    "priority": 10
+  },
+  "gothorita-control": {
+    "name": "Gothitelle Control",
+    "icons": [
+      "gothitelle",
+      "celebi"
+    ],
+    "priority": 10
+  },
+  "ho-oh-ex": {
+    "name": "Ho-Oh",
+    "icons": [
+      "ho-oh"
+    ],
+    "priority": 10
+  },
+  "ho-oh-amazing-yveltal": {
+    "name": "Ho-Oh Yveltal",
+    "icons": [
+      "yveltal"
+    ],
+    "priority": 10
+  },
+  "ho-oh-amazing-reshiram": {
+    "name": "Ho-Oh Reshiram",
+    "icons": [
+      "reshiram"
+    ],
+    "priority": 10
+  },
+  "klinklang-blw": {
+    "name": "Klinklang",
+    "icons": [
+      "klinklang"
+    ],
+    "priority": 10
+  },
+  "kyurem-plf": {
+    "name": "Plasma Kyurem",
+    "icons": [
+      "kyurem",
+      "deoxys"
+    ],
+    "priority": 10
+  },
+  "landorus-mewtwo": {
+    "name": "Landorus Mewtwo",
+    "icons": [
+      "landorus-therian",
+      "mewtwo"
+    ],
+    "priority": 10
+  },
+  "ninetales-amoonguss": {
+    "name": "Ninetales Amoonguss",
+    "icons": [
+      "ninetales",
+      "amoonguss"
+    ],
+    "priority": 10
+  },
+  "plasma-lugia": {
+    "name": "Plasma Lugia",
+    "icons": [
+      "lugia",
+      "deoxys"
+    ],
+    "priority": 10
+  },
+  "raticate-bcr": {
+    "name": "Raticate",
+    "icons": [
+      "raticate"
+    ],
+    "priority": 10
+  },
+  "rayquaza-eelektrik": {
+    "name": "Rayquaza Eelektrik",
+    "icons": [
+      "rayquaza",
+      "eelektrik"
+    ],
+    "priority": 10
+  },
+  "reshiram-typhlosion": {
+    "name": "Reshiram Typhlosion",
+    "icons": [
+      "reshiram",
+      "typhlosion"
+    ],
+    "priority": 10
+  },
+  "sableye-dex": {
+    "name": "Sableye Lock",
+    "icons": [
+      "sableye",
+      "weavile"
+    ],
+    "priority": 10
+  },
+  "sableye-garbodor": {
+    "name": "Sableye Garbodor",
+    "icons": [
+      "sableye",
+      "garbodor"
+    ],
+    "priority": 10
+  },
+  "weavile-exeggute": {
+    "name": "Weavile Exeggcute",
+    "icons": [
+      "weavile",
+      "exeggcute"
+    ],
+    "priority": 10
+  },
+  "zebstrika-nxd": {
+    "name": "Zebstrika",
+    "icons": [
+      "zebstrika"
+    ],
+    "priority": 10
+  },
+  "zekrom-eelektrik": {
+    "name": "Zekrom Eelektrik",
+    "icons": [
+      "zekrom",
+      "eelektrik"
+    ],
+    "priority": 10
+  },
+  "zpst": {
+    "name": "ZPST",
+    "icons": [
+      "zekrom",
+      "pachirisu"
+    ],
+    "priority": 10
+  },
+  "keldeo-blastoise": {
+    "name": "Keldeo Blastoise",
+    "icons": [
+      "keldeo",
+      "blastoise"
+    ],
+    "priority": 11
+  },
+  "accelgor-dex": {
+    "name": "Accelgor",
+    "icons": [
+      "accelgor"
+    ],
+    "priority": 12
+  },
+  "accelgor-trevenant": {
+    "name": "Accelgor Trevenant",
+    "icons": [
+      "trevenant"
+    ],
+    "priority": 12
+  },
+  "accelgor-gothitelle": {
+    "name": "Accelgor Gothitelle",
+    "icons": [
+      "gothitelle"
+    ],
+    "priority": 12
+  },
+  "reshiram-emboar": {
+    "name": "Reshiram Emboar",
+    "icons": [
+      "reshiram",
+      "emboar"
+    ],
+    "priority": 12
+  },
+  "virizion-genesect": {
+    "name": "Virizion Genesect",
+    "icons": [
+      "virizion",
+      "genesect"
+    ],
+    "priority": 12
+  },
+  "team-plasma": {
+    "name": "Team Plasma",
+    "icons": [
+      "thundurus-therian",
+      "deoxys"
+    ],
+    "priority": 15
+  },
+  "darkrai-ex": {
+    "name": "Darkrai",
+    "icons": [
+      "darkrai"
+    ],
+    "priority": 20
+  },
+  "darkrai-mewtwo": {
+    "name": "Darkrai Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 20
+  },
+  "darkrai-garbodor": {
+    "name": "Darkrai Garbodor",
+    "icons": [
+      "garbodor"
+    ],
+    "priority": 20
+  },
+  "darkrai-hydreigon": {
+    "name": "Darkrai Hydreigon",
+    "icons": [
+      "hydreigon"
+    ],
+    "priority": 20
+  },
+  "gothitelle-epo": {
+    "name": "Gothitelle",
+    "icons": [
+      "gothitelle"
+    ],
+    "priority": 20
+  },
+  "gothitelle-reuniclus": {
+    "name": "Gothitelle Reuniclus",
+    "icons": [
+      "reuniclus"
+    ],
+    "priority": 20
+  },
+  "gothitelle-gardevoir": {
+    "name": "Gothitelle Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 20
+  },
+  "beedrill-ge": {
+    "name": "Beedrill",
+    "icons": [
+      "beedrill"
+    ],
+    "priority": 10
+  },
+  "blissey-mt": {
+    "name": "Blissey",
+    "icons": [
+      "blissey"
+    ],
+    "priority": 10
+  },
+  "cmt": {
+    "name": "CMT",
+    "icons": [
+      "mewtwo",
+      "celebi"
+    ],
+    "priority": 10
+  },
+  "donphan-hs": {
+    "name": "Donphan",
+    "icons": [
+      "donphan"
+    ],
+    "priority": 10
+  },
+  "empoleon-md": {
+    "name": "Empoleon",
+    "icons": [
+      "empoleon"
+    ],
+    "priority": 10
+  },
+  "empoleon-bronzong": {
+    "name": "Empoleon Bronzong",
+    "icons": [
+      "bronzong"
+    ],
+    "priority": 10
+  },
+  "feraligatr-prime": {
+    "name": "Feraligatr",
+    "icons": [
+      "feraligatr"
+    ],
+    "priority": 10
+  },
+  "flygon-rr": {
+    "name": "Flygon",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 10
+  },
+  "flygon-machamp": {
+    "name": "Flygon Machamp",
+    "icons": [
+      "machamp"
+    ],
+    "priority": 10
+  },
+  "flygon-lock": {
+    "name": "Flygon Lock",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 10
+  },
+  "flygon-torterra": {
+    "name": "Flygon Torterra",
+    "icons": [
+      "torterra"
+    ],
+    "priority": 10
+  },
+  "gengar-sf": {
+    "name": "Gengar",
+    "icons": [
+      "gengar"
+    ],
+    "priority": 10
+  },
+  "gengar-nidoqueen": {
+    "name": "Gengar Nidoqueen",
+    "icons": [
+      "nidoqueen"
+    ],
+    "priority": 10
+  },
+  "glaceon-lvx": {
+    "name": "Glaceon",
+    "icons": [
+      "glaceon"
+    ],
+    "priority": 10
+  },
+  "gyarados-sf": {
+    "name": "Gyarados",
+    "icons": [
+      "gyarados"
+    ],
+    "priority": 10
+  },
+  "jumpluff-hs": {
+    "name": "Jumpluff",
+    "icons": [
+      "jumpluff"
+    ],
+    "priority": 10
+  },
+  "kingdra-ul": {
+    "name": "Kingdra",
+    "icons": [
+      "kingdra"
+    ],
+    "priority": 10
+  },
+  "kingdra-machamp": {
+    "name": "Kingdra Machamp",
+    "icons": [
+      "machamp"
+    ],
+    "priority": 10
+  },
+  "leafeon-ud": {
+    "name": "Leafeon",
+    "icons": [
+      "leafeon"
+    ],
+    "priority": 10
+  },
+  "leafeon-roserade": {
+    "name": "Leafeon Roserade",
+    "icons": [
+      "roserade"
+    ],
+    "priority": 10
+  },
+  "lost-world": {
+    "name": "Lost World",
+    "icons": [
+      "gengar",
+      "mime-jr"
+    ],
+    "priority": 10
+  },
+  "luxchomp": {
+    "name": "Luxchomp",
+    "icons": [
+      "luxray",
+      "garchomp"
+    ],
+    "priority": 10
+  },
+  "luxray-gl": {
+    "name": "Luxray GL",
+    "icons": [
+      "luxray"
+    ],
+    "priority": 10
+  },
+  "luxray-infernape": {
+    "name": "Luxray Infernape",
+    "icons": [
+      "infernape"
+    ],
+    "priority": 10
+  },
+  "luxray-manectric": {
+    "name": "Luxray Manectric",
+    "icons": [
+      "manectric"
+    ],
+    "priority": 10
+  },
+  "luxray-sp": {
+    "name": "Luxray SP Box",
+    "icons": [
+      "honchkrow"
+    ],
+    "priority": 10
+  },
+  "magmortar-tm": {
+    "name": "Magmortar",
+    "icons": [
+      "magmortar"
+    ],
+    "priority": 10
+  },
+  "palkia-g-lvx": {
+    "name": "Palkia Lock",
+    "icons": [
+      "palkia",
+      "mesprit"
+    ],
+    "priority": 10
+  },
+  "porygon-z-dpp": {
+    "name": "Porygon-Z",
+    "icons": [
+      "porygon-z"
+    ],
+    "priority": 10
+  },
+  "sableye-sp": {
+    "name": "Sableye SP Box",
+    "icons": [
+      "sableye",
+      "honchkrow"
+    ],
+    "priority": 10
+  },
+  "typhlosion-rdl": {
+    "name": "Typhlosion RDL",
+    "icons": [
+      "typhlosion",
+      "rayquaza"
+    ],
+    "priority": 10
+  },
+  "tyranitar-prime": {
+    "name": "Tyranitar",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "ursaring-combee": {
+    "name": "Ursaring Combee",
+    "icons": [
+      "ursaring",
+      "combee"
+    ],
+    "priority": 10
+  },
+  "vileplume-reuniclus": {
+    "name": "Vileplume Reuniclus",
+    "icons": [
+      "vileplume",
+      "reuniclus"
+    ],
+    "priority": 10
+  },
+  "dialgachomp": {
+    "name": "Dialgachomp",
+    "icons": [
+      "dialga",
+      "garchomp"
+    ],
+    "priority": 11
+  },
+  "gardevoir-sw": {
+    "name": "Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 11
+  },
+  "gardevoir-gallade": {
+    "name": "Gardevoir Gallade",
+    "icons": [
+      "gallade"
+    ],
+    "priority": 11
+  },
+  "gengar-ar": {
+    "name": "Cursegar",
+    "icons": [
+      "gengar",
+      "spiritomb"
+    ],
+    "priority": 11
+  },
+  "magnezone-lvx": {
+    "name": "Magnezone",
+    "icons": [
+      "magnezone"
+    ],
+    "priority": 11
+  },
+  "yanmega-prime": {
+    "name": "Yanmega",
+    "icons": [
+      "yanmega"
+    ],
+    "priority": 15
+  },
+  "yanmega-magnezone": {
+    "name": "Yanmega Magnezone",
+    "icons": [
+      "magnezone"
+    ],
+    "priority": 15
+  },
+  "yanmega-donphan": {
+    "name": "Yanmega Donphan",
+    "icons": [
+      "donphan"
+    ],
+    "priority": 15
+  },
+  "yanmega-combee": {
+    "name": "Yanmega Combee",
+    "icons": [
+      "combee"
+    ],
+    "priority": 15
+  },
+  "yanmega-weavile": {
+    "name": "Yanmega Weavile",
+    "icons": [
+      "weavile"
+    ],
+    "priority": 15
+  },
+  "magnezone-prime": {
+    "name": "Magnezone",
+    "icons": [
+      "magnezone"
+    ],
+    "priority": 20
+  },
+  "magnezone-emboar": {
+    "name": "Magnezone Emboar",
+    "icons": [
+      "emboar"
+    ],
+    "priority": 20
+  },
+  "weezing-jolteon": {
+    "name": "Weezing Jolteon",
+    "icons": [
+      "weezing",
+      "jolteon"
+    ],
+    "priority": 9
+  },
+  "aggron-swampert": {
+    "name": "Aggron Swampert",
+    "icons": [
+      "aggron",
+      "swampert"
+    ],
+    "priority": 10
+  },
+  "arcanine-ex": {
+    "name": "Arcanine ex",
+    "icons": [
+      "arcanine"
+    ],
+    "priority": 10
+  },
+  "armaldo-ex": {
+    "name": "Armaldo Groudon",
+    "icons": [
+      "armaldo",
+      "groudon"
+    ],
+    "priority": 10
+  },
+  "armaldo-ss": {
+    "name": "Armaldo",
+    "icons": [
+      "armaldo"
+    ],
+    "priority": 10
+  },
+  "banette-ex": {
+    "name": "Banette",
+    "icons": [
+      "banette"
+    ],
+    "priority": 10
+  },
+  "blastoise-lugia": {
+    "name": "Blastoise Lugia",
+    "icons": [
+      "blastoise",
+      "lugia"
+    ],
+    "priority": 10
+  },
+  "blaziken-rs": {
+    "name": "Blaziken",
+    "icons": [
+      "blaziken"
+    ],
+    "priority": 10
+  },
+  "bombcatty": {
+    "name": "Bombcatty",
+    "icons": [
+      "delcatty",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "bombchamp": {
+    "name": "Bombchamp",
+    "icons": [
+      "machamp",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "bombsaur": {
+    "name": "Bombsaur",
+    "icons": [
+      "venusaur",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "crobat-ds": {
+    "name": "Crobat δ",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 10
+  },
+  "crobat-mawile": {
+    "name": "Crobat Mawile",
+    "icons": [
+      "mawile"
+    ],
+    "priority": 10
+  },
+  "dark-slowking-trr": {
+    "name": "Dark Slowking",
+    "icons": [
+      "slowking"
+    ],
+    "priority": 10
+  },
+  "dark-steelix-trr": {
+    "name": "Dark Steelix",
+    "icons": [
+      "steelix"
+    ],
+    "priority": 10
+  },
+  "dark-tyranitar": {
+    "name": "Dark Tyranitar",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "bombtar": {
+    "name": "Bombtar",
+    "icons": [
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "dragonite-ex": {
+    "name": "Dragonite ex δ",
+    "icons": [
+      "dragonite"
+    ],
+    "priority": 10
+  },
+  "dragtrode": {
+    "name": "Dragtrode",
+    "icons": [
+      "dragonite",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "dragtrode-sneasel": {
+    "name": "Dragtrode Sneasel",
+    "icons": [
+      "sneasel"
+    ],
+    "priority": 10
+  },
+  "electabuzz-uf": {
+    "name": "Electabuzz",
+    "icons": [
+      "electabuzz"
+    ],
+    "priority": 10
+  },
+  "espeon-ex": {
+    "name": "Espeon",
+    "icons": [
+      "espeon"
+    ],
+    "priority": 10
+  },
+  "espeon-banette": {
+    "name": "Espeon Banette",
+    "icons": [
+      "banette"
+    ],
+    "priority": 10
+  },
+  "exeggutor-electrode": {
+    "name": "Exeggutor Electrode",
+    "icons": [
+      "exeggutor",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "exeggutor-rayquaza-delta": {
+    "name": "Exeggutor Rayquaza δ",
+    "icons": [
+      "exeggutor",
+      "rayquaza"
+    ],
+    "priority": 10
+  },
+  "exploud-ex": {
+    "name": "Exploud",
+    "icons": [
+      "exploud"
+    ],
+    "priority": 10
+  },
+  "exploud-hl": {
+    "name": "Exploud",
+    "icons": [
+      "exploud"
+    ],
+    "priority": 10
+  },
+  "exploud-beedrill": {
+    "name": "Exploud Beedrill",
+    "icons": [
+      "beedrill"
+    ],
+    "priority": 10
+  },
+  "feraligatr-df": {
+    "name": "Feraligatr δ",
+    "icons": [
+      "feraligatr"
+    ],
+    "priority": 10
+  },
+  "flariados": {
+    "name": "Flariados",
+    "icons": [
+      "flareon",
+      "ariados"
+    ],
+    "priority": 10
+  },
+  "forretress-uf": {
+    "name": "Forretress",
+    "icons": [
+      "forretress"
+    ],
+    "priority": 10
+  },
+  "forretress-muk": {
+    "name": "Foretress Muk",
+    "icons": [
+      "muk"
+    ],
+    "priority": 10
+  },
+  "fossil-box-rspk": {
+    "name": "Fossil Box",
+    "icons": [
+      "kabutops",
+      "omastar"
+    ],
+    "priority": 10
+  },
+  "gardevoir-ex": {
+    "name": "Gardevoir δ",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 10
+  },
+  "gorebyss-hl": {
+    "name": "Gorebyss",
+    "icons": [
+      "gorebyss"
+    ],
+    "priority": 10
+  },
+  "gorebyss-lanturn": {
+    "name": "Gorebyss Lanturn",
+    "icons": [
+      "lanturn"
+    ],
+    "priority": 10
+  },
+  "gorebyss-crobat": {
+    "name": "Gorebyss Crobat",
+    "icons": [
+      "crobat"
+    ],
+    "priority": 10
+  },
+  "gorebyss-metagross": {
+    "name": "Gorebyss Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 10
+  },
+  "gorebyss-gardevoir": {
+    "name": "Gorebyss Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 10
+  },
+  "hariyama-ex": {
+    "name": "Hariyama",
+    "icons": [
+      "hariyama"
+    ],
+    "priority": 10
+  },
+  "jolteon-ex": {
+    "name": "Jolteon",
+    "icons": [
+      "jolteon"
+    ],
+    "priority": 10
+  },
+  "jolteon-rayquaza": {
+    "name": "Jolteon Rayquaza δ",
+    "icons": [
+      "rayquaza"
+    ],
+    "priority": 10
+  },
+  "jolteon-absol": {
+    "name": "Jolteon Absol",
+    "icons": [
+      "absol"
+    ],
+    "priority": 10
+  },
+  "kingdra-ex": {
+    "name": "Kingdra δ",
+    "icons": [
+      "kingdra"
+    ],
+    "priority": 10
+  },
+  "latias-mewtwo-delta": {
+    "name": "Latias Mewtwo δ",
+    "icons": [
+      "latias",
+      "mewtwo"
+    ],
+    "priority": 10
+  },
+  "ludicargo": {
+    "name": "Ludicargo",
+    "icons": [
+      "ludicolo",
+      "magcargo"
+    ],
+    "priority": 10
+  },
+  "machamp-hl": {
+    "name": "Machamp",
+    "icons": [
+      "machamp"
+    ],
+    "priority": 10
+  },
+  "marowak-stantler": {
+    "name": "Marowak δ Stantler",
+    "icons": [
+      "marowak",
+      "stantler"
+    ],
+    "priority": 10
+  },
+  "medicham-ex": {
+    "name": "Medicham",
+    "icons": [
+      "medicham"
+    ],
+    "priority": 10
+  },
+  "metanite": {
+    "name": "Metanite",
+    "icons": [
+      "metagross",
+      "dragonite"
+    ],
+    "priority": 10
+  },
+  "mew-lock": {
+    "name": "Mew Lock",
+    "icons": [
+      "mew",
+      "minun"
+    ],
+    "priority": 10
+  },
+  "mewtric": {
+    "name": "Mewtric",
+    "icons": [
+      "manectric",
+      "mew"
+    ],
+    "priority": 10
+  },
+  "muk-ex": {
+    "name": "Muk",
+    "icons": [
+      "muk"
+    ],
+    "priority": 10
+  },
+  "nidoqueen-frlg": {
+    "name": "Nidoqueen",
+    "icons": [
+      "nidoqueen",
+      "pidgeot"
+    ],
+    "priority": 10
+  },
+  "ninjask-fossils": {
+    "name": "Ninjask Fossils",
+    "icons": [
+      "ninjask",
+      "shedinja"
+    ],
+    "priority": 10
+  },
+  "politoed-ex": {
+    "name": "Politoed",
+    "icons": [
+      "politoed"
+    ],
+    "priority": 10
+  },
+  "raieggs": {
+    "name": "Rai-Eggs",
+    "icons": [
+      "raichu",
+      "exeggutor"
+    ],
+    "priority": 10
+  },
+  "rayler": {
+    "name": "Rayler",
+    "icons": [
+      "rayquaza",
+      "stantler"
+    ],
+    "priority": 10
+  },
+  "rayquaza-hp": {
+    "name": "Quad Rayquaza δ",
+    "icons": [
+      "rayquaza"
+    ],
+    "priority": 10
+  },
+  "rock-lock": {
+    "name": "Rock Lock",
+    "icons": [
+      "tyranitar",
+      "ampharos"
+    ],
+    "priority": 10
+  },
+  "salamence-ds-electrode-ex": {
+    "name": "Bombmence",
+    "icons": [
+      "salamence",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "salamence-ex": {
+    "name": "Salamence",
+    "icons": [
+      "salamence"
+    ],
+    "priority": 10
+  },
+  "shiftry-ex": {
+    "name": "Shiftry",
+    "icons": [
+      "shiftry"
+    ],
+    "priority": 10
+  },
+  "shiftry-hl": {
+    "name": "Shiftry",
+    "icons": [
+      "shiftry"
+    ],
+    "priority": 10
+  },
+  "swampert-metagross": {
+    "name": "Swampert Metagross",
+    "icons": [
+      "swampert",
+      "metagross"
+    ],
+    "priority": 10
+  },
+  "swampert-rs": {
+    "name": "Swampert",
+    "icons": [
+      "swampert"
+    ],
+    "priority": 10
+  },
+  "swampert-steelix": {
+    "name": "Swampert Steelix",
+    "icons": [
+      "swampert",
+      "steelix"
+    ],
+    "priority": 10
+  },
+  "team-aqua": {
+    "name": "Team Aqua",
+    "icons": [
+      "kyogre"
+    ],
+    "priority": 10
+  },
+  "team-magmas-groudon": {
+    "name": "Magma Groudon",
+    "icons": [
+      "groudon"
+    ],
+    "priority": 10
+  },
+  "team-magma": {
+    "name": "Team Magma",
+    "icons": [
+      "zangoose"
+    ],
+    "priority": 10
+  },
+  "typhlosion-uf": {
+    "name": "Typhlosion",
+    "icons": [
+      "typhlosion"
+    ],
+    "priority": 10
+  },
+  "typhlosion-camerupt": {
+    "name": "Typhlosion Camerupt",
+    "icons": [
+      "camerupt"
+    ],
+    "priority": 10
+  },
+  "tyranitar-ex-df": {
+    "name": "Tyranitar δ",
+    "icons": [
+      "tyranitar"
+    ],
+    "priority": 10
+  },
+  "vileplume-ex": {
+    "name": "Vileplume",
+    "icons": [
+      "vileplume"
+    ],
+    "priority": 10
+  },
+  "vileplume-sceptile": {
+    "name": "Vileplume Sceptile",
+    "icons": [
+      "sceptile"
+    ],
+    "priority": 10
+  },
+  "wailord-ex": {
+    "name": "Wailord",
+    "icons": [
+      "wailord"
+    ],
+    "priority": 10
+  },
+  "walrein-ex": {
+    "name": "Walrein",
+    "icons": [
+      "walrein"
+    ],
+    "priority": 10
+  },
+  "walrein-hl": {
+    "name": "Walrein",
+    "icons": [
+      "walrein"
+    ],
+    "priority": 10
+  },
+  "wigglytuff-ex": {
+    "name": "Wigglytuff",
+    "icons": [
+      "wigglytuff"
+    ],
+    "priority": 10
+  },
+  "zapdos-ex": {
+    "name": "Zapdos",
+    "icons": [
+      "zapdos"
+    ],
+    "priority": 10
+  },
+  "zre-ex": {
+    "name": "ZRE",
+    "icons": [
+      "rayquaza",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "camerupt-stantler": {
+    "name": "Camler",
+    "icons": [
+      "camerupt",
+      "stantler"
+    ],
+    "priority": 11
+  },
+  "cradily-ss": {
+    "name": "Cradily",
+    "icons": [
+      "cradily"
+    ],
+    "priority": 11
+  },
+  "cradily-gengar": {
+    "name": "Cradily Gengar",
+    "icons": [
+      "gengar"
+    ],
+    "priority": 11
+  },
+  "electrode-ex": {
+    "name": "Electrode",
+    "icons": [
+      "electrode"
+    ],
+    "priority": 11
+  },
+  "flygon-ex": {
+    "name": "Flygon δ",
+    "icons": [
+      "flygon"
+    ],
+    "priority": 11
+  },
+  "flygon-jolteon": {
+    "name": "Flygon δ Jolteon",
+    "icons": [
+      "jolteon"
+    ],
+    "priority": 11
+  },
+  "lunatone-solrock": {
+    "name": "Lunatone Solrock",
+    "icons": [
+      "lunatone",
+      "solrock"
+    ],
+    "priority": 11
+  },
+  "meganium-ex": {
+    "name": "Meganium",
+    "icons": [
+      "meganium"
+    ],
+    "priority": 11
+  },
+  "metagross-rspk": {
+    "name": "Metagross",
+    "icons": [
+      "metagross"
+    ],
+    "priority": 11
+  },
+  "rat-lock": {
+    "name": "Rat Lock",
+    "icons": [
+      "raticate",
+      "pidgeot"
+    ],
+    "priority": 11
+  },
+  "sceptile-rs": {
+    "name": "Sceptile",
+    "icons": [
+      "sceptile"
+    ],
+    "priority": 11
+  },
+  "gardevoir-rs": {
+    "name": "Gardevoir",
+    "icons": [
+      "gardevoir"
+    ],
+    "priority": 12
+  },
+  "aerodactyl-fo": {
+    "name": "Aerodactyl",
+    "icons": [
+      "aerodactyl"
+    ],
+    "priority": 10
+  },
+  "aerodactyl-mewtwo": {
+    "name": "Aerodactyl Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 10
+  },
+  "aerodactyl-zapdos": {
+    "name": "Aerodactyl Zapdos",
+    "icons": [
+      "zapdos"
+    ],
+    "priority": 10
+  },
+  "aerodactyl-electabuzz": {
+    "name": "Aerodactyl Electabuzz",
+    "icons": [
+      "electabuzz"
+    ],
+    "priority": 10
+  },
+  "aerodactyl-hitmonchan": {
+    "name": "Aerodactyl Hitmonchan",
+    "icons": [
+      "hitmonchan"
+    ],
+    "priority": 10
+  },
+  "arcanine-electrode": {
+    "name": "Arcanine Electrode",
+    "icons": [
+      "arcanine",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "blastoise-bs": {
+    "name": "Rain Dance",
+    "icons": [
+      "blastoise"
+    ],
+    "priority": 10
+  },
+  "rain-dance-fo": {
+    "name": "Rain Dance",
+    "icons": [
+      "articuno"
+    ],
+    "priority": 10
+  },
+  "buzzapdos": {
+    "name": "Buzzapdos",
+    "icons": [
+      "zapdos",
+      "electrode"
+    ],
+    "priority": 10
+  },
+  "clefable-hitmonchan-dodrio": {
+    "name": "Clefable Hitmonchan Dodrio",
+    "icons": [
+      "clefable",
+      "hitmonchan"
+    ],
+    "priority": 10
+  },
+  "electabuzz-magma": {
+    "name": "Electabuzz Magmar",
+    "icons": [
+      "electabuzz",
+      "magmar"
+    ],
+    "priority": 10
+  },
+  "erikas-venusaur": {
+    "name": "Erika's Venusaur",
+    "icons": [
+      "venusaur"
+    ],
+    "priority": 10
+  },
+  "erikas-venusaur-victreebel": {
+    "name": "Erika's Venusaur & Victreebel",
+    "icons": [
+      "victreebel"
+    ],
+    "priority": 10
+  },
+  "haymaker": {
+    "name": "Haymaker",
+    "icons": [
+      "hitmonchan",
+      "electabuzz"
+    ],
+    "priority": 10
+  },
+  "lickitung-moltres": {
+    "name": "Lickitung Moltres",
+    "icons": [
+      "lickitung",
+      "moltres"
+    ],
+    "priority": 10
+  },
+  "machamp-alakazam": {
+    "name": "Machamp Alakazam",
+    "icons": [
+      "machamp",
+      "alakazam"
+    ],
+    "priority": 10
+  },
+  "venusaur-bs": {
+    "name": "Venusaur",
+    "icons": [
+      "venusaur"
+    ],
+    "priority": 10
+  },
+  "dark-vileplume-ro": {
+    "name": "Dark Vileplume",
+    "icons": [
+      "vileplume"
+    ],
+    "priority": 11
+  },
+  "dark-vileplume-alakazam": {
+    "name": "Dark Vileplume Alakazam",
+    "icons": [
+      "alakazam"
+    ],
+    "priority": 11
+  },
+  "dark-vileplume-golduck": {
+    "name": "Dark Vileplume Golduck",
+    "icons": [
+      "golduck"
+    ],
+    "priority": 11
+  },
+  "lickitung-stall": {
+    "name": "Lickitung Stall",
+    "icons": [
+      "lickitung",
+      "scyther"
+    ],
+    "priority": 11
+  },
+  "lickitung-scyther": {
+    "name": "Lickitung Scyther",
+    "icons": [
+      "scyther"
+    ],
+    "priority": 11
+  },
+  "lickitung-hitmonchan": {
+    "name": "Lickitung Hitmonchan",
+    "icons": [
+      "hitmonchan"
+    ],
+    "priority": 11
+  },
+  "wigglytuff-ju": {
+    "name": "Wigglytuff",
+    "icons": [
+      "wigglytuff"
+    ],
+    "priority": 11
+  },
+  "wigglytuff-magmar": {
+    "name": "Wigglytuff Magmar",
+    "icons": [
+      "magmar"
+    ],
+    "priority": 11
+  },
+  "wigglytuff-mewtwo": {
+    "name": "Wigglytuff Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 11
+  },
+  "wigglytuff-scyther": {
+    "name": "Wigglytuff Scyther",
+    "icons": [
+      "scyther"
+    ],
+    "priority": 11
+  },
+  "wigglytuff-hitmonchan": {
+    "name": "Wigglytuff Hitmonchan",
+    "icons": [
+      "hitmonchan"
+    ],
+    "priority": 11
+  },
+  "mewtwo-wp": {
+    "name": "Mewtwo",
+    "icons": [
+      "mewtwo"
+    ],
+    "priority": 12
+  },
+  "mewtwo-hitmonchan": {
+    "name": "Mewtwo Hitmonchan",
+    "icons": [
+      "hitmonchan"
+    ],
+    "priority": 12
+  },
+  "mewtwo-electabuzz": {
+    "name": "Mewtwo Electabuzz",
+    "icons": [
+      "electabuzz"
+    ],
+    "priority": 12
+  }
+}

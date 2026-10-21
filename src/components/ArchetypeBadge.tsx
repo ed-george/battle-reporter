@@ -2,7 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { getArchetypeIconUrl, POPULAR_ARCHETYPES } from '@/lib/limitless';
+import {
+  getArchetypeIconUrl,
+  getArchetypeDisplayName,
+  getArchetypePrimaryIcon,
+} from '@/lib/limitless';
 
 interface ArchetypeBadgeProps {
   identifier: string;
@@ -17,10 +21,9 @@ export function ArchetypeBadge({
   size = 'md',
   clickable = true,
 }: ArchetypeBadgeProps) {
-  // Look up archetype name and icon from popular registry if name isn't passed
-  const found = POPULAR_ARCHETYPES.find((a) => a.identifier === identifier);
-  const displayName = name || found?.name || identifier.replace(/-/g, ' ');
-  const icon = found?.icons?.[0] || identifier.split('-')[0];
+  // Always source display name and icon from official Limitless API metadata
+  const displayName = name || getArchetypeDisplayName(identifier);
+  const icon = getArchetypePrimaryIcon(identifier);
   const iconUrl = getArchetypeIconUrl(icon);
 
   const sizeClasses = {

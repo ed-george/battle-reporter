@@ -1,7 +1,69 @@
 import { DeckArchetype } from '@/types/database';
+import limitlessArchetypesRaw from '@/data/limitless-archetypes.json';
 
 const LIMITLESS_API_BASE = 'https://play.limitlesstcg.com/api';
 const LIMITLESS_ICON_CDN = 'https://r2.limitlesstcg.net/pokemon/gen9';
+
+export interface LimitlessArchetypeRecord {
+  name: string;
+  icons: string[];
+  priority?: number;
+}
+
+/**
+ * Authoritative registry of all deck archetypes and variants sourced directly
+ * from the official Limitless TCG Play API (https://play.limitlesstcg.com/api).
+ */
+export const LIMITLESS_ARCHETYPES: Record<string, LimitlessArchetypeRecord> =
+  limitlessArchetypesRaw as Record<string, LimitlessArchetypeRecord>;
+
+/**
+ * Returns the official display name from the Limitless API for a deck identifier.
+ * Example: 'dragapult-blaziken' -> 'Dragapult Blaziken'
+ */
+export function getArchetypeDisplayName(identifier?: string | null): string {
+  if (!identifier) return 'Unknown Archetype';
+  const found = LIMITLESS_ARCHETYPES[identifier];
+  if (found && found.name) {
+    return found.name;
+  }
+  // Safe fallback formatted cleanly as title case
+  return identifier
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Returns the official icons array from the Limitless API for a deck identifier.
+ */
+export function getArchetypeIcons(identifier?: string | null): string[] {
+  if (!identifier) return ['default'];
+  const found = LIMITLESS_ARCHETYPES[identifier];
+  if (found && Array.isArray(found.icons) && found.icons.length > 0) {
+    return found.icons;
+  }
+  return [identifier.split('-')[0]];
+}
+
+/**
+ * Returns the primary sprite icon name for a deck archetype.
+ */
+export function getArchetypePrimaryIcon(identifier?: string | null): string {
+  const icons = getArchetypeIcons(identifier);
+  return icons[0] || 'default';
+}
+
+/**
+ * All official Limitless archetypes and variants as an array sorted alphabetically by name.
+ */
+export const ALL_LIMITLESS_ARCHETYPES: DeckArchetype[] = Object.entries(LIMITLESS_ARCHETYPES)
+  .map(([identifier, data]) => ({
+    identifier,
+    name: data.name,
+    icons: data.icons,
+    priority: data.priority ?? 10,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
 // Default popular current archetypes sorted alphabetically by name
 export const POPULAR_ARCHETYPES: DeckArchetype[] = [
