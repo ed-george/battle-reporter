@@ -6,6 +6,8 @@ import {
   extractYouTubeVideoId,
   parseMatchesFromRows,
   generateImportSql,
+  convertValuesToCsv,
+  getGoogleAccessToken,
 } from '../src/lib/ingestion';
 
 console.log('--- Running Ingestion Engine Unit Tests ---');
@@ -84,4 +86,23 @@ assert.ok(sql.includes('INSERT INTO public.match_games'));
 assert.ok(sql.includes('Dylan, Jr. Kasturi'));
 console.log('✓ generateImportSql passed');
 
-console.log('All tests passed successfully! 🎉');
+// 7. Test convertValuesToCsv
+const values = [
+  ['col1', 'col2', 'col3'],
+  ['value 1', 'value, with comma', 'value "with" quotes'],
+];
+const csvOutput = convertValuesToCsv(values);
+assert.ok(csvOutput.includes('"value, with comma"'));
+assert.ok(csvOutput.includes('"value ""with"" quotes"'));
+console.log('✓ convertValuesToCsv passed');
+
+// 8. Test getGoogleAccessToken with direct token
+async function testAuth() {
+  const token = await getGoogleAccessToken({ accessToken: 'test-direct-token' });
+  assert.strictEqual(token, 'test-direct-token');
+  console.log('✓ getGoogleAccessToken (direct token) passed');
+}
+
+testAuth().then(() => {
+  console.log('All tests passed successfully! 🎉');
+});

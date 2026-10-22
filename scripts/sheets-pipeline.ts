@@ -22,6 +22,8 @@ interface CliOptions {
   outputSqlPath: string;
   gid?: string;
   sheetName?: string;
+  credentialsPath?: string;
+  accessToken?: string;
   directInsert: boolean;
   dryRun: boolean;
   append: boolean;
@@ -34,6 +36,8 @@ function parseCliArgs(): CliOptions {
   let outputSqlPath = 'supabase/matches_import.sql';
   let gid = process.env.GOOGLE_SHEET_GID;
   let sheetName = process.env.GOOGLE_SHEET_NAME;
+  let credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  let accessToken = process.env.GOOGLE_OAUTH_ACCESS_TOKEN;
   let directInsert = false;
   let dryRun = false;
   let append = false;
@@ -56,6 +60,10 @@ function parseCliArgs(): CliOptions {
       sheetName = arg.split('=')[1];
     } else if (arg.startsWith('--output=')) {
       outputSqlPath = arg.split('=')[1];
+    } else if (arg.startsWith('--credentials=')) {
+      credentialsPath = arg.split('=')[1];
+    } else if (arg.startsWith('--token=')) {
+      accessToken = arg.split('=')[1];
     } else if (!arg.startsWith('--')) {
       positional.push(arg);
     }
@@ -73,6 +81,8 @@ function parseCliArgs(): CliOptions {
     outputSqlPath: path.resolve(process.cwd(), outputSqlPath),
     gid,
     sheetName,
+    credentialsPath,
+    accessToken,
     directInsert,
     dryRun,
     append,
@@ -101,16 +111,22 @@ Options:
   --sheet=<name>       Target sheet/tab name
   --gid=<id>           Target sheet gid (tab id)
   --output=<path>      Specify output SQL file path
+  --credentials=<path> Path to Google Service Account JSON key file
+  --token=<token>      Bearer OAuth access token for private sheet
   --dry-run            Parse and validate without writing files or mutating database
   -h, --help           Show this help message
 
 Environment Variables (.env.local):
-  GOOGLE_SHEET_URL         Default Google Sheet URL
-  GOOGLE_SHEET_ID          Default Spreadsheet ID
-  GOOGLE_SHEET_GID         Default GID tab identifier
-  GOOGLE_SHEETS_API_KEY    Optional Google Sheets API Key
-  SUPABASE_SERVICE_ROLE_KEY Supabase Service Role Key (for --direct mode)
-  NEXT_PUBLIC_SUPABASE_URL Supabase Project URL
+  GOOGLE_SHEET_URL              Default Google Sheet URL
+  GOOGLE_SHEET_ID               Default Spreadsheet ID
+  GOOGLE_SHEET_GID              Default GID tab identifier
+  GOOGLE_APPLICATION_CREDENTIALS Path to Service Account JSON key file
+  GOOGLE_SERVICE_ACCOUNT_EMAIL  Service Account client email
+  GOOGLE_PRIVATE_KEY            Service Account private key PEM
+  GOOGLE_OAUTH_ACCESS_TOKEN     Direct OAuth access token
+  GOOGLE_SHEETS_API_KEY         Optional Google Sheets API Key
+  SUPABASE_SERVICE_ROLE_KEY     Supabase Service Role Key (for --direct mode)
+  NEXT_PUBLIC_SUPABASE_URL      Supabase Project URL
 
 Examples:
   # Ingest from URL and generate SQL
@@ -213,6 +229,8 @@ async function main() {
       gid: options.gid,
       sheetName: options.sheetName,
       apiKey: process.env.GOOGLE_SHEETS_API_KEY,
+      credentialsPath: options.credentialsPath,
+      accessToken: options.accessToken,
     });
     console.log(`✓ Successfully retrieved ${csvText.length} bytes of CSV data.`);
   } catch (err: unknown) {

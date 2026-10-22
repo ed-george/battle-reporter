@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import * as crypto from 'crypto';
 import { randomUUID } from 'crypto';
 import { LIMITLESS_ARCHETYPES } from './limitless';
 
@@ -41,6 +44,10 @@ export interface GoogleSheetFetchOptions {
   gid?: string | number | null;
   sheetName?: string | null;
   apiKey?: string | null;
+  serviceAccountEmail?: string | null;
+  privateKey?: string | null;
+  credentialsPath?: string | null;
+  accessToken?: string | null;
 }
 
 /**
@@ -372,6 +379,159 @@ export function parseGoogleSheetUrl(
 }
 
 /**
+ * Converts 2D array of sheet values into CSV string
+ */
+export function convertValuesToCsv(
+  values: (string | number | boolean | null | undefined)[][]
+): string {
+  return values
+    .map((row) =>
+      row
+        .map((cell) => {
+          const str = cell !== undefined && cell !== null ? String(cell) : '';
+          if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+            return `"${str.replace(/"/g, '""')}"`;
+          }
+          return str;
+        })
+        .join(',')
+    )
+    .join('\n');
+}
+
+/**
+ * Resolves a Google OAuth 2.0 Access Token from:
+ * 1. Direct Bearer access token (options.accessToken or GOOGLE_OAUTH_ACCESS_TOKEN)
+ * 2. Service Account Key JSON file (options.credentialsPath or GOOGLE_APPLICATION_CREDENTIALS)
+ * 3. Service Account Credentials via env (options.serviceAccountEmail/privateKey or GOOGLE_SERVICE_ACCOUNT_EMAIL/GOOGLE_PRIVATE_KEY)
+ * 4. OAuth Refresh Token (GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET + GOOGLE_REFRESH_TOKEN)
+ */
+export async function getGoogleAccessToken(
+  options?: Partial<GoogleSheetFetchOptions>
+): Promise<string | null> {
+  // 1. Direct Access Token
+  const directToken = options?.accessToken || process.env.GOOGLE_OAUTH_ACCESS_TOKEN;
+  if (directToken) {
+    return directToken.trim();
+  }
+
+  // 2. Service Account from JSON File
+  let serviceEmail = options?.serviceAccountEmail || process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  let privateKey = options?.privateKey || process.env.GOOGLE_PRIVATE_KEY;
+
+  const credentialsPath =
+    options?.credentialsPath || process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+  if (credentialsPath && (!serviceEmail || !privateKey)) {
+    const resolvedPath = path.resolve(/*turbopackIgnore: true*/ process.cwd(), credentialsPath);
+    if (fs.existsSync(resolvedPath)) {
+      try {
+        const fileContent = fs.readFileSync(resolvedPath, 'utf-8');
+        const creds = JSON.parse(fileContent);
+        if (creds.client_email && creds.private_key) {
+          serviceEmail = creds.client_email;
+          privateKey = creds.private_key;
+        }
+      } catch (err) {
+        console.warn(`Warning: Could not read Google credentials file at ${resolvedPath}:`, err);
+      }
+    }
+  }
+
+  // 3. Mint JWT using Service Account and exchange for Google OAuth access token
+  if (serviceEmail && privateKey) {
+    try {
+      const now = Math.floor(Date.now() / 1000);
+      const header = { alg: 'RS256', typ: 'JWT' };
+      const claimSet = {
+        iss: serviceEmail,
+        scope: 'https://www.googleapis.com/auth/spreadsheets.readonly',
+        aud: 'https://oauth2.googleapis.com/token',
+        exp: now + 3600,
+        iat: now,
+      };
+
+      const base64UrlEncode = (obj: object) =>
+        Buffer.from(JSON.stringify(obj))
+          .toString('base64')
+          .replace(/=/g, '')
+          .replace(/\+/g, '-')
+          .replace(/\//g, '_');
+
+      const encodedHeader = base64UrlEncode(header);
+      const encodedClaimSet = base64UrlEncode(claimSet);
+      const signInput = `${encodedHeader}.${encodedClaimSet}`;
+
+      const formattedKey = privateKey.replace(/\\n/g, '\n');
+      const signer = crypto.createSign('RSA-SHA256');
+      signer.update(signInput);
+      signer.end();
+      const signature = signer
+        .sign(formattedKey)
+        .toString('base64')
+        .replace(/=/g, '')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_');
+
+      const jwt = `${signInput}.${signature}`;
+
+      const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+          assertion: jwt,
+        }).toString(),
+      });
+
+      if (!tokenRes.ok) {
+        const errText = await tokenRes.text();
+        throw new Error(`Google OAuth error (${tokenRes.status}): ${errText}`);
+      }
+
+      const tokenData = await tokenRes.json();
+      if (tokenData.access_token) {
+        return tokenData.access_token;
+      }
+    } catch (err: unknown) {
+      const error = err instanceof Error ? err : new Error(String(err));
+      console.warn(`Warning: Failed to mint Google Service Account token: ${error.message}`);
+    }
+  }
+
+  // 4. OAuth 2.0 User Refresh Token
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
+
+  if (clientId && clientSecret && refreshToken) {
+    try {
+      const refreshRes = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          client_id: clientId,
+          client_secret: clientSecret,
+          refresh_token: refreshToken,
+          grant_type: 'refresh_token',
+        }).toString(),
+      });
+
+      if (refreshRes.ok) {
+        const data = await refreshRes.json();
+        if (data.access_token) {
+          return data.access_token;
+        }
+      }
+    } catch (err) {
+      console.warn('Warning: Failed to refresh Google OAuth token:', err);
+    }
+  }
+
+  return null;
+}
+
+/**
  * Fetches CSV data directly from Google Sheets via HTTP export endpoints or Sheets API
  */
 export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Promise<string> {
@@ -380,7 +540,66 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
     { gid: options.gid, sheetName: options.sheetName }
   );
 
-  // If Google Sheets API Key is provided and not a published sheet, we can use the v4 API
+  // 1. Check for authenticated Access Token (Service Account or OAuth)
+  const accessToken = await getGoogleAccessToken(options);
+
+  if (accessToken && !isPublished) {
+    try {
+      // Determine the target sheet title
+      let targetSheetName = sheetName;
+
+      // If we don't have a sheet name, or if we need to resolve a gid to a sheet title
+      if (!targetSheetName) {
+        const metaRes = await fetch(
+          `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (metaRes.ok) {
+          const meta = await metaRes.json();
+          if (Array.isArray(meta.sheets) && meta.sheets.length > 0) {
+            if (gid) {
+              interface SheetMeta {
+                properties?: {
+                  sheetId?: number | string;
+                  title?: string;
+                };
+              }
+              const matchedSheet = meta.sheets.find(
+                (s: SheetMeta) => String(s.properties?.sheetId) === String(gid)
+              );
+              if (matchedSheet?.properties?.title) {
+                targetSheetName = matchedSheet.properties.title;
+              }
+            }
+            if (!targetSheetName && meta.sheets[0]?.properties?.title) {
+              targetSheetName = meta.sheets[0].properties.title;
+            }
+          }
+        }
+      }
+
+      // Fetch values using Sheets API v4
+      const range = targetSheetName ? encodeURIComponent(targetSheetName) : 'A:Z';
+      const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
+      const dataRes = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      if (dataRes.ok) {
+        const data = await dataRes.json();
+        if (Array.isArray(data.values) && data.values.length > 0) {
+          return convertValuesToCsv(data.values);
+        }
+      }
+    } catch (err) {
+      console.warn('Sheets API v4 values fetch failed, falling back to export endpoint:', err);
+    }
+  }
+
+  // 2. If Google Sheets API Key is provided and not a published sheet, we can use the v4 API
   if (options.apiKey && !isPublished) {
     try {
       const range = sheetName ? encodeURIComponent(sheetName) : 'A:Z';
@@ -389,20 +608,7 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
       if (res.ok) {
         const data = await res.json();
         if (data.values && Array.isArray(data.values) && data.values.length > 0) {
-          // Convert 2D array to CSV text
-          return data.values
-            .map((row: (string | number | null | undefined)[]) =>
-              row
-                .map((cell) => {
-                  const str = cell !== undefined && cell !== null ? String(cell) : '';
-                  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
-                    return `"${str.replace(/"/g, '""')}"`;
-                  }
-                  return str;
-                })
-                .join(',')
-            )
-            .join('\n');
+          return convertValuesToCsv(data.values);
         }
       }
     } catch {
@@ -410,7 +616,7 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
     }
   }
 
-  // Build candidate CSV export URLs
+  // 3. Build candidate CSV export URLs
   const candidateUrls: string[] = [];
 
   if (isPublished) {
@@ -420,7 +626,7 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
       }`
     );
   } else {
-    // 1. Google Visualization CSV export (handles both gid and sheet name)
+    // Google Visualization CSV export (handles both gid and sheet name)
     const gvizParams = new URLSearchParams({ tqx: 'out:csv' });
     if (gid) gvizParams.set('gid', gid);
     if (sheetName) gvizParams.set('sheet', sheetName);
@@ -428,7 +634,7 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
       `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?${gvizParams.toString()}`
     );
 
-    // 2. Standard export endpoint
+    // Standard export endpoint
     const exportParams = new URLSearchParams({ format: 'csv' });
     if (gid) exportParams.set('gid', gid);
     candidateUrls.push(
@@ -440,11 +646,16 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
 
   for (const url of candidateUrls) {
     try {
+      const reqHeaders: Record<string, string> = {
+        'Accept': 'text/csv, text/plain, */*',
+        'User-Agent': 'BattleReporter-IngestionPipeline/1.0',
+      };
+      if (accessToken) {
+        reqHeaders['Authorization'] = `Bearer ${accessToken}`;
+      }
+
       const response = await fetch(url, {
-        headers: {
-          'Accept': 'text/csv, text/plain, */*',
-          'User-Agent': 'BattleReporter-IngestionPipeline/1.0',
-        },
+        headers: reqHeaders,
         redirect: 'follow',
       });
 
@@ -465,12 +676,20 @@ export async function fetchGoogleSheetCsv(options: GoogleSheetFetchOptions): Pro
       ) {
         throw new Error(
           'Google Sheet returned an HTML login page instead of CSV data.\n' +
-            'This means the spreadsheet is currently private.\n\n' +
-            'To resolve this:\n' +
-            '1. Open the Google Sheet\n' +
-            '2. Click "Share" (top-right)\n' +
-            '3. Under General access, change to "Anyone with the link" as "Viewer"\n' +
-            '4. Alternatively, use File -> Share -> Publish to web -> select CSV format'
+            'This means the spreadsheet is private and not authorized.\n\n' +
+            'To authorize access to this non-public Google Sheet:\n\n' +
+            '1. Google Cloud Service Account (Recommended for automated pipelines):\n' +
+            '   a) Create a Service Account in Google Cloud Console.\n' +
+            '   b) In your private Google Sheet, click "Share" and add the Service Account email as "Viewer".\n' +
+            '   c) In .env.local, set:\n' +
+            '      GOOGLE_APPLICATION_CREDENTIALS="path/to/service-account.json"\n' +
+            '      OR\n' +
+            '      GOOGLE_SERVICE_ACCOUNT_EMAIL="your-service-account@project.iam.gserviceaccount.com"\n' +
+            '      GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\\n..."\n\n' +
+            '2. OAuth 2.0 User Credentials:\n' +
+            '   Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN in .env.local\n' +
+            '   OR set temporary GOOGLE_OAUTH_ACCESS_TOKEN="ya29..."\n\n' +
+            '3. Alternatively, share with "Anyone with the link" as "Viewer".'
         );
       }
 

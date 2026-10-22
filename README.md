@@ -155,17 +155,34 @@ You can batch-upload broadcast matches directly via a Google Sheet (or CSV sprea
 1. **Format Your Google Sheet**:
    Create a Google Sheet matching the exact columns of [`matches_template.csv`](file:///Users/ehg/projs/battle-reporter/matches_template.csv):
    `tournament_id, round_name, division, table_number, player1_name, player1_country, player1_deck_archetype, player2_name, player2_country, player2_deck_archetype, youtube_url, match_start_time, match_end_time, winner_player_name, match_score, game1_start_time, game2_start_time, game3_start_time`
-   - Share the sheet with **"Anyone with the link can view"** (or publish to web as CSV).
    - Timestamps support `HH:MM:SS` (e.g. `1:25:30`), `MM:SS` (e.g. `45:10`), or total seconds.
    - YouTube video IDs are extracted automatically.
 
-2. **Run the Ingestion Pipeline**:
+2. **Access & Authorization**:
+   - **For Non-Public / Private Sheets (Recommended)**:
+     Use a **Google Cloud Service Account** so your sheet remains 100% private:
+     1. In Google Cloud Console, create a Service Account and download its JSON key file (or copy the client email and private key).
+     2. In your private Google Sheet, click **Share** and add the Service Account email address as a **Viewer**.
+     3. In `.env.local`, set:
+        ```env
+        GOOGLE_APPLICATION_CREDENTIALS="path/to/service-account.json"
+        # OR:
+        GOOGLE_SERVICE_ACCOUNT_EMAIL="your-service-account@project.iam.gserviceaccount.com"
+        GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
+        ```
+   - **For Link-Shared Sheets**:
+     Under General access in Google Sheets, change to **"Anyone with the link"** as **"Viewer"** (no credentials required).
+
+3. **Run the Ingestion Pipeline**:
    ```bash
    # From a Google Sheet URL:
    npm run sheets-to-sql "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0"
 
    # Or configure GOOGLE_SHEET_URL in .env.local and simply run:
    npm run sheets-to-sql
+
+   # With explicit credentials flag:
+   npm run sheets-to-sql "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID" --credentials="path/to/key.json"
 
    # Directly insert records into Supabase DB (bypassing manual SQL import):
    npm run ingest-sheets --direct
