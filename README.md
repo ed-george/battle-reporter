@@ -146,15 +146,35 @@ You have two ways to designate an account as an administrator:
 
 ---
 
-## 📹 Mass Video Upload via CSV
+## 📹 Mass Match Ingestion (Google Sheets & CSV)
 
-You can batch-upload broadcast matches via a CSV spreadsheet and convert them directly to SQL for execution in the Supabase SQL Editor:
+You can batch-upload broadcast matches directly via a Google Sheet (or CSV spreadsheet) and convert them to SQL for execution in the Supabase SQL Editor, or insert directly into Supabase:
+
+### Option A: Direct Google Sheets Ingestion (Recommended)
+
+1. **Format Your Google Sheet**:
+   Create a Google Sheet matching the exact columns of [`matches_template.csv`](file:///Users/ehg/projs/battle-reporter/matches_template.csv):
+   `tournament_id, round_name, division, table_number, player1_name, player1_country, player1_deck_archetype, player2_name, player2_country, player2_deck_archetype, youtube_url, match_start_time, match_end_time, winner_player_name, match_score, game1_start_time, game2_start_time, game3_start_time`
+   - Share the sheet with **"Anyone with the link can view"** (or publish to web as CSV).
+   - Timestamps support `HH:MM:SS` (e.g. `1:25:30`), `MM:SS` (e.g. `45:10`), or total seconds.
+   - YouTube video IDs are extracted automatically.
+
+2. **Run the Ingestion Pipeline**:
+   ```bash
+   # From a Google Sheet URL:
+   npm run sheets-to-sql "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0"
+
+   # Or configure GOOGLE_SHEET_URL in .env.local and simply run:
+   npm run sheets-to-sql
+
+   # Directly insert records into Supabase DB (bypassing manual SQL import):
+   npm run ingest-sheets --direct
+   ```
+
+### Option B: Local CSV File
 
 1. **Use the Template**:
    Open [`matches_template.csv`](file:///Users/ehg/projs/battle-reporter/matches_template.csv) or create your own `matches.csv`.
-   - Headers: `tournament_id`, `round_name`, `division`, `table_number`, `player1_name`, `player1_country`, `player1_deck_archetype`, `player2_name`, `player2_country`, `player2_deck_archetype`, `youtube_url`, `match_start_time`, `match_end_time`, `winner_player_name`, `match_score`, `game1_start_time`, `game2_start_time`, `game3_start_time`
-   - Timestamps can be written naturally as `HH:MM:SS` (e.g. `1:25:30`), `MM:SS` (e.g. `45:10`), or total seconds (e.g. `5130`).
-   - YouTube video IDs are automatically extracted from full URLs.
 
 2. **Generate the SQL**:
    ```bash

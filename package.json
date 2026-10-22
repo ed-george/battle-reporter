@@ -7,8 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx scripts/test-ingestion.ts",
     "seed": "tsx scripts/seed.ts",
-    "csv-to-sql": "tsx scripts/csv-to-sql.ts"
+    "csv-to-sql": "tsx scripts/csv-to-sql.ts",
+    "sheets-to-sql": "tsx scripts/sheets-pipeline.ts",
+    "ingest-sheets": "tsx scripts/sheets-pipeline.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

@@ -4,6 +4,7 @@ import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/sup
 import { checkIsAdmin } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { clearStreamedArchetypesCache } from '@/lib/data-repository';
+import { fetchGoogleSheetCsv, parseCsvText, parseMatchesFromRows } from '@/lib/ingestion';
 
 export interface PendingSubmissionRecord {
   id: string;
@@ -332,4 +333,76 @@ export async function rejectSubmissionAction(submissionId: string, reviewNotes?:
 
   revalidatePath('/admin/moderation');
   return { success: true };
+}
+
+/**
+ * Admin Action: Ingest matches directly from a Google Sheet
+ */
+export async function ingestGoogleSheetAction(params: {
+  sheetUrlOrId: string;
+  gid?: string | number | null;
+  sheetName?: string | null;
+  directInsert?: boolean;
+}) {
+  const { user, isAdmin } = await checkIsAdmin();
+  if (!isAdmin || !user) {
+    throw new Error('Unauthorized: Admin access required.');
+  }
+
+  // Fetch and parse Google Sheet CSV
+  const csvText = await fetchGoogleSheetCsv({
+    urlOrId: params.sheetUrlOrId,
+    gid: params.gid,
+    sheetName: params.sheetName,
+    apiKey: process.env.GOOGLE_SHEETS_API_KEY,
+  });
+
+  const { rows } = parseCsvText(csvText);
+  const result = parseMatchesFromRows(rows);
+
+  if (result.matches.length === 0) {
+    throw new Error('No valid matches found in Google Sheet to import.');
+  }
+
+  if (params.directInsert) {
+    const adminClient = createAdminSupabaseClient();
+    const supabase = adminClient || (await createServerSupabaseClient());
+    if (!supabase) throw new Error('Supabase client not initialized.');
+
+    // Upsert matches in chunks of 50
+    const MATCH_CHUNK = 50;
+    for (let i = 0; i < result.matches.length; i += MATCH_CHUNK) {
+      const chunk = result.matches.slice(i, i + MATCH_CHUNK);
+      const { error } = await supabase.from('streamed_matches').upsert(chunk, { onConflict: 'id' });
+      if (error) {
+        throw new Error(`Failed to insert matches chunk: ${error.message}`);
+      }
+    }
+
+    // Upsert games in chunks of 100
+    if (result.games.length > 0) {
+      const GAME_CHUNK = 100;
+      for (let i = 0; i < result.games.length; i += GAME_CHUNK) {
+        const chunk = result.games.slice(i, i + GAME_CHUNK);
+        const { error } = await supabase.from('match_games').upsert(chunk, { onConflict: 'match_id,game_number' });
+        if (error) {
+          throw new Error(`Failed to insert games chunk: ${error.message}`);
+        }
+      }
+    }
+
+    clearStreamedArchetypesCache();
+    revalidatePath('/matches');
+    revalidatePath('/archetypes');
+    revalidatePath('/players');
+    revalidatePath('/');
+  }
+
+  return {
+    success: true,
+    matchCount: result.matches.length,
+    gameCount: result.games.length,
+    skippedCount: result.skipped.length,
+    warnings: result.warnings,
+  };
 }
