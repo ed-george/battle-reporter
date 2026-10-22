@@ -147,14 +147,6 @@ export function classifyDecklist(
 }
 
 /**
- * Returns the official Limitless TCG URL for an archetype or deck
- */
-export function getLimitlessDeckUrl(archetypeIdentifier: string): string {
-  if (!archetypeIdentifier) return 'https://limitlesstcg.com/decks';
-  return `https://play.limitlesstcg.com/decks/${encodeURIComponent(archetypeIdentifier)}`;
-}
-
-/**
  * Returns the Limitless TCG search URL for a player
  */
 export function getLimitlessPlayerUrl(playerName: string): string {

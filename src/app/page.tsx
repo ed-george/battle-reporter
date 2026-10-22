@@ -43,7 +43,7 @@ export default async function HomePage() {
             Rewatch Every Pokémon TCG Stream Match
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Browse official tournament stream games, search by deck archetype or player, and jump directly to Game 1, 2, or 3.
+            Browse official tournament stream games, search by deck archetype or player, and jump directly to Game 1, 2, or 3 for each match.
           </p>
 
           {/* Quick Metrics */}

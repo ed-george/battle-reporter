@@ -94,7 +94,7 @@ export default async function ArchetypeDetailPage({ params }: PageProps) {
         {stats.matches.length > 0 ? (
           <div className="space-y-3">
             {stats.matches.map((m) => (
-              <MatchCard key={m.id} match={m} displayTournament={false} />
+              <MatchCard key={m.id} match={m} displayTournament={true} />
             ))}
           </div>
         ) : (

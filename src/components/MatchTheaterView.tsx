@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Play, Trophy, Eye, EyeOff, ExternalLink, ArrowLeft, Clock } from 'lucide-react';
+import { Play, Trophy, ExternalLink, ArrowLeft, Clock } from 'lucide-react';
 import { StreamedMatch } from '@/types/database';
 import { YouTubePlayer } from '@/components/YouTubePlayer';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
-import { getLimitlessDeckUrl, getLimitlessPlayerUrl } from '@/lib/limitless';
+import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
 import { isMatchTie, playerNameToSlug } from '@/lib/matches';
 
@@ -30,7 +30,7 @@ interface MatchTheaterViewProps {
 }
 
 export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterViewProps) {
-  const { isMatchRevealed, revealMatch, spoilersHidden, toggleSpoilers } = useSpoilers();
+  const { isMatchRevealed, revealMatch } = useSpoilers();
   const revealed = isMatchRevealed(match.id);
 
   // Active timestamp in seconds for seeking the YouTube player
@@ -59,32 +59,6 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to {match.tournament?.name || 'Tournament'}</span>
         </Link>
-
-        <div className="flex items-center gap-2">
-          {match.tournament?.rk9_link && (
-            <a
-              href={`https://rk9.gg/tournament/${match.tournament.rk9_link}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg transition-colors"
-            >
-              <span>RK9 Pairings</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          )}
-          <button
-            type="button"
-            onClick={toggleSpoilers}
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
-              spoilersHidden
-                ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/40'
-                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
-            }`}
-          >
-            {spoilersHidden ? <EyeOff className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> : <Eye className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />}
-            <span>{spoilersHidden ? 'Spoilers: Hidden' : 'Spoilers: Visible'}</span>
-          </button>
-        </div>
       </div>
 
       {/* Match Matchup Header */}
@@ -141,6 +115,16 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                   <span>Tie</span>
                 </div>
               )}
+
+               <a
+                href={getLimitlessPlayerUrl(match.player1_name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
+              >
+                <span>Limitless Player Profile</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+              </a>
             </div>
           </div>
 
@@ -177,7 +161,19 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                   <span>Tie</span>
                 </div>
               )}
+
+            <a
+                href={getLimitlessPlayerUrl(match.player2_name)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
+              >
+                <span>Limitless Player Profile</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+              </a>
+
             </div>
+
           </div>
         </div>
 
@@ -322,82 +318,6 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
           </div>
         </section>
       )}
-
-      {/* Deck Archetypes & Limitless TCG Links */}
-      <section className="space-y-4 pt-4">
-        <div>
-          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Deck Archetypes & Limitless TCG</h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">View complete decklists, card lists, and meta statistics directly on Limitless TCG</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Player 1 Deck Card */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xs flex flex-col justify-between gap-4">
-            <div className="space-y-2">
-              <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
-                {match.player1_name}&apos;s Archetype
-              </span>
-              <div className="flex items-center gap-2">
-                <ArchetypeBadge identifier={match.player1_deck_archetype} size="lg" />
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-2">
-              <a
-                href={getLimitlessDeckUrl(match.player1_deck_archetype)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
-              >
-                <span>View Deck on Limitless</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-              </a>
-              <a
-                href={getLimitlessPlayerUrl(match.player1_name)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                <span>Limitless Player Profile</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
-              </a>
-            </div>
-          </div>
-
-          {/* Player 2 Deck Card */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-xs flex flex-col justify-between gap-4">
-            <div className="space-y-2">
-              <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
-                {match.player2_name}&apos;s Archetype
-              </span>
-              <div className="flex items-center gap-2">
-                <ArchetypeBadge identifier={match.player2_deck_archetype} size="lg" />
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-2">
-              <a
-                href={getLimitlessDeckUrl(match.player2_deck_archetype)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
-              >
-                <span>View Deck on Limitless</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-              </a>
-              <a
-                href={getLimitlessPlayerUrl(match.player2_name)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                <span>Limitless Player Profile</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Related Stream Matches */}
       {relatedMatches.length > 0 && (
