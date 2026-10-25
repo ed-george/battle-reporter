@@ -226,6 +226,183 @@ npm start
 
 ---
 
+## 🌐 Deploying to GitHub Pages
+
+GitHub Pages is a static file hosting service. Because it does not run a dynamic Node.js server, Next.js must be configured for **Static HTML Export** (`output: 'export'`), which generates a self-contained `out/` directory consisting of HTML, CSS, JavaScript, and static assets.
+
+Follow these step-by-step instructions to automate building and deploying **Battle Reporter** to GitHub Pages using GitHub Actions:
+
+### Step 1: Configure `next.config.ts` for Static Export
+
+Open [`next.config.ts`](file:///Users/ehg/projs/battle-reporter/next.config.ts) and configure:
+1. `output: 'export'`: Instructs Next.js to produce static assets in the `out/` folder upon running `next build`.
+2. `images: { unoptimized: true }`: Required because GitHub Pages does not run the Next.js server-side image optimization engine.
+3. `basePath`: If your site is hosted at `https://<username>.github.io/<repository-name>/` (the default GitHub Pages URL), you must prefix asset URLs with your repository name. If you use a custom domain (e.g. `https://battlereporter.com`), `basePath` can be left empty.
+
+Example `next.config.ts`:
+
+```typescript
+import type { NextConfig } from "next";
+
+// If deployed to https://<user>.github.io/<repo>/, set basePath to '/<repo>'
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+const repositoryName = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
+  : "";
+
+const nextConfig: NextConfig = {
+  output: "export",
+  basePath: isGitHubPages && !process.env.CUSTOM_DOMAIN ? repositoryName : "",
+  images: {
+    unoptimized: true,
+  },
+  turbopack: {
+    rules: {
+      "*.css": {
+        loaders: ["@tailwindcss/turbopack"],
+        as: "*.css",
+      },
+    },
+  },
+};
+
+export default nextConfig;
+```
+
+> [!TIP]
+> If you test the static build locally, run `NEXT_PUBLIC_BASE_PATH="" npm run build` to verify that `out/` is created without errors.
+
+---
+
+### Step 2: Enable GitHub Pages with GitHub Actions
+
+1. Open your repository on GitHub.
+2. Click on **Settings** in the top navigation tab.
+3. In the left sidebar, click on **Pages** (under the "Code and automation" section).
+4. Under **Build and deployment -> Source**, select **GitHub Actions** from the dropdown menu (instead of "Deploy from a branch").
+
+---
+
+### Step 3: Configure Repository Secrets & Environment Variables
+
+Because Next.js client components communicate directly with your Supabase database in the browser, your `NEXT_PUBLIC_` variables must be provided at build time:
+
+1. In your GitHub repository, go to **Settings -> Secrets and variables -> Actions**.
+2. Under the **Secrets** tab (or **Variables** tab for public variables), click **New repository secret** / **New repository variable**:
+   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase Project URL (e.g. `https://xyzcompany.supabase.co`).
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase public anonymous API key.
+   - `LIMITLESS_API_KEY` (optional): If using Limitless TCG Play API deck classification.
+   - `CUSTOM_DOMAIN` (optional): Set to `true` if you attach a custom apex or subdomain so that the subfolder `basePath` is omitted.
+
+> [!NOTE]
+> Values prefixed with `NEXT_PUBLIC_` are safely embedded into the static bundle during `npm run build` and are intended for browser access. Supabase database tables remain protected by Row Level Security (RLS) policies.
+
+---
+
+### Step 4: Create the GitHub Actions Workflow
+
+Create a new file in your repository at `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy Battle Reporter to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Set permissions for GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Static Export with Next.js
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          LIMITLESS_API_KEY: ${{ secrets.LIMITLESS_API_KEY || vars.LIMITLESS_API_KEY }}
+        run: npm run build
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+---
+
+### Step 5: Test the Static Build Locally
+
+Before pushing to GitHub, you can test the production static export locally on your machine:
+
+1. Add `output: 'export'` and `images: { unoptimized: true }` to [`next.config.ts`](file:///Users/ehg/projs/battle-reporter/next.config.ts).
+2. Run the build command:
+   ```bash
+   npm run build
+   ```
+3. Verify that the `out/` folder is generated containing static files (`index.html`, `404.html`, etc.).
+4. Preview the static site locally:
+   ```bash
+   npx serve out
+   ```
+5. Open the displayed URL (usually `http://localhost:3000`) and test navigation across directories, match theaters, and leaderboards.
+
+---
+
+### Step 6: Custom Domains (Optional)
+
+If you configure a custom domain (e.g. `https://battlereporter.com` or `https://archive.myteam.gg`):
+1. In your GitHub repository, navigate to **Settings -> Pages**.
+2. Under **Custom domain**, enter your domain name and save.
+3. Configure the appropriate `CNAME` or `A` records in your DNS provider (e.g. Cloudflare, Namecheap, Google Domains).
+4. If using a custom domain, ensure `basePath` in `next.config.ts` is empty (e.g. `basePath: ""` or set `CUSTOM_DOMAIN=true` in GitHub Variables), as the site will be served from the domain root instead of a subpath.
+
+---
+
+### ⚠️ Important Architecture Considerations for Static Hosting
+
+- **Client-Side Data vs Server Actions**: Because GitHub Pages is purely static, server-only Node.js capabilities (such as writing to cookies via `next/headers` or running Node server actions) are not available on the hosting server. All live database queries and authentication execute directly from the browser using the client Supabase SDK.
+- **Admin Moderation & Ingestion**:
+  - The assisted match tagging submission studio (`/submit`) submits directly to the Supabase `submissions` table from the browser.
+  - The moderation queue (`/admin/moderation`) uses Supabase Auth on the client to authenticate admins and publish matches.
+  - The Google Sheets / CSV ingestion pipeline (`npm run sheets-to-sql`, `npm run ingest-sheets`) can be run locally on your computer or scheduled via separate GitHub Actions to update Supabase.
+
+---
+
 ## 📄 License & Attribution
 
 An open-source community archive project. All Pokémon TCG broadcast and intellectual property rights belong to **The Pokémon Company International** and official event broadcasters.
