@@ -15,7 +15,8 @@ export const metadata = {
 };
 
 export default async function PlayersDirectoryPage({ searchParams }: PageProps) {
-  const { season, q, sort } = await searchParams;
+  const resolvedParams = searchParams ? await searchParams : {};
+  const { season, q, sort } = resolvedParams;
   const data = await getPlayersDirectoryData();
 
   return (

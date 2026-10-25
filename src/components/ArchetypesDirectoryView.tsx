@@ -23,7 +23,8 @@ import {
 } from 'lucide-react';
 
 interface ArchetypesDirectoryViewProps {
-  data: ArchetypesDirectoryData;
+  data?: ArchetypesDirectoryData | StreamedArchetypeSummary[];
+  archetypes?: StreamedArchetypeSummary[];
   initialSeason?: string;
 }
 
@@ -33,10 +34,28 @@ type SortDirection = 'asc' | 'desc';
 
 export function ArchetypesDirectoryView({
   data,
+  archetypes,
   initialSeason = 'all',
 }: ArchetypesDirectoryViewProps) {
   const router = useRouter();
   const pathname = usePathname();
+
+  // Normalize data safely whether received as new structure { all, bySeason, availableSeasons } or legacy array
+  const directoryData: ArchetypesDirectoryData = useMemo(() => {
+    if (data && !Array.isArray(data) && 'all' in data && Array.isArray(data.all)) {
+      return {
+        all: data.all || [],
+        bySeason: data.bySeason || {},
+        availableSeasons: data.availableSeasons || Object.keys(data.bySeason || {}).sort().reverse(),
+      };
+    }
+    const rawList = Array.isArray(data) ? data : Array.isArray(archetypes) ? archetypes : [];
+    return {
+      all: rawList,
+      bySeason: {},
+      availableSeasons: [],
+    };
+  }, [data, archetypes]);
 
   // Default view is table as requested
   const [viewMode, setViewMode] = useState<ViewMode>('table');
@@ -48,7 +67,8 @@ export function ArchetypesDirectoryView({
   // Handle season filter change and update URL params without reload
   const handleSeasonChange = (newSeason: string) => {
     setSelectedSeason(newSeason);
-    const params = new URLSearchParams(window.location.search);
+    const search = typeof window !== 'undefined' ? window.location.search : '';
+    const params = new URLSearchParams(search);
     if (newSeason && newSeason !== 'all') {
       params.set('season', newSeason);
     } else {
@@ -60,11 +80,11 @@ export function ArchetypesDirectoryView({
   };
 
   const currentArchetypes: StreamedArchetypeSummary[] = useMemo(() => {
-    if (selectedSeason === 'all') {
-      return data.all || [];
+    if (selectedSeason === 'all' || !directoryData.bySeason[selectedSeason]) {
+      return directoryData.all || [];
     }
-    return data.bySeason[selectedSeason] || [];
-  }, [data, selectedSeason]);
+    return directoryData.bySeason[selectedSeason] || [];
+  }, [directoryData, selectedSeason]);
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -77,32 +97,37 @@ export function ArchetypesDirectoryView({
   };
 
   const filteredArchetypes = useMemo(() => {
-    let list = currentArchetypes;
+    const list = currentArchetypes || [];
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
-      list = list.filter((item) => item.archetype.name.toLowerCase().includes(q));
+    if (!Array.isArray(list)) {
+      return [];
     }
 
-    return [...list].sort((a, b) => {
+    let filtered = list;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter((item) => item?.archetype?.name?.toLowerCase().includes(q));
+    }
+
+    return [...filtered].sort((a, b) => {
       let comparison = 0;
       if (sortField === 'name') {
-        comparison = a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' });
+        comparison = (a?.archetype?.name || '').localeCompare(b?.archetype?.name || '', undefined, { sensitivity: 'base' });
       } else if (sortField === 'games') {
-        comparison = a.gamesPlayed - b.gamesPlayed;
+        comparison = (a?.gamesPlayed || 0) - (b?.gamesPlayed || 0);
       } else if (sortField === 'wins') {
-        comparison = a.wins - b.wins;
+        comparison = (a?.wins || 0) - (b?.wins || 0);
       } else if (sortField === 'winRate') {
-        comparison = a.winRate - b.winRate;
+        comparison = (a?.winRate || 0) - (b?.winRate || 0);
       }
 
       // Tiebreaker: sort by games played desc, then name asc
       if (comparison === 0) {
         if (sortField !== 'games') {
-          comparison = b.gamesPlayed - a.gamesPlayed;
+          comparison = (b?.gamesPlayed || 0) - (a?.gamesPlayed || 0);
         }
         if (comparison === 0) {
-          comparison = a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' });
+          comparison = (a?.archetype?.name || '').localeCompare(b?.archetype?.name || '', undefined, { sensitivity: 'base' });
         }
       }
 
@@ -121,7 +146,7 @@ export function ArchetypesDirectoryView({
     );
   };
 
-  if (data.all.length === 0) {
+  if (!directoryData.all || directoryData.all.length === 0) {
     return (
       <div className="bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center space-y-3">
         <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400 dark:text-slate-500">
@@ -171,7 +196,7 @@ export function ArchetypesDirectoryView({
           </div>
 
           {/* Season Filter Dropdown */}
-          {data.availableSeasons.length > 0 && (
+          {directoryData.availableSeasons && directoryData.availableSeasons.length > 0 && (
             <div className="relative shrink-0">
               <Calendar className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none" />
               <select
@@ -181,7 +206,7 @@ export function ArchetypesDirectoryView({
                 className="pl-8 pr-8 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 appearance-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all"
               >
                 <option value="all">All Seasons</option>
-                {data.availableSeasons.map((season) => (
+                {directoryData.availableSeasons.map((season) => (
                   <option key={season} value={season}>
                     {season}
                   </option>

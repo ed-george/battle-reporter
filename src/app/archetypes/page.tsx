@@ -13,7 +13,8 @@ export const metadata = {
 };
 
 export default async function ArchetypesDirectoryPage({ searchParams }: PageProps) {
-  const { season } = await searchParams;
+  const resolvedParams = searchParams ? await searchParams : {};
+  const season = resolvedParams?.season;
   const data = await getArchetypesDirectoryData();
 
   return (

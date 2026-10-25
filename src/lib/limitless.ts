@@ -102,7 +102,10 @@ export async function fetchLimitlessDecks(apiKey?: string): Promise<DeckArchetyp
 /**
  * Returns the public sprite URL for a Pokémon icon name
  */
-export function getArchetypeIconUrl(iconName: string): string {
+export function getArchetypeIconUrl(iconName?: string | null): string {
+  if (!iconName || typeof iconName !== 'string') {
+    return `${LIMITLESS_ICON_CDN}/default.png`;
+  }
   // Normalize icon name (e.g. lowercase, remove special characters)
   const clean = iconName.toLowerCase().trim();
   return `${LIMITLESS_ICON_CDN}/${clean}.png`;
