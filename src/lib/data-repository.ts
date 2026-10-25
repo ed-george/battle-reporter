@@ -162,6 +162,11 @@ export async function getStreamedMatchById(id: string): Promise<StreamedMatch | 
 export interface StreamedArchetypeSummary {
   archetype: DeckArchetype;
   streamMatchCount: number;
+  gamesPlayed: number;
+  wins: number;
+  losses: number;
+  ties: number;
+  winRate: number;
 }
 
 // In-memory caches with TTL to drastically reduce database load and avoid Supabase rate limits
@@ -192,10 +197,10 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
     return [];
   }
 
-  // 1. Fetch only the archetype columns from published matches (no heavy joins)
+  // 1. Fetch archetype and result columns from published matches (no heavy joins)
   const { data: matches, error: matchError } = await supabase
     .from('streamed_matches')
-    .select('player1_deck_archetype, player2_deck_archetype')
+    .select('player1_deck_archetype, player2_deck_archetype, player1_name, player2_name, winner_player_name, match_score')
     .eq('is_published', true);
 
   if (matchError) {
@@ -208,18 +213,60 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
     return [];
   }
 
-  // 2. Count matches per archetype
-  const matchCounts = new Map<string, number>();
-  for (const m of matches) {
-    if (m.player1_deck_archetype) {
-      matchCounts.set(m.player1_deck_archetype, (matchCounts.get(m.player1_deck_archetype) || 0) + 1);
+  // 2. Count matches, wins, losses, and ties per archetype
+  interface ArchetypeAccumulator {
+    gamesPlayed: number;
+    wins: number;
+    losses: number;
+    ties: number;
+  }
+
+  const statsMap = new Map<string, ArchetypeAccumulator>();
+  const getOrCreate = (id: string): ArchetypeAccumulator => {
+    let entry = statsMap.get(id);
+    if (!entry) {
+      entry = { gamesPlayed: 0, wins: 0, losses: 0, ties: 0 };
+      statsMap.set(id, entry);
     }
+    return entry;
+  };
+
+  for (const m of matches) {
+    const isTie = isMatchTie(m.winner_player_name, m.match_score);
+    const winnerLower = m.winner_player_name?.trim().toLowerCase();
+    const p1Lower = m.player1_name?.trim().toLowerCase();
+    const p2Lower = m.player2_name?.trim().toLowerCase();
+
+    if (m.player1_deck_archetype) {
+      const stats = getOrCreate(m.player1_deck_archetype);
+      stats.gamesPlayed++;
+      if (isTie) {
+        stats.ties++;
+      } else if (winnerLower) {
+        if (p1Lower && winnerLower === p1Lower) {
+          stats.wins++;
+        } else {
+          stats.losses++;
+        }
+      }
+    }
+
     if (m.player2_deck_archetype) {
-      matchCounts.set(m.player2_deck_archetype, (matchCounts.get(m.player2_deck_archetype) || 0) + 1);
+      const stats = getOrCreate(m.player2_deck_archetype);
+      stats.gamesPlayed++;
+      if (isTie) {
+        stats.ties++;
+      } else if (winnerLower) {
+        if (p2Lower && winnerLower === p2Lower) {
+          stats.wins++;
+        } else {
+          stats.losses++;
+        }
+      }
     }
   }
 
-  const activeIdentifiers = Array.from(matchCounts.keys()).filter(Boolean);
+  const activeIdentifiers = Array.from(statsMap.keys()).filter(Boolean);
   if (activeIdentifiers.length === 0) {
     cachedStreamedArchetypes = { data: [], expiresAt: Date.now() + 30_000 };
     return [];
@@ -227,17 +274,28 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
 
   // 3. Build summary using authoritative Limitless names & icons
   const result: StreamedArchetypeSummary[] = activeIdentifiers
-    .map((identifier) => ({
-      archetype: {
-        identifier,
-        name: getArchetypeDisplayName(identifier),
-        icons: getArchetypeIcons(identifier),
-      },
-      streamMatchCount: matchCounts.get(identifier) || 0,
-    }))
+    .map((identifier) => {
+      const stats = statsMap.get(identifier)!;
+      const totalDecided = stats.wins + stats.losses + stats.ties;
+      const winRate = totalDecided > 0 ? Math.round((stats.wins / totalDecided) * 100) : 0;
+
+      return {
+        archetype: {
+          identifier,
+          name: getArchetypeDisplayName(identifier),
+          icons: getArchetypeIcons(identifier),
+        },
+        streamMatchCount: stats.gamesPlayed,
+        gamesPlayed: stats.gamesPlayed,
+        wins: stats.wins,
+        losses: stats.losses,
+        ties: stats.ties,
+        winRate,
+      };
+    })
     .sort((a, b) => {
-      if (b.streamMatchCount !== a.streamMatchCount) {
-        return b.streamMatchCount - a.streamMatchCount;
+      if (b.gamesPlayed !== a.gamesPlayed) {
+        return b.gamesPlayed - a.gamesPlayed;
       }
       return a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' });
     });
