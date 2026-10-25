@@ -1,13 +1,20 @@
-import { getStreamedArchetypesSummary } from '@/lib/data-repository';
+import { getArchetypesDirectoryData } from '@/lib/data-repository';
 import { ArchetypesDirectoryView } from '@/components/ArchetypesDirectoryView';
+
+interface PageProps {
+  searchParams: Promise<{
+    season?: string;
+  }>;
+}
 
 export const metadata = {
   title: 'Deck Archetypes — Battle Reporter',
-  description: 'Browse all Pokémon TCG deck archetypes featured on tournament streams, with games played, win counts, and win rates.',
+  description: 'Browse all Pokémon TCG deck archetypes featured on tournament streams, with games played, win counts, and win rates by season.',
 };
 
-export default async function ArchetypesDirectoryPage() {
-  const streamedArchetypes = await getStreamedArchetypesSummary();
+export default async function ArchetypesDirectoryPage({ searchParams }: PageProps) {
+  const { season } = await searchParams;
+  const data = await getArchetypesDirectoryData();
 
   return (
     <div className="space-y-8">
@@ -20,7 +27,7 @@ export default async function ArchetypesDirectoryPage() {
         </p>
       </div>
 
-      <ArchetypesDirectoryView archetypes={streamedArchetypes} />
+      <ArchetypesDirectoryView data={data} initialSeason={season || 'all'} />
     </div>
   );
 }

@@ -19,6 +19,14 @@ export {
   getArchetypePrimaryIcon,
 };
 
+/**
+ * Returns all distinct seasons that have streamed matches, ordered descending.
+ */
+export async function getStreamedSeasons(): Promise<string[]> {
+  const data = await getArchetypesDirectoryData();
+  return data.availableSeasons;
+}
+
 export interface MatchFilterParams {
   tournamentId?: string;
   playerName?: string;
@@ -171,49 +179,34 @@ export interface StreamedArchetypeSummary {
 
 // In-memory caches with TTL to drastically reduce database load and avoid Supabase rate limits
 let cachedDeckArchetypes: { data: DeckArchetype[]; expiresAt: number } | null = null;
-let cachedStreamedArchetypes: { data: StreamedArchetypeSummary[]; expiresAt: number } | null = null;
+let cachedArchetypesDirectoryData: { data: ArchetypesDirectoryData; expiresAt: number } | null = null;
+let cachedPlayersDirectoryData: { data: PlayersDirectoryData; expiresAt: number } | null = null;
 
 export function clearStreamedArchetypesCache() {
-  cachedStreamedArchetypes = null;
   cachedDeckArchetypes = null;
+  cachedArchetypesDirectoryData = null;
+  cachedPlayersDirectoryData = null;
+}
+
+export interface ArchetypesDirectoryData {
+  all: StreamedArchetypeSummary[];
+  bySeason: Record<string, StreamedArchetypeSummary[]>;
+  availableSeasons: string[];
 }
 
 /**
- * Highly efficient query for the /archetypes overview:
- * 1. Checks short in-memory cache (30s TTL).
- * 2. Queries ONLY player1_deck_archetype and player2_deck_archetype from published streamed_matches.
- * 3. If no matches exist, returns [] immediately (zero queries to deck_archetypes).
- * 4. Only queries deck_archetypes for the specific identifiers present in matches,
- *    selecting only identifier, name, and icons (avoiding large JSONB payloads).
+ * Builds an aggregated list of archetype statistics from match records.
  */
-export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeSummary[]> {
-  if (cachedStreamedArchetypes && cachedStreamedArchetypes.expiresAt > Date.now()) {
-    return cachedStreamedArchetypes.data;
-  }
-
-  const supabase = await createServerSupabaseClient();
-  if (!supabase) {
-    console.error('Supabase client not initialized.');
-    return [];
-  }
-
-  // 1. Fetch archetype and result columns from published matches (no heavy joins)
-  const { data: matches, error: matchError } = await supabase
-    .from('streamed_matches')
-    .select('player1_deck_archetype, player2_deck_archetype, player1_name, player2_name, winner_player_name, match_score')
-    .eq('is_published', true);
-
-  if (matchError) {
-    console.error('Error fetching stream matches for archetypes:', matchError);
-    return cachedStreamedArchetypes?.data || [];
-  }
-
-  if (!matches || matches.length === 0) {
-    cachedStreamedArchetypes = { data: [], expiresAt: Date.now() + 30_000 };
-    return [];
-  }
-
-  // 2. Count matches, wins, losses, and ties per archetype
+function buildArchetypeSummaryList(
+  matches: {
+    player1_deck_archetype?: string | null;
+    player2_deck_archetype?: string | null;
+    player1_name: string;
+    player2_name: string;
+    winner_player_name?: string | null;
+    match_score?: string | null;
+  }[]
+): StreamedArchetypeSummary[] {
   interface ArchetypeAccumulator {
     gamesPlayed: number;
     wins: number;
@@ -267,13 +260,9 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
   }
 
   const activeIdentifiers = Array.from(statsMap.keys()).filter(Boolean);
-  if (activeIdentifiers.length === 0) {
-    cachedStreamedArchetypes = { data: [], expiresAt: Date.now() + 30_000 };
-    return [];
-  }
+  if (activeIdentifiers.length === 0) return [];
 
-  // 3. Build summary using authoritative Limitless names & icons
-  const result: StreamedArchetypeSummary[] = activeIdentifiers
+  return activeIdentifiers
     .map((identifier) => {
       const stats = statsMap.get(identifier)!;
       const totalDecided = stats.wins + stats.losses + stats.ties;
@@ -299,13 +288,83 @@ export async function getStreamedArchetypesSummary(): Promise<StreamedArchetypeS
       }
       return a.archetype.name.localeCompare(b.archetype.name, undefined, { sensitivity: 'base' });
     });
+}
 
-  cachedStreamedArchetypes = {
+/**
+ * Fetches all streamed archetypes grouped by season and overall
+ */
+export async function getArchetypesDirectoryData(): Promise<ArchetypesDirectoryData> {
+  if (cachedArchetypesDirectoryData && cachedArchetypesDirectoryData.expiresAt > Date.now()) {
+    return cachedArchetypesDirectoryData.data;
+  }
+
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    return { all: [], bySeason: {}, availableSeasons: [] };
+  }
+
+  const { data: matches, error: matchError } = await supabase
+    .from('streamed_matches')
+    .select('tournament_id, player1_deck_archetype, player2_deck_archetype, player1_name, player2_name, winner_player_name, match_score')
+    .eq('is_published', true);
+
+  if (matchError || !matches || matches.length === 0) {
+    return { all: [], bySeason: {}, availableSeasons: [] };
+  }
+
+  const tournaments = await getTournaments();
+  const tourneyMap = new Map<string, Tournament>(tournaments.map((t) => [t.id, t]));
+
+  const seasonsSet = new Set<string>();
+  const matchesBySeason = new Map<string, typeof matches>();
+
+  matches.forEach((m) => {
+    const t = tourneyMap.get(m.tournament_id);
+    const season = t?.season || (t?.start_date ? `${t.start_date.slice(0, 4)} Season` : null);
+    if (season) {
+      seasonsSet.add(season);
+      let list = matchesBySeason.get(season);
+      if (!list) {
+        list = [];
+        matchesBySeason.set(season, list);
+      }
+      list.push(m);
+    }
+  });
+
+  const availableSeasons = Array.from(seasonsSet).sort().reverse();
+  const all = buildArchetypeSummaryList(matches);
+  const bySeason: Record<string, StreamedArchetypeSummary[]> = {};
+
+  availableSeasons.forEach((season) => {
+    const seasonMatches = matchesBySeason.get(season) || [];
+    bySeason[season] = buildArchetypeSummaryList(seasonMatches);
+  });
+
+  const result: ArchetypesDirectoryData = {
+    all,
+    bySeason,
+    availableSeasons,
+  };
+
+  cachedArchetypesDirectoryData = {
     data: result,
     expiresAt: Date.now() + 30_000,
   };
 
   return result;
+}
+
+/**
+ * Highly efficient query for the /archetypes overview:
+ * Supports optional season filtering. Defaults to all seasons.
+ */
+export async function getStreamedArchetypesSummary(options?: { season?: string }): Promise<StreamedArchetypeSummary[]> {
+  const data = await getArchetypesDirectoryData();
+  if (options?.season && options.season !== 'all') {
+    return data.bySeason[options.season] || [];
+  }
+  return data.all;
 }
 
 /**
@@ -472,14 +531,19 @@ export interface PlayerLeaderboardEntry {
   archetypes: string[];
 }
 
+export interface PlayersDirectoryData {
+  all: PlayerLeaderboardEntry[];
+  bySeason: Record<string, PlayerLeaderboardEntry[]>;
+  availableSeasons: string[];
+}
+
 /**
- * Get all players who have appeared on stream, ranked by matches played and wins
+ * Aggregates match records into a ranked player leaderboard.
  */
-export async function getStreamPlayers(options: {
-  sortBy?: 'matches' | 'wins' | 'winrate';
-  query?: string;
-} = {}): Promise<PlayerLeaderboardEntry[]> {
-  const allMatches = await getStreamedMatches();
+function buildPlayerLeaderboardList(
+  matches: StreamedMatch[],
+  options: { sortBy?: 'matches' | 'wins' | 'winrate'; query?: string } = {}
+): PlayerLeaderboardEntry[] {
   const playerMap = new Map<string, {
     country?: string | null;
     matchesPlayed: number;
@@ -489,11 +553,11 @@ export async function getStreamPlayers(options: {
     archetypes: Set<string>;
   }>();
 
-  for (const m of allMatches) {
+  for (const m of matches) {
     const isTie = isMatchTie(m.winner_player_name, m.match_score);
 
     // Process Player 1
-    const p1 = m.player1_name.trim();
+    const p1 = m.player1_name?.trim();
     if (p1) {
       if (!playerMap.has(p1)) {
         playerMap.set(p1, {
@@ -520,7 +584,7 @@ export async function getStreamPlayers(options: {
     }
 
     // Process Player 2
-    const p2 = m.player2_name.trim();
+    const p2 = m.player2_name?.trim();
     if (p2) {
       if (!playerMap.has(p2)) {
         playerMap.set(p2, {
@@ -567,7 +631,6 @@ export async function getStreamPlayers(options: {
     };
   });
 
-  // Optional text filter
   if (options.query) {
     const q = options.query.toLowerCase().trim();
     list = list.filter(
@@ -577,22 +640,113 @@ export async function getStreamPlayers(options: {
     );
   }
 
-  // Sort by matches played and wins
+  // Sort
   const sortBy = options.sortBy || 'matches';
   list.sort((a, b) => {
     if (sortBy === 'wins') {
       if (b.wins !== a.wins) return b.wins - a.wins;
-      return b.matchesPlayed - a.matchesPlayed;
+      if (b.matchesPlayed !== a.matchesPlayed) return b.matchesPlayed - a.matchesPlayed;
+      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
     }
     if (sortBy === 'winrate') {
       if (b.winRate !== a.winRate) return b.winRate - a.winRate;
-      return b.matchesPlayed - a.matchesPlayed;
+      if (b.wins !== a.wins) return b.wins - a.wins;
+      return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
     }
-    // Default: 'matches' (ranked by matches played, then wins, then ties)
+    // Default 'matches'
     if (b.matchesPlayed !== a.matchesPlayed) return b.matchesPlayed - a.matchesPlayed;
     if (b.wins !== a.wins) return b.wins - a.wins;
     return b.ties - a.ties;
   });
+
+  return list;
+}
+
+/**
+ * Fetches all streamed players leaderboard grouped by season and overall
+ */
+export async function getPlayersDirectoryData(): Promise<PlayersDirectoryData> {
+  if (cachedPlayersDirectoryData && cachedPlayersDirectoryData.expiresAt > Date.now()) {
+    return cachedPlayersDirectoryData.data;
+  }
+
+  const allMatches = await getStreamedMatches();
+  const seasonsSet = new Set<string>();
+  const matchesBySeason = new Map<string, StreamedMatch[]>();
+
+  allMatches.forEach((m) => {
+    const season = m.tournament?.season || (m.tournament?.start_date ? `${m.tournament.start_date.slice(0, 4)} Season` : null);
+    if (season) {
+      seasonsSet.add(season);
+      let list = matchesBySeason.get(season);
+      if (!list) {
+        list = [];
+        matchesBySeason.set(season, list);
+      }
+      list.push(m);
+    }
+  });
+
+  const availableSeasons = Array.from(seasonsSet).sort().reverse();
+  const all = buildPlayerLeaderboardList(allMatches);
+  const bySeason: Record<string, PlayerLeaderboardEntry[]> = {};
+
+  availableSeasons.forEach((season) => {
+    const seasonMatches = matchesBySeason.get(season) || [];
+    bySeason[season] = buildPlayerLeaderboardList(seasonMatches);
+  });
+
+  const result: PlayersDirectoryData = {
+    all,
+    bySeason,
+    availableSeasons,
+  };
+
+  cachedPlayersDirectoryData = {
+    data: result,
+    expiresAt: Date.now() + 30_000,
+  };
+
+  return result;
+}
+
+/**
+ * Get all players who have appeared on stream, ranked by matches played and wins.
+ * Supports optional season, query, and sorting options. Defaults to all seasons.
+ */
+export async function getStreamPlayers(options: {
+  sortBy?: 'matches' | 'wins' | 'winrate';
+  query?: string;
+  season?: string;
+} = {}): Promise<PlayerLeaderboardEntry[]> {
+  const data = await getPlayersDirectoryData();
+  let list = options.season && options.season !== 'all' ? data.bySeason[options.season] || [] : data.all;
+
+  if (options.query) {
+    const q = options.query.toLowerCase().trim();
+    list = list.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        (p.country && p.country.toLowerCase().includes(q))
+    );
+  }
+
+  if (options.sortBy && options.sortBy !== 'matches') {
+    const sortBy = options.sortBy;
+    list = [...list].sort((a, b) => {
+      if (sortBy === 'wins') {
+        if (b.wins !== a.wins) return b.wins - a.wins;
+        if (b.matchesPlayed !== a.matchesPlayed) return b.matchesPlayed - a.matchesPlayed;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      }
+      if (sortBy === 'winrate') {
+        if (b.winRate !== a.winRate) return b.winRate - a.winRate;
+        if (b.wins !== a.wins) return b.wins - a.wins;
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      }
+      return b.matchesPlayed - a.matchesPlayed;
+    });
+  }
 
   return list;
 }
