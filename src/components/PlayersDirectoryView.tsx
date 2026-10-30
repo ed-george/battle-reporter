@@ -7,6 +7,7 @@ import { PlayerLeaderboardEntry, PlayersDirectoryData } from '@/lib/data-reposit
 import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { formatRecord } from '@/lib/matches';
+import { TAG_MATCH_URL } from '@/config';
 import {
   Table,
   LayoutGrid,
@@ -23,6 +24,7 @@ import {
   User,
   ExternalLink,
   Medal,
+  PlusCircle,
   X,
 } from 'lucide-react';
 
@@ -42,7 +44,7 @@ export function PlayersDirectoryView({
   data,
   players,
   initialSeason = 'all',
-  initialSort = 'matches',
+  initialSort = 'wins',
   initialQuery = '',
 }: PlayersDirectoryViewProps) {
   const router = useRouter();
@@ -200,12 +202,15 @@ export function PlayersDirectoryView({
           Competitors will automatically appear here once broadcast stream matches featuring them have been tagged.
         </p>
         <div className="pt-2">
-          <Link
-            href="/submit"
+          <a
+            href={TAG_MATCH_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-colors"
           >
-            Tag a Stream Match
-          </Link>
+            <PlusCircle className="w-3.5 h-3.5" />
+            <span>Tag a Stream Match</span>
+          </a>
         </div>
       </div>
     );

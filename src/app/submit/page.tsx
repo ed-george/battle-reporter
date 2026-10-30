@@ -1,29 +1,11 @@
-import { getTournaments, getDeckArchetypes } from '@/lib/data-repository';
-import { StreamTaggingStudio } from '@/components/StreamTaggingStudio';
-
-interface PageProps {
-  searchParams: Promise<{
-    tournamentId?: string;
-  }>;
-}
+import { redirect } from 'next/navigation';
+import { TAG_MATCH_URL } from '@/config';
 
 export const metadata = {
   title: 'Tag a Stream Match — Battle Reporter',
-  description: 'Contribute and tag official Pokémon TCG stream matches with accurate game timestamps.',
+  description: 'Contribute and tag official Pokémon TCG stream matches via our submission form.',
 };
 
-export default async function SubmitPage({ searchParams }: PageProps) {
-  const { tournamentId } = await searchParams;
-  const [tournaments, archetypes] = await Promise.all([
-    getTournaments(),
-    getDeckArchetypes(),
-  ]);
-
-  return (
-    <StreamTaggingStudio
-      tournaments={tournaments}
-      archetypes={archetypes}
-      initialTournamentId={tournamentId}
-    />
-  );
+export default function SubmitPage() {
+  redirect(TAG_MATCH_URL);
 }

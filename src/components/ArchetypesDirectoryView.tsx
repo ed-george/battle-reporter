@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { StreamedArchetypeSummary, ArchetypesDirectoryData } from '@/lib/data-repository';
 import { ArchetypeIcon } from '@/components/ArchetypeIcon';
+import { TAG_MATCH_URL } from '@/config';
 import {
   Table,
   LayoutGrid,
@@ -19,6 +20,7 @@ import {
   ChevronDown,
   Calendar,
   Layers,
+  PlusCircle,
   X,
 } from 'lucide-react';
 
@@ -157,12 +159,15 @@ export function ArchetypesDirectoryView({
           Archetypes will automatically appear here once broadcast stream matches featuring them have been tagged.
         </p>
         <div className="pt-2">
-          <Link
-            href="/submit"
+          <a
+            href={TAG_MATCH_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-colors"
           >
-            Tag a Stream Match
-          </Link>
+            <PlusCircle className="w-3.5 h-3.5" />
+            <span>Tag a Stream Match</span>
+          </a>
         </div>
       </div>
     );

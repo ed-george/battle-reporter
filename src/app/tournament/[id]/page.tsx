@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getTournamentById, getStreamedMatches } from '@/lib/data-repository';
 import { MatchCard } from '@/components/MatchCard';
 import { Calendar, Users, ExternalLink, Video, PlusCircle, ArrowLeft } from 'lucide-react';
+import { TAG_MATCH_URL } from '@/config';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -75,13 +76,15 @@ export default async function TournamentDetailPage({ params }: PageProps) {
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
-            <Link
-              href={`/submit?tournamentId=${tournament.id}`}
+            <a
+              href={TAG_MATCH_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-all"
             >
               <PlusCircle className="w-3.5 h-3.5" />
               <span>Tag Match</span>
-            </Link>
+            </a>
           </div>
         </div>
 
@@ -138,13 +141,15 @@ export default async function TournamentDetailPage({ params }: PageProps) {
               Be the first to tag matches that were broadcast on an official stream from this tournament!
             </p>
             <div className="pt-2">
-              <Link
-                href={`/submit?tournamentId=${tournament.id}`}
+              <a
+                href={TAG_MATCH_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-all"
               >
                 <PlusCircle className="w-4 h-4" />
                 <span>Tag Stream Match</span>
-              </Link>
+              </a>
             </div>
           </div>
         )}

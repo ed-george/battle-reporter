@@ -27,15 +27,11 @@ Players, spectators, and casters can browse premier tournaments, search for matc
    - **Player Profiles (`/player/[slug]`)**: Track any player's stream appearances, match record, win rate on stream, and deck history.
    - **Archetype Pages (`/archetype/[slug]`)**: Explore archetype statistics, official Limitless sprite icons, and recorded stream games.
 
-5. **Assisted Contributor Tagging Studio (`/submit`)**:
-   - Autocompletes pairings, table numbers, and suggested archetypes from PokeData + Limitless Play API.
-   - Embedded YouTube video preview with timestamp capture.
-   - Direct submissions to the moderation queue for review before publishing.
-
-6. **Secured Admin Moderation Queue (`/admin/moderation`)**:
-   - Strict role-based authentication using Supabase Auth.
-   - Only verified administrators can view pending community submissions.
-   - One-click **Approve & Publish** (immediately indexes the match live) or **Reject**.
+5. **Community Match Tagging (Google Form Integration)**:
+   - One-click access to the community match tagging form from the navbar, tournament pages, player directory, and archetype directory.
+   - Configurable external URL via `NEXT_PUBLIC_TAG_MATCH_URL` in `.env.local` (or `TAG_MATCH_URL` in `src/config.ts`), defaulting to `https://example.com`.
+   - External Google Form captures YouTube stream links, game timestamps, player names, and archetypes safely outside of direct database write access.
+   - Verified submissions are batch-ingested into the archive using the spreadsheet pipeline (`npm run sheets-to-sql` or `npm run ingest-sheets`).
 
 ---
 
@@ -66,33 +62,26 @@ Create or update `.env.local` in your project root:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_publishable_key
 
-# Optional: Supabase Service Role Key (recommended for server-side admin publishing)
+# Supabase Service Role Key (for direct server/CLI batch ingestion and seeding)
 # Found under Project Settings -> API -> Project API keys -> service_role secret
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_secret_key
 
 # Limitless TCG Play API Key (for live deck archetypes)
 LIMITLESS_API_KEY=your_limitless_api_key
 
-# Administrator Emails (comma-separated list for moderation queue access)
-ADMIN_EMAILS=admin@example.com,your-email@example.com
+# Community Match Tagging Google Form URL (opens when users click "Tag a Match")
+NEXT_PUBLIC_TAG_MATCH_URL=https://example.com
 ```
 
 ### 3. Apply Database Migrations and Grants
 1. In your Supabase Dashboard, open the **SQL Editor** from the left navigation.
 2. Click **New query**, paste the entire contents of [`supabase/migrations/20261018_initial_schema.sql`](supabase/migrations/20261018_initial_schema.sql), and click **Run**.
-   - This provisions all tables (`tournaments`, `deck_archetypes`, `streamed_matches`, `match_games`, `submissions`), sets up indexes, configures Row Level Security (RLS), and executes necessary PostgREST role privileges.
-3. Next, paste the contents of [`supabase/seed.sql`](supabase/seed.sql) and click **Run**.
+   - This provisions tables (`tournaments`, `deck_archetypes`, `streamed_matches`, `match_games`), sets up indexes, and configures Row Level Security (RLS).
+3. Next, apply the security & permissions hardening migration [`supabase/migrations/20261029_remove_admin_and_submissions.sql`](supabase/migrations/20261029_remove_admin_and_submissions.sql) and click **Run**.
+   - This removes the legacy in-app submissions/moderation queue, revokes all client mutation privileges, and locks down public access to strictly read-only.
+4. Next, paste the contents of [`supabase/seed.sql`](supabase/seed.sql) and click **Run**.
    - This seeds official premier tournaments from PokeData and canonical deck archetypes from Limitless TCG.
-   - It leaves `streamed_matches` and `match_games` clean, ready for you to add stream matches.
-
-#### ⚠️ Updating an Existing Database (Permissions & Publishing Fix)
-If you already set up your Supabase database previously and encounter errors when clicking **Approve & Publish** (e.g. `permission denied for table streamed_matches` or RLS policy violations):
-1. In your Supabase Dashboard, open the **SQL Editor**.
-2. Run [`supabase/migrations/20261019_moderation_permissions.sql`](supabase/migrations/20261019_moderation_permissions.sql).
-3. This ensures that:
-   - Full table grants (`ALL`) on `streamed_matches`, `match_games`, and `submissions` are assigned to `authenticated` users.
-   - RLS policies `"Admins manage streamed matches"`, `"Admins manage match games"`, and `"Admins manage submissions"` are configured.
-   - You can also optionally set `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` for direct server-side publishing authority.
+   - It leaves `streamed_matches` and `match_games` ready for you to ingest stream matches via Google Sheets or CSV.
 
 ### 4. Syncing / Refreshing API Data via CLI
 You can refresh tournaments and deck archetypes at any time by running:
@@ -104,45 +93,13 @@ This fetches the latest tournaments from PokeData and archetypes from Limitless 
 
 ---
 
-## 🛡️ Setting Up Admin Access for Moderation (`/admin/moderation`)
+## 📝 Community Match Tagging (Google Form)
 
-Only authenticated users with administrator privileges can access the moderation queue.
-
-### Step 1: Create an Admin User in Supabase Auth
-1. Go to your Supabase Dashboard and navigate to **Authentication -> Users**.
-2. Click **Add User** -> **Create User**.
-3. Enter an email (e.g. `admin@example.com`) and choose a secure password.
-4. Check **Auto Confirm User** (or verify via email).
-
-### Step 2: Grant Admin Rights
-You have two ways to designate an account as an administrator:
-
-- **Method A (Recommended — Environment Whitelist)**:
-  Add the user's email to `ADMIN_EMAILS` in `.env.local`:
-  ```env
-  ADMIN_EMAILS=admin@example.com
-  ```
-  *(Multiple emails can be separated by commas, e.g. `admin@example.com,lead@example.com`).*
-
-- **Method B (Supabase User Metadata)**:
-  In the Supabase **Authentication -> Users** dashboard:
-  - Click on the user -> **Edit User**.
-  - In the **Raw User Meta Data** JSON editor, add `"role": "admin"` or `"is_admin": true`:
-    ```json
-    {
-      "role": "admin"
-    }
-    ```
-
-### Step 3: Access the Moderation Dashboard & Publish Matches
-1. Navigate to [`http://localhost:3000/admin/moderation`](http://localhost:3000/admin/moderation).
-2. If unauthenticated, you will see the **Admin Sign In** form.
-3. Enter your administrator email and password.
-4. Once verified, you will enter the **Moderation Queue Dashboard** where you can:
-   - **Edit Submitted Details**: Click **Edit Details** on any pending card to adjust tournament, round name, division, table number, player names/countries, deck archetypes (ordered alphabetically), YouTube URL, match start timestamp, game 1/2/3 timestamps, winner, and score.
-   - **Save Changes (Keep Pending)**: Save corrected values to the database without publishing yet.
-   - **Approve & Publish**: Immediately inserts the match and game timestamps into `streamed_matches` and `match_games`, sets status to `approved`, and indexes the match live on `/matches`, `/players`, `/archetypes`, and the tournament page.
-   - **Reject**: Dismiss inaccurate submissions with a single click.
+Community contributors can submit broadcast matches and game timestamps via an external Google Form:
+- Clicking **"Tag a Match"** in the navigation bar or on tournament pages opens the configured external form URL in a new browser tab.
+- The external form URL is defined as a property in `src/config.ts` (`TAG_MATCH_URL`) and can be overridden via `NEXT_PUBLIC_TAG_MATCH_URL` in `.env.local` (defaults to `https://example.com`).
+- Direct navigation to `/submit` automatically redirects to the configured Google Form URL.
+- Once reviewed by the archive maintainers, responses in the Google Sheet are ingested directly into Supabase using the CLI batch pipeline.
 
 ---
 
@@ -396,10 +353,9 @@ If you configure a custom domain (e.g. `https://battlereporter.com` or `https://
 ### ⚠️ Important Architecture Considerations for Static Hosting
 
 - **Client-Side Data vs Server Actions**: Because GitHub Pages is purely static, server-only Node.js capabilities (such as writing to cookies via `next/headers` or running Node server actions) are not available on the hosting server. All live database queries and authentication execute directly from the browser using the client Supabase SDK.
-- **Admin Moderation & Ingestion**:
-  - The assisted match tagging submission studio (`/submit`) submits directly to the Supabase `submissions` table from the browser.
-  - The moderation queue (`/admin/moderation`) uses Supabase Auth on the client to authenticate admins and publish matches.
-  - The Google Sheets / CSV ingestion pipeline (`npm run sheets-to-sql`, `npm run ingest-sheets`) can be run locally on your computer or scheduled via separate GitHub Actions to update Supabase.
+- **Match Tagging & Ingestion Architecture**:
+  - Community match submissions open an external Google Form, keeping public users separated from direct database write access.
+  - The Google Sheets / CSV ingestion pipeline (`npm run sheets-to-sql`, `npm run ingest-sheets`) can be run locally on your computer or scheduled via separate GitHub Actions to update Supabase directly using the service role key.
 
 ---
 

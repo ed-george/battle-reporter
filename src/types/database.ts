@@ -46,7 +46,7 @@ export interface MatchGame {
   match_id: string;
   game_number: number; // 1, 2, 3
   start_seconds: number;
-  winner_player_id?: string | null;
+  winner_player_name?: string | null;
 }
 
 export interface StreamedMatch {
@@ -82,12 +82,4 @@ export interface StreamedMatch {
   tournament?: Tournament;
 }
 
-export interface Submission {
-  id: string;
-  match_data: Omit<StreamedMatch, 'id' | 'created_at' | 'is_published'>;
-  submitted_by: string;
-  status: 'pending' | 'approved' | 'rejected';
-  review_notes?: string | null;
-  created_at: string;
-  reviewed_at?: string | null;
-}
+

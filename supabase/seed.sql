@@ -1,57 +1,23 @@
 -- ==========================================
--- 1. Table Grants & Access Privileges
+-- 1. Table Grants & Access Privileges (Read-Only for Public)
 -- ==========================================
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
 GRANT SELECT ON public.tournaments TO anon, authenticated;
 GRANT SELECT ON public.deck_archetypes TO anon, authenticated;
 GRANT SELECT ON public.streamed_matches TO anon, authenticated;
 GRANT SELECT ON public.match_games TO anon, authenticated;
-GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;
-GRANT ALL ON public.submissions TO authenticated;
-GRANT ALL ON public.streamed_matches TO authenticated;
-GRANT ALL ON public.match_games TO authenticated;
-GRANT ALL ON public.tournaments TO authenticated;
-GRANT ALL ON public.deck_archetypes TO authenticated;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;
 
 -- Make tournament dates nullable in case of unannounced or missing dates from APIs
 ALTER TABLE public.tournaments ALTER COLUMN start_date DROP NOT NULL;
 ALTER TABLE public.tournaments ALTER COLUMN end_date DROP NOT NULL;
 
--- Allow public/anon to insert match submissions (for community tagging)
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Public insert submissions'
-  ) THEN
-    CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon, authenticated WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Admins manage submissions'
-  ) THEN
-    CREATE POLICY "Admins manage submissions" ON public.submissions FOR ALL TO authenticated USING (true) WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'streamed_matches' AND policyname = 'Admins manage streamed matches'
-  ) THEN
-    CREATE POLICY "Admins manage streamed matches" ON public.streamed_matches FOR ALL TO authenticated USING (true) WITH CHECK (true);
-  END IF;
-  IF NOT EXISTS (
-    SELECT 1 FROM pg_policies WHERE tablename = 'match_games' AND policyname = 'Admins manage match games'
-  ) THEN
-    CREATE POLICY "Admins manage match games" ON public.match_games FOR ALL TO authenticated USING (true) WITH CHECK (true);
-  END IF;
-END $$;
-
--- Ensure clean slate for video/player data (all matches/videos entered by user)
-DELETE FROM public.match_games;
-DELETE FROM public.streamed_matches;
-
 -- ==========================================
 -- 2. Seed Deck Archetypes (Fetched from Limitless API)
 -- ==========================================
 INSERT INTO public.deck_archetypes (identifier, name, icons, priority, cards, variants)
 VALUES
+  ('mega-absol-mega-audino', 'Absol Audino', '["absol-mega","audino-mega"]'::jsonb, 14, '[{"name":"Mega Absol ex","count":"2"},{"name":"Mega Audino ex","count":"2"}]'::jsonb, '[]'::jsonb),
   ('accelgor-dex', 'Accelgor', '["accelgor"]'::jsonb, 12, '[{"name":"Accelgor","count":"2","set":"DEX"}]'::jsonb, '[{"identifier":"accelgor-trevenant","name":"Accelgor Trevenant","icon":"trevenant","cards":[{"name":"Trevenant","count":"3","set":"XY"}]},{"identifier":"accelgor-gothitelle","name":"Accelgor Gothitelle","icon":"gothitelle","cards":[{"name":"Gothitelle","count":"2"}]}]'::jsonb),
   ('arceus-dialga-palkia-gx', 'ADP', '["arceus"]'::jsonb, 15, '[{"name":"Arceus & Dialga & Palkia-GX","count":"2"}]'::jsonb, '[{"identifier":"adp-keldeo","name":"ADP Keldeo","icon":"keldeo","cards":[{"name":"Keldeo-GX","count":"2"}]},{"identifier":"adp-moltres","name":"ADP Moltres","icon":"moltres-galar","cards":[{"name":"Galarian Moltres V","count":"2"}]},{"identifier":"adp-zacian","name":"ADP Zacian","icon":"zacian-crowned","cards":[{"name":"Zacian V","count":"2"}]},{"identifier":"adp-dragonite","name":"ADP Dragonite","icon":"dragonite","cards":[{"name":"Dragonite V","count":"2"}]}]'::jsonb),
   ('aegislash-par', 'Aegislash', '["aegislash"]'::jsonb, 10, '[{"name":"Aegislash","count":"3","set":"PAR"}]'::jsonb, '[]'::jsonb),
@@ -59,7 +25,7 @@ VALUES
   ('aerodactyl-fo', 'Aerodactyl', '["aerodactyl"]'::jsonb, 10, '[{"name":"Aerodactyl","count":"3","set":"FO"}]'::jsonb, '[{"identifier":"aerodactyl-mewtwo","name":"Aerodactyl Mewtwo","icon":"mewtwo","cards":[{"name":"Mewtwo","count":"3"}]},{"identifier":"aerodactyl-zapdos","name":"Aerodactyl Zapdos","icon":"zapdos","cards":[{"name":"Rocket''s Zapdos","count":"3"}]},{"identifier":"aerodactyl-electabuzz","name":"Aerodactyl Electabuzz","icon":"electabuzz","cards":[{"name":"Electabuzz","count":"3"}]},{"identifier":"aerodactyl-hitmonchan","name":"Aerodactyl Hitmonchan","icon":"hitmonchan","cards":[{"name":"Hitmonchan","count":"3"}]}]'::jsonb),
   ('aggron-swampert', 'Aggron Swampert', '["aggron","swampert"]'::jsonb, 10, '[{"name":"Aggron ex","count":"2","set":"CG"},{"name":"Swampert ex","count":"2"}]'::jsonb, '[]'::jsonb),
   ('alakazam-ex', 'Alakazam', '["alakazam"]'::jsonb, 11, '[{"name":"Alakazam ex","count":"2"}]'::jsonb, '[]'::jsonb),
-  ('alakazam-meg', 'Alakazam', '["alakazam"]'::jsonb, 11, '[{"name":"Alakazam","count":"3","set":"MEG"}]'::jsonb, '[{"identifier":"alakazam-dudunsparce","name":"Alakazam Dudunsparce","icon":"dudunsparce","cards":[{"name":"Dudunsparce","count":"2"}]},{"identifier":"alakazam-dusknoir","name":"Alakazam Dusknoir","icon":"dusknoir","cards":[{"name":"Dusknoir","count":"2"}]}]'::jsonb),
+  ('alakazam-meg', 'Alakazam', '["alakazam"]'::jsonb, 11, '[{"name":"Alakazam","count":"3","set":"MEG"}]'::jsonb, '[{"identifier":"alakazam-dudunsparce","name":"Alakazam Dudunsparce","icon":"dudunsparce","cards":[{"name":"Dudunsparce","count":"2"}]},{"identifier":"alakazam-dusknoir","name":"Alakazam Dusknoir","icon":"dusknoir","cards":[{"name":"Dusknoir","count":"2"}]},{"identifier":"alakazam-slowking","name":"Alakazam Slowking","icon":"slowking","cards":[{"name":"Slowking","count":"2"}]}]'::jsonb),
   ('alcremie-vmax', 'Alcremie', '["alcremie-gmax"]'::jsonb, 25, '[{"name":"Alcremie V","count":"3"},{"name":"Alcremie VMAX","count":"2"}]'::jsonb, '[]'::jsonb),
   ('alolan-exeggutor-fli', 'Alolan Exeggutor', '["exeggutor-alola"]'::jsonb, 10, '[{"name":"Alolan Exeggutor","count":"3","set":"FLI"}]'::jsonb, '[]'::jsonb),
   ('alolan-exeggutor-ex', 'Alolan Exeggutor ex', '["exeggutor-alola"]'::jsonb, 10, '[{"name":"Alolan Exeggutor ex","count":"3"}]'::jsonb, '[]'::jsonb),
@@ -184,7 +150,7 @@ VALUES
   ('donphan-moltres', 'Donphan Moltres', '["donphan","moltres-galar"]'::jsonb, 10, '[{"name":"Donphan","count":"2","set":"VIV"},{"name":"Galarian Moltres","count":"2","set":"EVS"}]'::jsonb, '[]'::jsonb),
   ('doublade-por', 'Doublade', '["doublade"]'::jsonb, 10, '[{"name":"Doublade","count":"4","set":"POR"}]'::jsonb, '[]'::jsonb),
   ('dracozolt-vmax', 'Dracozolt', '["dracozolt"]'::jsonb, 10, '[{"name":"Dracozolt VMAX","count":"3"}]'::jsonb, '[]'::jsonb),
-  ('dragapult-ex', 'Dragapult', '["dragapult"]'::jsonb, 11, '[{"name":"Dragapult ex","count":"2"}]'::jsonb, '[{"identifier":"dragapult-lz-box","name":"Dragapult LZ Box","icon":"comfey","cards":[{"name":"Comfey","count":"4","set":"LOR"}]},{"identifier":"dragapult-charizard","name":"Dragapult Charizard","icon":"charizard","cards":[{"name":"Charizard ex","count":"2"}]},{"identifier":"dragapult-pidgeot","name":"Dragapult Pidgeot","icon":"pidgeot","cards":[{"name":"Pidgeot ex","count":"2"}]},{"identifier":"dragapult-dusknoir","name":"Dragapult Dusknoir","icon":"dusknoir","cards":[{"name":"Dusknoir"}]},{"identifier":"dragapult-iron-thorns","name":"Dragapult Iron Thorns","icon":"iron-thorns","cards":[{"name":"Iron Thorns ex","count":"3"}]},{"identifier":"dragapult-froslass","name":"Dragapult Froslass","icon":"froslass","cards":[{"name":"Froslass","count":"2"}]},{"identifier":"dragapult-zoroark","name":"Dragapult Zoroark","icon":"zoroark","cards":[{"name":"N''s Zoroark ex","count":"2"}]},{"identifier":"dragapult-blaziken","name":"Dragapult Blaziken","icon":"blaziken","cards":[{"name":"Blaziken ex","count":"2"}]},{"identifier":"dragapult-dudunsparce","name":"Dragapult Dudunsparce","icon":"dudunsparce","cards":[{"name":"Dunsparce","count":"2"}]}]'::jsonb),
+  ('dragapult-ex', 'Dragapult', '["dragapult"]'::jsonb, 11, '[{"name":"Dragapult ex","count":"2"}]'::jsonb, '[{"identifier":"dragapult-lz-box","name":"Dragapult LZ Box","icon":"comfey","cards":[{"name":"Comfey","count":"4","set":"LOR"}]},{"identifier":"dragapult-charizard","name":"Dragapult Charizard","icon":"charizard","cards":[{"name":"Charizard ex","count":"2"}]},{"identifier":"dragapult-pidgeot","name":"Dragapult Pidgeot","icon":"pidgeot","cards":[{"name":"Pidgeot ex","count":"2"}]},{"identifier":"dragapult-dusknoir","name":"Dragapult Dusknoir","icon":"dusknoir","cards":[{"name":"Dusknoir"}]},{"identifier":"dragapult-iron-thorns","name":"Dragapult Iron Thorns","icon":"iron-thorns","cards":[{"name":"Iron Thorns ex","count":"3"}]},{"identifier":"dragapult-froslass","name":"Dragapult Froslass","icon":"froslass","cards":[{"name":"Froslass","count":"2"}]},{"identifier":"dragapult-zoroark","name":"Dragapult Zoroark","icon":"zoroark","cards":[{"name":"N''s Zoroark ex","count":"2"}]},{"identifier":"dragapult-blaziken","name":"Dragapult Blaziken","icon":"blaziken","cards":[{"name":"Blaziken ex","count":"2"}]},{"identifier":"dragapult-dudunsparce","name":"Dragapult Dudunsparce","icon":"dudunsparce","cards":[{"name":"Dudunsparce ex"},{"name":"Dudunsparce"},{"name":"Dunsparce","count":"2"}]},{"identifier":"dragapult-alakazam","name":"Dragapult Alakazam","icon":"alakazam","cards":[{"name":"Abra","count":"2"},{"name":"Alakazam"}]}]'::jsonb),
   ('dragapult-vmax', 'Dragapult', '["dragapult"]'::jsonb, 11, '[{"name":"Dragapult V","count":"2"},{"name":"Dragapult VMAX","count":"2"}]'::jsonb, '[{"identifier":"dragapult-garbodor","name":"Dragapult Garbodor","icon":"garbodor","cards":[{"name":"Garbodor"}]},{"identifier":"dragapult-urshifu","name":"Dragapult Urshifu","icon":"urshifu-rapid-strike-gmax","cards":[{"name":"Rapid Strike Urshifu VMAX","count":"2"}]},{"identifier":"dragapult-inteleon","name":"Dragapult Inteleon","icon":"inteleon","cards":[{"name":"Drizzile","count":"3"},{"name":"Inteleon"}]}]'::jsonb),
   ('dragapult-rcl', 'Dragapult (Infiltrator)', '["dragapult"]'::jsonb, 10, '[{"name":"Dragapult","count":"3","set":"RCL"}]'::jsonb, '[]'::jsonb),
   ('dragonite-v', 'Dragonite', '["dragonite"]'::jsonb, 15, '[{"name":"Dragonite V","count":"2"}]'::jsonb, '[]'::jsonb),
@@ -316,6 +282,7 @@ VALUES
   ('hydreigon-ex', 'Hydreigon', '["hydreigon"]'::jsonb, 11, '[{"name":"Hydreigon ex","count":"2","set":"SSP"}]'::jsonb, '[]'::jsonb),
   ('hydreigon-daa', 'Hydreigon Box', '["hydreigon"]'::jsonb, 25, '[{"name":"Hydreigon","count":"3","set":"DAA"}]'::jsonb, '[]'::jsonb),
   ('ice-rider-calyrex-vmax', 'Ice Rider Calyrex', '["calyrex-ice-rider"]'::jsonb, 11, '[{"name":"Ice Rider Calyrex VMAX","count":"2"}]'::jsonb, '[{"identifier":"ice-rider-calyrex-inteleon","name":"Calyrex Inteleon","icon":"inteleon","cards":[{"name":"Drizzile","count":"3"},{"name":"Inteleon"}]},{"identifier":"ice-rider-calyrex-cinccino","name":"Calyrex Cinccino","icon":"cinccino","cards":[{"name":"Cinccino","count":"3"}]},{"identifier":"ice-rider-calyrex-palkia","name":"Calyrex Palkia","icon":"palkia-origin","cards":[{"name":"Origin Forme Palkia VSTAR","count":"2"}]}]'::jsonb),
+  ('igglybuff-30c', 'Igglybuff', '["igglybuff"]'::jsonb, 10, '[{"name":"Igglybuff","count":"4","set":"30C"}]'::jsonb, '[]'::jsonb),
   ('incineroar-ex', 'Incineroar', '["incineroar"]'::jsonb, 10, '[{"name":"Incineroar ex","count":"3"}]'::jsonb, '[]'::jsonb),
   ('inteleon-vmax', 'Inteleon', '["inteleon"]'::jsonb, 11, '[{"name":"Inteleon V"},{"name":"Inteleon VMAX","count":"2","set":"RCL"}]'::jsonb, '[{"identifier":"inteleon-omastar","name":"Inteleon Omastar","icon":"omastar","cards":[{"name":"Omastar","count":"2","set":"TEU"}]}]'::jsonb),
   ('inteleon-vmax-fst', 'Inteleon', '["inteleon-gmax"]'::jsonb, 11, '[{"name":"Inteleon VMAX","count":"2","set":"FST"},{"name":"Inteleon V","count":"2"}]'::jsonb, '[{"identifier":"inteleon-x2","name":"Inteleon Inteleon","icon":"inteleon","cards":[{"name":"Inteleon","count":"2"},{"name":"Drizzile","count":"3"}]},{"identifier":"inteleon-urshifu","name":"Inteleon Urshifu","icon":"urshifu-rapid-strike-gmax","cards":[{"name":"Rapid Strike Urshifu V","count":"2"},{"name":"Rapid Strike Urshifu VMAX"}]}]'::jsonb),
@@ -329,7 +296,7 @@ VALUES
   ('jolteon-ex', 'Jolteon', '["jolteon"]'::jsonb, 10, '[{"name":"Jolteon ex","count":"3","set":"DS"}]'::jsonb, '[{"identifier":"jolteon-rayquaza","name":"Jolteon Rayquaza δ","icon":"rayquaza","cards":[{"name":"Rayquaza ex","set":"DF"}]},{"identifier":"jolteon-absol","name":"Jolteon Absol","icon":"absol","cards":[{"name":"Absol ex"}]}]'::jsonb),
   ('joltik-box', 'Joltik Box', '["joltik","pikachu"]'::jsonb, 15, '[{"name":"Joltik","count":"2","set":"SCR"},{"name":"Pikachu ex"}]'::jsonb, '[]'::jsonb),
   ('jumpluff-hs', 'Jumpluff', '["jumpluff"]'::jsonb, 10, '[{"name":"Jumpluff","count":"3","set":"HS"}]'::jsonb, '[]'::jsonb),
-  ('kangaskhan-bouffalant', 'Kangaskhan Bouffalant', '["kangaskhan-mega","bouffalant"]'::jsonb, 10, '[{"name":"Mega Kangaskhan ex","count":"2"},{"name":"Bouffalant","count":"2"}]'::jsonb, '[{"identifier":"kangaskhan-forretress","name":"Kangaskhan Forretress","icon":"forretress","cards":[{"name":"Forretress ex","count":"2"}]},{"identifier":"kangaskhan-bouffalant","name":"Kangaskhan Bouffalant","icon":"bouffalant","cards":[{"name":"Bouffalant","count":"2"}]}]'::jsonb),
+  ('kangaskhan-bouffalant', 'Kangaskhan Bouffalant', '["kangaskhan-mega","bouffalant"]'::jsonb, 10, '[{"name":"Mega Kangaskhan ex","count":"2"},{"name":"Bouffalant","count":"2"},{"name":"Jumbo Ice Cream"}]'::jsonb, '[{"identifier":"kangaskhan-forretress","name":"Kangaskhan Forretress","icon":"forretress","cards":[{"name":"Forretress ex","count":"2"}]},{"identifier":"kangaskhan-bouffalant","name":"Kangaskhan Bouffalant","icon":"bouffalant","cards":[{"name":"Bouffalant","count":"2"}]}]'::jsonb),
   ('kartana-unb', 'Kartana', '["kartana"]'::jsonb, 10, '[{"name":"Kartana","count":"4","set":"UNB"}]'::jsonb, '[]'::jsonb),
   ('keldeo-blastoise', 'Keldeo Blastoise', '["keldeo","blastoise"]'::jsonb, 11, '[{"name":"Keldeo-EX","count":"2"},{"name":"Blastoise","count":"2"}]'::jsonb, '[]'::jsonb),
   ('kingdra-ul', 'Kingdra', '["kingdra"]'::jsonb, 10, '[{"name":"Kingdra","count":"3","set":"UL"}]'::jsonb, '[{"identifier":"kingdra-machamp","name":"Kingdra Machamp","icon":"machamp","cards":[{"name":"Machamp","count":"2"}]}]'::jsonb),
@@ -502,6 +469,7 @@ VALUES
   ('regigigas-vstar', 'Regigigas', '["regigigas"]'::jsonb, 10, '[{"name":"Regigigas VSTAR","count":"3"}]'::jsonb, '[]'::jsonb),
   ('regigigas-stall', 'Regigigas Stall', '["regigigas","hoopa-unbound"]'::jsonb, 11, '[{"name":"Regigigas","count":"2","set":"CIN"},{"name":"Hoopa","count":"2","set":"SLG"},{"name":"Steven''s Resolve"}]'::jsonb, '[]'::jsonb),
   ('regigigas-asr', 'Regis', '["regigigas"]'::jsonb, 10, '[{"name":"Regigigas","count":"2","set":"ASR"}]'::jsonb, '[{"identifier":"pikachu-regigigas","name":"Pikachu Regis","icon":"pikachu","cards":[{"name":"Pikachu ex","count":"2"}]}]'::jsonb),
+  ('relicanth-pbl', 'Relicanth', '["relicanth"]'::jsonb, 10, '[{"name":"Relicanth","count":"4","set":"PBL"}]'::jsonb, '[]'::jsonb),
   ('reshiram-emboar', 'Reshiram Emboar', '["reshiram","emboar"]'::jsonb, 12, '[{"name":"Reshiram","count":"3"},{"name":"Emboar","count":"2"}]'::jsonb, '[]'::jsonb),
   ('reshiram-typhlosion', 'Reshiram Typhlosion', '["reshiram","typhlosion"]'::jsonb, 10, '[{"name":"Reshiram","count":"3"},{"name":"Typhlosion","count":"3","set":"HS"}]'::jsonb, '[]'::jsonb),
   ('reshiram-zekrom-gx', 'Reshirom', '["reshiram","zekrom"]'::jsonb, 10, '[{"name":"Reshiram & Zekrom-GX","count":"2"}]'::jsonb, '[]'::jsonb),
@@ -545,7 +513,7 @@ VALUES
   ('sinistcha-ogerpon', 'Sinistcha Ogerpon', '["sinistcha","ogerpon"]'::jsonb, 10, '[{"name":"Sinistcha","count":"2","set":"TWM"},{"name":"Teal Mask Ogerpon ex","count":"3"}]'::jsonb, '[]'::jsonb),
   ('sirfetchd-moltres', 'Sirfetch''d Moltres', '["sirfetchd","moltres-galar"]'::jsonb, 10, '[{"name":"Galarian Sirfetch''d V","count":"2"},{"name":"Galarian Moltres","count":"2","set":"EVS"}]'::jsonb, '[]'::jsonb),
   ('slaking-ex', 'Slaking', '["slaking"]'::jsonb, 10, '[{"name":"Slaking ex","count":"2"}]'::jsonb, '[]'::jsonb),
-  ('slowking-scr', 'Slowking', '["slowking"]'::jsonb, 11, '[{"name":"Slowking","count":"2","set":"SCR"}]'::jsonb, '[]'::jsonb),
+  ('slowking-scr', 'Slowking', '["slowking"]'::jsonb, 12, '[{"name":"Slowking","count":"2","set":"SCR"}]'::jsonb, '[]'::jsonb),
   ('smeargle-evs', 'Smeargle', '["smeargle","eldegoss"]'::jsonb, 10, '[{"name":"Smeargle","count":"3","set":"EVS"},{"name":"Eldegoss","count":"2","set":"EVS"}]'::jsonb, '[]'::jsonb),
   ('snorlax-lor', 'Snorlax', '["snorlax"]'::jsonb, 10, '[{"name":"Snorlax","count":"3","set":"LOR"}]'::jsonb, '[{"identifier":"snorlax-cherrim","name":"Snorlax Cherrim","icon":"cherrim-sunshine","cards":[{"name":"Cherrim","count":"2","set":"BST"}]},{"identifier":"snorlax-xatu","name":"Snorlax Xatu","icon":"xatu","cards":[{"name":"Xatu","count":"3","set":"PAR"}]}]'::jsonb),
   ('snorlax-vmax', 'Snorlax', '["snorlax-gmax"]'::jsonb, 15, '[{"name":"Snorlax V","count":"2"},{"name":"Snorlax VMAX","count":"2"}]'::jsonb, '[{"identifier":"snorlax-zoroark","name":"Snorlax Zoroark","icon":"zoroark","cards":[{"name":"Zoroark-GX","count":"3"}]},{"identifier":"snorlax-munchlax","name":"Snorlax Munchlax","icon":"munchlax","cards":[{"name":"Munchlax","count":"2","set":"UNM"}]}]'::jsonb),
@@ -620,7 +588,7 @@ VALUES
   ('volcarona-v', 'Volcarona', '["volcarona"]'::jsonb, 10, '[{"name":"Volcarona V","count":"3"}]'::jsonb, '[]'::jsonb),
   ('wailord-ex-pbl', 'Wailord', '["wailord"]'::jsonb, 10, '[{"name":"Wailord ex","count":"3","set":"PBL"}]'::jsonb, '[]'::jsonb),
   ('wailord-v', 'Wailord', '["wailord"]'::jsonb, 10, '[{"name":"Wailord V","count":"3"}]'::jsonb, '[]'::jsonb),
-  ('wailord-ex', 'Wailord', '["wailord"]'::jsonb, 10, '[{"name":"Wailord ex","count":"3"}]'::jsonb, '[]'::jsonb),
+  ('wailord-ex-ss', 'Wailord', '["wailord"]'::jsonb, 10, '[{"name":"Wailord ex","count":"3","set":"SS"}]'::jsonb, '[]'::jsonb),
   ('wailord-stall', 'Wailord Stall', '["wailord"]'::jsonb, 10, '[{"name":"Wailord-EX","count":"3"},{"name":"AZ","count":"3"}]'::jsonb, '[]'::jsonb),
   ('walking-wake-ex', 'Walking Wake', '["walking-wake"]'::jsonb, 10, '[{"name":"Walking Wake ex","count":"3"}]'::jsonb, '[]'::jsonb),
   ('wall-stall-2', 'Wall Stall', '["pyroar","clefairy"]'::jsonb, 11, '[{"name":"Pyroar","set":"FLF"},{"name":"Lillie''s Poké Doll","count":"3"},{"name":"Steven''s Resolve"}]'::jsonb, '[]'::jsonb),
@@ -709,7 +677,8 @@ VALUES
   ('1000069', '2027 Frankfurt Pokémon TCG Regional Championships', '2027 Season', '2026-09-26', '2026-09-27', 'FR001-qWsas6LjddfVxo', 3273, 3274, 'finished'),
   ('1000071', '2027 Recife Pokémon TCG Regional Championships', '2027 Season', '2026-10-03', '2026-10-04', 'RE001-a2hqIrDZOyenzQ', 1241, 1242, 'finished'),
   ('1000073', '2027 Louisville Pokémon TCG Regional Championships', '2027 Season', '2026-10-09', '2026-10-11', 'LO001-piALjQswPD3x0J', 3417, 3430, 'finished'),
-  ('1000075', '2027 Nice Pokémon TCG Regional Championships', '2027 Season', '2026-10-17', '2026-10-18', 'NC001-2OXFgm7aAOcHKh', 0, 2680, 'finished')
+  ('1000075', '2027 Nice Pokémon TCG Regional Championships', '2027 Season', '2026-10-17', '2026-10-18', 'NC001-2OXFgm7aAOcHKh', 2674, 2680, 'finished'),
+  ('1000077', '2027 Puebla Pokémon TCG Regional Championships', '2027 Season', '2026-10-24', '2026-10-25', 'PB001-35rH2yUmy8TR3M', 0, 2470, 'finished')
 ON CONFLICT (id) DO UPDATE SET
   name = EXCLUDED.name,
   season = EXCLUDED.season,

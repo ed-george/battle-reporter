@@ -1,4 +1,4 @@
-import { Tournament, StreamedMatch, DeckArchetype, Submission } from '@/types/database';
+import { Tournament, StreamedMatch, DeckArchetype } from '@/types/database';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import {
   ALL_LIMITLESS_ARCHETYPES,
@@ -20,6 +20,31 @@ export {
 };
 
 /**
+ * Safely sanitizes user input values before interpolating into PostgREST filter strings (.or(), .eq(), etc.).
+ * Strips characters that break PostgREST filter syntax, such as commas, parentheses, quotes, and backslashes.
+ */
+export function sanitizePostgrestValue(value?: string | null): string {
+  if (!value) return '';
+  return value.replace(/[,()'"\\]/g, '').trim();
+}
+
+/**
+ * Sanitizes input for PostgREST ILIKE search patterns.
+ * Replaces characters that break PostgREST syntax (commas, parentheses, quotes, backslashes)
+ * and separators with the SQL wildcard `%`, ensuring searches like "O'Connor" or "Smith, Jr."
+ * match safely without syntax errors.
+ */
+export function sanitizePostgrestSearchPattern(value?: string | null): string {
+  if (!value) return '';
+  return value
+    .replace(/[-_\s'"`(),.]+/g, '%')
+    .replace(/%{2,}/g, '%')
+    .replace(/^%+/, '')
+    .replace(/%+$/, '')
+    .trim();
+}
+
+/**
  * Returns all distinct seasons that have streamed matches, ordered descending.
  */
 export async function getStreamedSeasons(): Promise<string[]> {
@@ -33,6 +58,17 @@ export interface MatchFilterParams {
   archetype?: string;
   round?: string;
   query?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface PaginatedMatchesResult {
+  matches: StreamedMatch[];
+  data: StreamedMatch[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 /**
@@ -85,55 +121,200 @@ export async function getTournamentById(id: string): Promise<Tournament | null> 
 }
 
 /**
- * Get all published streamed matches with optional multi-criteria filters
+ * Executes a filtered query for streamed matches against Supabase.
+ * Applies multi-criteria filters and optional pagination range.
+ */
+async function fetchStreamedMatchesWithFilters(
+  supabase: NonNullable<Awaited<ReturnType<typeof createServerSupabaseClient>>>,
+  filters: MatchFilterParams = {},
+  range?: { from: number; to: number }
+) {
+  let query = supabase
+    .from('streamed_matches')
+    .select('*, games:match_games(*), tournament:tournaments(*)', { count: 'exact' })
+    .eq('is_published', true)
+    .order('created_at', { ascending: false });
+
+  if (filters.tournamentId) {
+    const safeTourneyId = sanitizePostgrestValue(filters.tournamentId);
+    if (safeTourneyId) {
+      query = query.eq('tournament_id', safeTourneyId);
+    }
+  }
+
+  if (filters.archetype) {
+    const safeArchetype = sanitizePostgrestValue(filters.archetype);
+    if (safeArchetype) {
+      query = query.or(`player1_deck_archetype.eq.${safeArchetype},player2_deck_archetype.eq.${safeArchetype}`);
+    }
+  }
+
+  if (filters.playerName) {
+    const safePlayer = sanitizePostgrestSearchPattern(filters.playerName);
+    if (safePlayer) {
+      query = query.or(`player1_name.ilike.%${safePlayer}%,player2_name.ilike.%${safePlayer}%`);
+    }
+  }
+
+  if (filters.round) {
+    const safeRound = sanitizePostgrestSearchPattern(filters.round);
+    if (safeRound) {
+      query = query.ilike('round_name', `%${safeRound}%`);
+    }
+  }
+
+  if (filters.query) {
+    const safeQ = sanitizePostgrestSearchPattern(filters.query);
+    if (safeQ) {
+      const orConditions: string[] = [
+        `player1_name.ilike.%${safeQ}%`,
+        `player2_name.ilike.%${safeQ}%`,
+        `player1_deck_archetype.ilike.%${safeQ}%`,
+        `player2_deck_archetype.ilike.%${safeQ}%`,
+        `round_name.ilike.%${safeQ}%`,
+      ];
+
+      // Match tournaments by name
+      try {
+        const { data: matchingTourneys } = await supabase
+          .from('tournaments')
+          .select('id')
+          .ilike('name', `%${safeQ}%`);
+        if (matchingTourneys && matchingTourneys.length > 0) {
+          matchingTourneys.forEach((t: { id: string }) => {
+            const safeId = sanitizePostgrestValue(t.id);
+            if (safeId) {
+              orConditions.push(`tournament_id.eq.${safeId}`);
+            }
+          });
+        }
+      } catch {
+        // ignore tournament lookup error
+      }
+
+      // Match archetypes by display name
+      const cleanLowerQ = filters.query.toLowerCase().trim();
+      const matchingArchs = ALL_LIMITLESS_ARCHETYPES.filter((a) =>
+        a.name.toLowerCase().includes(cleanLowerQ)
+      );
+      for (const arch of matchingArchs) {
+        const safeArchId = sanitizePostgrestValue(arch.identifier);
+        if (safeArchId) {
+          orConditions.push(`player1_deck_archetype.eq.${safeArchId}`);
+          orConditions.push(`player2_deck_archetype.eq.${safeArchId}`);
+        }
+      }
+
+      if (orConditions.length > 0) {
+        query = query.or(orConditions.join(','));
+      }
+    }
+  }
+
+  if (range) {
+    query = query.range(range.from, range.to);
+  }
+
+  return await query;
+}
+
+/**
+ * Get published streamed matches with server-side pagination and total match counts.
+ * Uses Supabase .range((page - 1) * pageSize, page * pageSize - 1) with { count: 'exact' }.
+ */
+export async function getPaginatedStreamedMatches(
+  filters: MatchFilterParams = {}
+): Promise<PaginatedMatchesResult> {
+  const page = Math.max(1, filters.page ?? 1);
+  const pageSize = Math.max(1, filters.pageSize ?? 25);
+  const from = (page - 1) * pageSize;
+  const to = page * pageSize - 1;
+
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    console.error('Supabase client not initialized.');
+    return {
+      matches: [],
+      data: [],
+      total: 0,
+      page,
+      pageSize,
+      totalPages: 0,
+    };
+  }
+
+  try {
+    const { data, count, error } = await fetchStreamedMatchesWithFilters(supabase, filters, {
+      from,
+      to,
+    });
+
+    if (error) {
+      console.error('Error fetching paginated streamed matches from Supabase:', error);
+      return {
+        matches: [],
+        data: [],
+        total: 0,
+        page,
+        pageSize,
+        totalPages: 0,
+      };
+    }
+
+    const matches = (data || []) as StreamedMatch[];
+    const total = count ?? matches.length;
+    const totalPages = total > 0 ? Math.ceil(total / pageSize) : 0;
+
+    return {
+      matches,
+      data: matches,
+      total,
+      page,
+      pageSize,
+      totalPages,
+    };
+  } catch (err) {
+    console.error('Unexpected error fetching paginated streamed matches:', err);
+    return {
+      matches: [],
+      data: [],
+      total: 0,
+      page,
+      pageSize,
+      totalPages: 0,
+    };
+  }
+}
+
+/**
+ * Get all published streamed matches with optional multi-criteria filters.
+ * Supports server-side pagination via filters.page and filters.pageSize (default pageSize: 25).
+ * Preserves backwards compatibility for callers that do not specify pagination.
  */
 export async function getStreamedMatches(filters: MatchFilterParams = {}): Promise<StreamedMatch[]> {
+  if (filters.page !== undefined) {
+    const result = await getPaginatedStreamedMatches(filters);
+    return result.matches;
+  }
+
   const supabase = await createServerSupabaseClient();
   if (!supabase) {
     console.error('Supabase client not initialized.');
     return [];
   }
 
-  let query = supabase
-    .from('streamed_matches')
-    .select('*, games:match_games(*), tournament:tournaments(*)')
-    .eq('is_published', true)
-    .order('created_at', { ascending: false });
+  try {
+    const { data, error } = await fetchStreamedMatchesWithFilters(supabase, filters);
+    if (error) {
+      console.error('Error fetching streamed matches from Supabase:', error);
+      return [];
+    }
 
-  if (filters.tournamentId) {
-    query = query.eq('tournament_id', filters.tournamentId);
-  }
-  if (filters.archetype) {
-    query = query.or(`player1_deck_archetype.eq.${filters.archetype},player2_deck_archetype.eq.${filters.archetype}`);
-  }
-  if (filters.playerName) {
-    query = query.or(`player1_name.ilike.%${filters.playerName}%,player2_name.ilike.%${filters.playerName}%`);
-  }
-
-  const { data, error } = await query;
-  if (error) {
-    console.error('Error fetching streamed matches from Supabase:', error);
+    return (data || []) as StreamedMatch[];
+  } catch (err) {
+    console.error('Unexpected error fetching streamed matches:', err);
     return [];
   }
-
-  let matches = (data || []) as StreamedMatch[];
-
-  if (filters.query) {
-    const q = filters.query.toLowerCase().trim();
-    matches = matches.filter(
-      (m) =>
-        m.player1_name.toLowerCase().includes(q) ||
-        m.player2_name.toLowerCase().includes(q) ||
-        m.player1_deck_archetype?.toLowerCase().includes(q) ||
-        m.player2_deck_archetype?.toLowerCase().includes(q) ||
-        getArchetypeDisplayName(m.player1_deck_archetype).toLowerCase().includes(q) ||
-        getArchetypeDisplayName(m.player2_deck_archetype).toLowerCase().includes(q) ||
-        m.round_name.toLowerCase().includes(q) ||
-        m.tournament?.name.toLowerCase().includes(q)
-    );
-  }
-
-  return matches;
 }
 
 /**
@@ -446,19 +627,29 @@ export async function getPlayerStats(playerSlugOrName: string) {
     // ignore
   }
 
-  // Generate candidate search query by replacing dashes and spaces with wildcards
-  const searchPattern = decoded.trim().replace(/[-_\s]+/g, '%');
-  const candidateMatches = await getStreamedMatches({ playerName: searchPattern });
+  // Generate candidate search query by replacing dashes, spaces, quotes, and punctuation with wildcards
+  const searchPattern = sanitizePostgrestSearchPattern(decoded);
+  const candidateMatches = searchPattern
+    ? await getStreamedMatches({ playerName: searchPattern })
+    : [];
 
   // Use candidate matches if found, otherwise fall back to all streamed matches
   const matchesToSearch = candidateMatches.length > 0 ? candidateMatches : await getStreamedMatches();
+
+  const checkPlayerMatch = (name?: string | null) => {
+    if (!name) return false;
+    return (
+      isPlayerSlugMatch(name, playerSlugOrName) ||
+      normalizePlayerSlug(name).replace(/['"-]/g, '') === normalizePlayerSlug(playerSlugOrName).replace(/['"-]/g, '')
+    );
+  };
 
   let canonicalName = '';
   const playerMatches: StreamedMatch[] = [];
 
   for (const m of matchesToSearch) {
-    const isP1 = isPlayerSlugMatch(m.player1_name, playerSlugOrName);
-    const isP2 = isPlayerSlugMatch(m.player2_name, playerSlugOrName);
+    const isP1 = checkPlayerMatch(m.player1_name);
+    const isP2 = checkPlayerMatch(m.player2_name);
     if (isP1 || isP2) {
       playerMatches.push(m);
       if (!canonicalName) {
@@ -481,7 +672,7 @@ export async function getPlayerStats(playerSlugOrName: string) {
   const archetypesUsed = new Map<string, number>();
 
   playerMatches.forEach((m) => {
-    const isP1 = isPlayerSlugMatch(m.player1_name, playerSlugOrName);
+    const isP1 = checkPlayerMatch(m.player1_name);
     const arch = isP1 ? m.player1_deck_archetype : m.player2_deck_archetype;
     if (arch) {
       archetypesUsed.set(arch, (archetypesUsed.get(arch) || 0) + 1);
@@ -490,7 +681,7 @@ export async function getPlayerStats(playerSlugOrName: string) {
     if (isMatchTie(m.winner_player_name, m.match_score)) {
       ties++;
     } else if (m.winner_player_name) {
-      if (isPlayerSlugMatch(m.winner_player_name, playerSlugOrName)) {
+      if (checkPlayerMatch(m.winner_player_name)) {
         wins++;
       } else {
         losses++;
@@ -808,25 +999,4 @@ export async function getArchetypeStats(archetypeIdentifier: string) {
   };
 }
 
-/**
- * Submit a new match for moderation
- */
-export async function createMatchSubmission(submissionData: Omit<Submission, 'id' | 'created_at' | 'status'>) {
-  const supabase = await createServerSupabaseClient();
-  if (!supabase) {
-    throw new Error('Supabase client not initialized. Cannot submit match.');
-  }
 
-  const { data, error } = await supabase
-    .from('submissions')
-    .insert({
-      match_data: submissionData.match_data,
-      submitted_by: submissionData.submitted_by,
-      status: 'pending',
-    })
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data;
-}

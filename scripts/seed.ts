@@ -42,52 +42,18 @@ async function main() {
   console.log('3. Generating supabase/seed.sql (strictly Tournaments + Archetypes, no video/player data)...');
 
   let sql = '-- ==========================================\n';
-  sql += '-- 1. Table Grants & Access Privileges\n';
+  sql += '-- 1. Table Grants & Access Privileges (Read-Only for Public)\n';
   sql += '-- ==========================================\n';
   sql += 'GRANT USAGE ON SCHEMA public TO anon, authenticated;\n';
   sql += 'GRANT SELECT ON public.tournaments TO anon, authenticated;\n';
   sql += 'GRANT SELECT ON public.deck_archetypes TO anon, authenticated;\n';
   sql += 'GRANT SELECT ON public.streamed_matches TO anon, authenticated;\n';
   sql += 'GRANT SELECT ON public.match_games TO anon, authenticated;\n';
-  sql += 'GRANT SELECT, INSERT ON public.submissions TO anon, authenticated;\n';
-  sql += 'GRANT ALL ON public.submissions TO authenticated;\n';
-  sql += 'GRANT ALL ON public.streamed_matches TO authenticated;\n';
-  sql += 'GRANT ALL ON public.match_games TO authenticated;\n';
-  sql += 'GRANT ALL ON public.tournaments TO authenticated;\n';
-  sql += 'GRANT ALL ON public.deck_archetypes TO authenticated;\n';
   sql += 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO anon, authenticated;\n\n';
 
   sql += '-- Make tournament dates nullable in case of unannounced or missing dates from APIs\n';
   sql += 'ALTER TABLE public.tournaments ALTER COLUMN start_date DROP NOT NULL;\n';
   sql += 'ALTER TABLE public.tournaments ALTER COLUMN end_date DROP NOT NULL;\n\n';
-
-  sql += '-- Allow public/anon to insert match submissions (for community tagging)\n';
-  sql += 'DO $$\nBEGIN\n';
-  sql += '  IF NOT EXISTS (\n';
-  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Public insert submissions'\n";
-  sql += '  ) THEN\n';
-  sql += '    CREATE POLICY "Public insert submissions" ON public.submissions FOR INSERT TO anon, authenticated WITH CHECK (true);\n';
-  sql += '  END IF;\n';
-  sql += '  IF NOT EXISTS (\n';
-  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'submissions' AND policyname = 'Admins manage submissions'\n";
-  sql += '  ) THEN\n';
-  sql += '    CREATE POLICY "Admins manage submissions" ON public.submissions FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
-  sql += '  END IF;\n';
-  sql += '  IF NOT EXISTS (\n';
-  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'streamed_matches' AND policyname = 'Admins manage streamed matches'\n";
-  sql += '  ) THEN\n';
-  sql += '    CREATE POLICY "Admins manage streamed matches" ON public.streamed_matches FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
-  sql += '  END IF;\n';
-  sql += '  IF NOT EXISTS (\n';
-  sql += "    SELECT 1 FROM pg_policies WHERE tablename = 'match_games' AND policyname = 'Admins manage match games'\n";
-  sql += '  ) THEN\n';
-  sql += '    CREATE POLICY "Admins manage match games" ON public.match_games FOR ALL TO authenticated USING (true) WITH CHECK (true);\n';
-  sql += '  END IF;\n';
-  sql += 'END $$;\n\n';
-
-  sql += '-- Ensure clean slate for video/player data (all matches/videos entered by user)\n';
-  sql += 'DELETE FROM public.match_games;\n';
-  sql += 'DELETE FROM public.streamed_matches;\n\n';
 
   sql += '-- ==========================================\n';
   sql += '-- 2. Seed Deck Archetypes (Fetched from Limitless API)\n';
@@ -173,15 +139,6 @@ async function main() {
       console.warn('   Tournaments upsert note/error:', tErr.message);
     } else {
       console.log(`   ✓ Synced ${validTournaments.length} tournaments directly to Supabase.`);
-    }
-
-    // Clean any dummy matches / games from database
-    console.log('   Ensuring streamed_matches & match_games are clean for user entry...');
-    const { error: mErr } = await supabase.from('streamed_matches').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-    if (mErr) {
-      console.warn('   Match cleanup note:', mErr.message);
-    } else {
-      console.log('   ✓ Cleared match records from Supabase.');
     }
   } else {
     console.log('Supabase credentials not configured in environment; run supabase/seed.sql in your Supabase SQL editor.');

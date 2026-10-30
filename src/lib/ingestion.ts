@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { randomUUID } from 'crypto';
 import { LIMITLESS_ARCHETYPES } from './limitless';
 
 export interface ParsedMatchRow {
@@ -26,6 +25,7 @@ export interface ParsedMatchRow {
 }
 
 export interface ParsedGameRow {
+  id?: string;
   match_id: string;
   game_number: number;
   start_seconds: number;
@@ -48,6 +48,43 @@ export interface GoogleSheetFetchOptions {
   privateKey?: string | null;
   credentialsPath?: string | null;
   accessToken?: string | null;
+}
+
+/**
+ * Generates a deterministic RFC 4122 UUID (version 5 variant) from an input string using SHA-256.
+ * Output is formatted as 8-4-4-4-12 hex characters.
+ */
+export function generateDeterministicUuid(key: string, namespace: string = 'battle-reporter'): string {
+  const hash = crypto.createHash('sha256').update(`${namespace}:${key}`).digest();
+  const buf = Buffer.from(hash.subarray(0, 16));
+
+  // Set RFC 4122 version 5 (0101xxxx in high nibble of byte 6)
+  buf[6] = (buf[6] & 0x0f) | 0x50;
+  // Set RFC 4122 variant (10xxxxxx in high 2 bits of byte 8)
+  buf[8] = (buf[8] & 0x3f) | 0x80;
+
+  return [
+    buf.subarray(0, 4).toString('hex'),
+    buf.subarray(4, 6).toString('hex'),
+    buf.subarray(6, 8).toString('hex'),
+    buf.subarray(8, 10).toString('hex'),
+    buf.subarray(10, 16).toString('hex'),
+  ].join('-');
+}
+
+/**
+ * Builds a stable composite natural key for a streamed match to ensure reproducible deduplication.
+ */
+export function generateMatchNaturalKey(
+  tournamentId: string,
+  roundName: string,
+  division: string,
+  tableNumber: number | null,
+  videoId: string,
+  startSeconds: number
+): string {
+  const table = tableNumber !== null && !isNaN(tableNumber) ? tableNumber : 'na';
+  return `${tournamentId}|${roundName}|${division}|${table}|${videoId}|${startSeconds}`;
 }
 
 /**
@@ -169,7 +206,8 @@ export function parseMatchesFromRows(rows: Record<string, string>[]): ParseResul
     const tournamentId = row['tournament_id'];
     const roundName = row['round_name'] || 'Swiss Round';
     const division = (row['division'] || 'masters').toLowerCase();
-    const tableNumber = row['table_number'] ? parseInt(row['table_number'], 10) : null;
+    const rawTableNumber = row['table_number'] ? parseInt(row['table_number'], 10) : null;
+    const tableNumber = rawTableNumber !== null && !isNaN(rawTableNumber) ? rawTableNumber : null;
 
     const p1Name = row['player1_name'];
     const p1Country = row['player1_country'] || null;
@@ -217,14 +255,22 @@ export function parseMatchesFromRows(rows: Record<string, string>[]): ParseResul
       );
     }
 
-    const matchId = randomUUID();
+    const naturalKey = generateMatchNaturalKey(
+      tournamentId,
+      roundName,
+      division,
+      tableNumber,
+      videoId,
+      startSeconds
+    );
+    const matchId = generateDeterministicUuid(naturalKey);
 
     matches.push({
       id: matchId,
       tournament_id: tournamentId,
       round_name: roundName,
       division,
-      table_number: isNaN(Number(tableNumber)) ? null : tableNumber,
+      table_number: tableNumber,
       player1_name: p1Name,
       player1_country: p1Country,
       player1_deck_archetype: p1Archetype,
@@ -246,13 +292,28 @@ export function parseMatchesFromRows(rows: Record<string, string>[]): ParseResul
     const g3Time = parseTimestampToSeconds(row['game3_start_time'] || row['game3_start_seconds']);
 
     if (g1Time !== null) {
-      games.push({ match_id: matchId, game_number: 1, start_seconds: g1Time });
+      games.push({
+        id: generateDeterministicUuid(`${matchId}|game|1`),
+        match_id: matchId,
+        game_number: 1,
+        start_seconds: g1Time,
+      });
     }
     if (g2Time !== null) {
-      games.push({ match_id: matchId, game_number: 2, start_seconds: g2Time });
+      games.push({
+        id: generateDeterministicUuid(`${matchId}|game|2`),
+        match_id: matchId,
+        game_number: 2,
+        start_seconds: g2Time,
+      });
     }
     if (g3Time !== null) {
-      games.push({ match_id: matchId, game_number: 3, start_seconds: g3Time });
+      games.push({
+        id: generateDeterministicUuid(`${matchId}|game|3`),
+        match_id: matchId,
+        game_number: 3,
+        start_seconds: g3Time,
+      });
     }
   });
 
@@ -288,30 +349,50 @@ export function generateImportSql(
   sql += '-- ==============================================================================\n\n';
 
   sql += '-- Optional: Clear existing stream matches and games before importing new batch\n';
-  sql += 'TRUNCATE TABLE public.match_games, public.streamed_matches CASCADE;\n\n';
+  sql += '-- TRUNCATE TABLE public.match_games, public.streamed_matches CASCADE;\n\n';
 
-  sql += '-- 1. Insert Stream Matches\n';
-  sql += 'INSERT INTO public.streamed_matches (\n';
-  sql += '  id,\n';
-  sql += '  tournament_id,\n';
-  sql += '  round_name,\n';
-  sql += '  division,\n';
-  sql += '  table_number,\n';
-  sql += '  player1_name,\n';
-  sql += '  player1_country,\n';
-  sql += '  player1_deck_archetype,\n';
-  sql += '  player2_name,\n';
-  sql += '  player2_country,\n';
-  sql += '  player2_deck_archetype,\n';
-  sql += '  youtube_url,\n';
-  sql += '  youtube_video_id,\n';
-  sql += '  match_start_seconds,\n';
-  sql += '  match_end_seconds,\n';
-  sql += '  winner_player_name,\n';
-  sql += '  match_score,\n';
-  sql += '  is_published\n';
-  sql += ')\nVALUES\n';
-  sql += matchInserts.join(',\n') + ';\n\n';
+  if (matches.length > 0) {
+    sql += '-- 1. Insert Stream Matches\n';
+    sql += 'INSERT INTO public.streamed_matches (\n';
+    sql += '  id,\n';
+    sql += '  tournament_id,\n';
+    sql += '  round_name,\n';
+    sql += '  division,\n';
+    sql += '  table_number,\n';
+    sql += '  player1_name,\n';
+    sql += '  player1_country,\n';
+    sql += '  player1_deck_archetype,\n';
+    sql += '  player2_name,\n';
+    sql += '  player2_country,\n';
+    sql += '  player2_deck_archetype,\n';
+    sql += '  youtube_url,\n';
+    sql += '  youtube_video_id,\n';
+    sql += '  match_start_seconds,\n';
+    sql += '  match_end_seconds,\n';
+    sql += '  winner_player_name,\n';
+    sql += '  match_score,\n';
+    sql += '  is_published\n';
+    sql += ')\nVALUES\n';
+    sql += matchInserts.join(',\n') + '\n';
+    sql += 'ON CONFLICT (id) DO UPDATE SET\n';
+    sql += '  tournament_id = EXCLUDED.tournament_id,\n';
+    sql += '  round_name = EXCLUDED.round_name,\n';
+    sql += '  division = EXCLUDED.division,\n';
+    sql += '  table_number = EXCLUDED.table_number,\n';
+    sql += '  player1_name = EXCLUDED.player1_name,\n';
+    sql += '  player1_country = EXCLUDED.player1_country,\n';
+    sql += '  player1_deck_archetype = EXCLUDED.player1_deck_archetype,\n';
+    sql += '  player2_name = EXCLUDED.player2_name,\n';
+    sql += '  player2_country = EXCLUDED.player2_country,\n';
+    sql += '  player2_deck_archetype = EXCLUDED.player2_deck_archetype,\n';
+    sql += '  youtube_url = EXCLUDED.youtube_url,\n';
+    sql += '  youtube_video_id = EXCLUDED.youtube_video_id,\n';
+    sql += '  match_start_seconds = EXCLUDED.match_start_seconds,\n';
+    sql += '  match_end_seconds = EXCLUDED.match_end_seconds,\n';
+    sql += '  winner_player_name = EXCLUDED.winner_player_name,\n';
+    sql += '  match_score = EXCLUDED.match_score,\n';
+    sql += '  is_published = EXCLUDED.is_published;\n\n';
+  }
 
   if (gameInserts.length > 0) {
     sql += '-- 2. Insert Game Timestamps (Game 1, Game 2, Game 3)\n';
