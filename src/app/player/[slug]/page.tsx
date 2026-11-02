@@ -11,6 +11,17 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const { getStreamPlayers } = await import('@/lib/data-repository');
+    const players = await getStreamPlayers();
+    return players.map((p) => ({ slug: p.slug }));
+  } catch (e) {
+    console.warn('generateStaticParams error for player/[slug]:', e);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const stats = await getPlayerStats(slug);

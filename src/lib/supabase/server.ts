@@ -10,24 +10,35 @@ export async function createServerSupabaseClient() {
     return null;
   }
 
-  const cookieStore = await cookies();
+  try {
+    const cookieStore = await cookies();
 
-  return createServerClient(supabaseUrl, supabaseAnonKey, {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll();
+    return createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // Can be ignored if called from a Server Component
+          }
+        },
       },
-      setAll(cookiesToSet) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
-        } catch {
-          // Can be ignored if called from a Server Component
-        }
+    });
+  } catch {
+    // When called at build time, during generateStaticParams, or outside a request context,
+    // cookies() is not available. Return a stateless client for querying public data.
+    return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
       },
-    },
-  });
+    });
+  }
 }
 
 /**

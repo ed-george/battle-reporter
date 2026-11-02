@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { PlayerLeaderboardEntry, PlayersDirectoryData } from '@/lib/data-repository';
 import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
@@ -49,6 +49,10 @@ export function PlayersDirectoryView({
 }: PlayersDirectoryViewProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const seasonFromUrl = searchParams?.get('season');
+  const queryFromUrl = searchParams?.get('q');
+  const sortFromUrl = searchParams?.get('sort') as 'matches' | 'wins' | 'winrate' | null;
 
   // Normalize data safely whether received as new structure { all, bySeason, availableSeasons } or legacy array
   const directoryData: PlayersDirectoryData = useMemo(() => {
@@ -67,12 +71,14 @@ export function PlayersDirectoryView({
     };
   }, [data, players]);
 
+  const activeSort = sortFromUrl || initialSort;
+
   // Table is the default view as requested
   const [viewMode, setViewMode] = useState<ViewMode>('table');
-  const [selectedSeason, setSelectedSeason] = useState<string>(initialSeason || 'all');
-  const [searchQuery, setSearchQuery] = useState(initialQuery || '');
+  const [selectedSeason, setSelectedSeason] = useState<string>(seasonFromUrl || initialSeason || 'all');
+  const [searchQuery, setSearchQuery] = useState(queryFromUrl || initialQuery || '');
   const [sortField, setSortField] = useState<SortField>(
-    initialSort === 'wins' ? 'wins' : initialSort === 'winrate' ? 'winRate' : 'matches'
+    activeSort === 'wins' ? 'wins' : activeSort === 'winrate' ? 'winRate' : 'matches'
   );
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 

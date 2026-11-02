@@ -6,6 +6,17 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const { getStreamedMatches } = await import('@/lib/data-repository');
+    const matches = await getStreamedMatches();
+    return matches.map((m) => ({ id: m.id }));
+  } catch (e) {
+    console.warn('generateStaticParams error for match/[id]:', e);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
   const match = await getStreamedMatchById(id);

@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
 
+// If deployed to https://<user>.github.io/<repo>/, set basePath to '/<repo>'
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+const repositoryName = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
+  : "";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+  basePath: isGitHubPages && !process.env.CUSTOM_DOMAIN ? repositoryName : "",
+  images: {
+    unoptimized: true,
+  },
   turbopack: {
     rules: {
       "*.css": {

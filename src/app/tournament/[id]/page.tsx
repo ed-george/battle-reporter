@@ -9,6 +9,17 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const { getTournaments } = await import('@/lib/data-repository');
+    const tournaments = await getTournaments();
+    return tournaments.map((t) => ({ id: t.id }));
+  } catch (e) {
+    console.warn('generateStaticParams error for tournament/[id]:', e);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { id } = await params;
   const tournament = await getTournamentById(id);

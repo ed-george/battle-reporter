@@ -1,22 +1,13 @@
+import { Suspense } from 'react';
 import { getPlayersDirectoryData } from '@/lib/data-repository';
 import { PlayersDirectoryView } from '@/components/PlayersDirectoryView';
-
-interface PageProps {
-  searchParams: Promise<{
-    season?: string;
-    q?: string;
-    sort?: 'matches' | 'wins' | 'winrate';
-  }>;
-}
 
 export const metadata = {
   title: 'Stream Players Leaderboard — Battle Reporter',
   description: 'List of Pokémon TCG players featured on stream, ranked by matches played and broadcast wins.',
 };
 
-export default async function PlayersDirectoryPage({ searchParams }: PageProps) {
-  const resolvedParams = searchParams ? await searchParams : {};
-  const { season, q, sort } = resolvedParams;
+export default async function PlayersDirectoryPage() {
   const data = await getPlayersDirectoryData();
 
   return (
@@ -31,12 +22,9 @@ export default async function PlayersDirectoryPage({ searchParams }: PageProps) 
         </p>
       </div>
 
-      <PlayersDirectoryView
-        data={data}
-        initialSeason={season || 'all'}
-        initialSort={sort}
-        initialQuery={q}
-      />
+      <Suspense fallback={<div className="h-40 flex items-center justify-center text-sm text-slate-400">Loading players...</div>}>
+        <PlayersDirectoryView data={data} />
+      </Suspense>
     </div>
   );
 }

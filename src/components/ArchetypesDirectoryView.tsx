@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { StreamedArchetypeSummary, ArchetypesDirectoryData } from '@/lib/data-repository';
 import { ArchetypeIcon } from '@/components/ArchetypeIcon';
 import { TAG_MATCH_URL } from '@/config';
@@ -41,6 +41,8 @@ export function ArchetypesDirectoryView({
 }: ArchetypesDirectoryViewProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const seasonFromUrl = searchParams?.get('season');
 
   // Normalize data safely whether received as new structure { all, bySeason, availableSeasons } or legacy array
   const directoryData: ArchetypesDirectoryData = useMemo(() => {
@@ -61,7 +63,7 @@ export function ArchetypesDirectoryView({
 
   // Default view is table as requested
   const [viewMode, setViewMode] = useState<ViewMode>('table');
-  const [selectedSeason, setSelectedSeason] = useState<string>(initialSeason || 'all');
+  const [selectedSeason, setSelectedSeason] = useState<string>(seasonFromUrl || initialSeason || 'all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>('games');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');

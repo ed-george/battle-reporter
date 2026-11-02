@@ -9,6 +9,17 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  try {
+    const { getStreamedArchetypesSummary } = await import('@/lib/data-repository');
+    const archetypes = await getStreamedArchetypesSummary();
+    return archetypes.map((a) => ({ slug: a.archetype.identifier }));
+  } catch (e) {
+    console.warn('generateStaticParams error for archetype/[slug]:', e);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const stats = await getArchetypeStats(slug);
