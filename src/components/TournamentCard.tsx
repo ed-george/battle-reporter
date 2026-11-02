@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Calendar, MapPin, Users, Video } from 'lucide-react';
 import { Tournament } from '@/types/database';
 import { formatDateRange } from '@/lib/matches';
+import { analytics } from '@/lib/analytics';
 
 interface TournamentCardProps {
   tournament: Tournament;
@@ -16,6 +17,9 @@ export function TournamentCard({ tournament, streamMatchCount = 0 }: TournamentC
   return (
     <Link
       href={`/tournament/${tournament.id}`}
+      onClick={() =>
+        analytics.selectTournament(tournament.id, tournament.name, tournament.season)
+      }
       className="group block bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-500/50 rounded-xl p-5 shadow-xs hover:shadow-md transition-all duration-200"
     >
       <div className="flex items-start justify-between gap-3">

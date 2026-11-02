@@ -7,6 +7,7 @@ import { StreamedMatch } from '@/types/database';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { useSpoilers } from '@/context/SpoilerContext';
 import { isMatchTie, playerNameToSlug } from '@/lib/matches';
+import { analytics } from '@/lib/analytics';
 
 interface MatchCardProps {
   match: StreamedMatch;
@@ -137,6 +138,9 @@ export function MatchCard({ match, displayTournament = false }: MatchCardProps) 
         )}
         <Link
           href={`/match/${match.id}`}
+          onClick={() =>
+            analytics.selectMatch(match.id, match.tournament_id, match.round_name)
+          }
           className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs hover:shadow-sm transition-all group-hover:scale-[1.02]"
         >
           <Play className="w-3.5 h-3.5 fill-current" />

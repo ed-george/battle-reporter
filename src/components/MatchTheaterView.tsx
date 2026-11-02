@@ -9,6 +9,7 @@ import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { useSpoilers } from '@/context/SpoilerContext';
 import { isMatchTie, playerNameToSlug } from '@/lib/matches';
+import { analytics } from '@/lib/analytics';
 
 function formatTimestamp(totalSeconds?: number | null): string {
   if (totalSeconds === undefined || totalSeconds === null || isNaN(totalSeconds) || totalSeconds < 0) {
@@ -46,6 +47,7 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
   const handleSeek = (seconds: number, gameNum?: number) => {
     setActiveTimestamp(seconds);
     setSelectedGameNumber(gameNum ?? null);
+    analytics.matchSeek(match.id, gameNum ? `game_${gameNum}` : 'match_intro', seconds);
   };
 
   return (
@@ -120,6 +122,11 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                 href={getLimitlessPlayerUrl(match.player1_name)}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  analytics.externalLinkClick('limitless_player', {
+                    player_name: match.player1_name,
+                  })
+                }
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
               >
                 <span>Limitless Player Profile</span>
@@ -166,6 +173,11 @@ export function MatchTheaterView({ match, relatedMatches = [] }: MatchTheaterVie
                 href={getLimitlessPlayerUrl(match.player2_name)}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  analytics.externalLinkClick('limitless_player', {
+                    player_name: match.player2_name,
+                  })
+                }
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors"
               >
                 <span>Limitless Player Profile</span>

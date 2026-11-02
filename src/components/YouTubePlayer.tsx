@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { analytics } from '@/lib/analytics';
 
 interface YouTubePlayerProps {
   videoId: string;
@@ -51,6 +52,7 @@ export function YouTubePlayer({ videoId, currentTimestamp }: YouTubePlayerProps)
           href={externalUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => analytics.openYouTubeExternal(videoId, currentTimestamp)}
           className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
         >
           <span>Open on YouTube</span>

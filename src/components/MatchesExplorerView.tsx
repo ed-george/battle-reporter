@@ -6,6 +6,7 @@ import { StreamedMatch, Tournament, DeckArchetype } from '@/types/database';
 import { MatchCard } from '@/components/MatchCard';
 import { isPlayerSlugMatch } from '@/lib/matches';
 import { Video, Search, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { analytics, trackEvent } from '@/lib/analytics';
 
 interface MatchesExplorerViewProps {
   allMatches: StreamedMatch[];
@@ -55,6 +56,20 @@ export function MatchesExplorerView({
     setSelectedPlayer(nextPlayer);
     setPage(nextPage);
 
+    if (newParams.q !== undefined && newParams.q.trim()) {
+      analytics.search(newParams.q.trim(), 'matches_explorer');
+    }
+    if (newParams.tournamentId !== undefined || newParams.archetype !== undefined || newParams.player !== undefined) {
+      analytics.filterMatches({
+        tournamentId: nextTour,
+        archetype: nextArch,
+        player: nextPlayer,
+      });
+    }
+    if (newParams.page !== undefined && newParams.page !== page) {
+      trackEvent('paginate_matches', { page: nextPage });
+    }
+
     const params = new URLSearchParams();
     if (nextQ.trim()) params.set('q', nextQ.trim());
     if (nextTour) params.set('tournamentId', nextTour);
@@ -67,6 +82,7 @@ export function MatchesExplorerView({
   };
 
   const handleReset = () => {
+    trackEvent('reset_matches_filters');
     setQuery('');
     setSelectedTournament('');
     setSelectedArchetype('');

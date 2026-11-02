@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react';
+import { analytics } from '@/lib/analytics';
 
 interface SpoilerContextType {
   spoilersHidden: boolean;
@@ -68,14 +69,17 @@ export function SpoilerProvider({ children }: { children: React.ReactNode }) {
 
   const toggleSpoilers = () => {
     const current = getSnapshot();
+    const next = !current;
     try {
-      localStorage.setItem('ptcg_spoilers_hidden', String(!current));
+      localStorage.setItem('ptcg_spoilers_hidden', String(next));
     } catch {}
+    analytics.toggleSpoilers(next);
     notify();
   };
 
   const revealMatch = (matchId: string) => {
     setRevealedMatchIds((prev) => new Set(prev).add(matchId));
+    analytics.revealMatchSpoiler(matchId);
   };
 
   const isMatchRevealed = (matchId: string) => {

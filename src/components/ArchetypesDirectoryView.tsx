@@ -6,6 +6,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { StreamedArchetypeSummary, ArchetypesDirectoryData } from '@/lib/data-repository';
 import { ArchetypeIcon } from '@/components/ArchetypeIcon';
 import { TAG_MATCH_URL } from '@/config';
+import { analytics } from '@/lib/analytics';
 import {
   Table,
   LayoutGrid,
@@ -71,6 +72,7 @@ export function ArchetypesDirectoryView({
   // Handle season filter change and update URL params without reload
   const handleSeasonChange = (newSeason: string) => {
     setSelectedSeason(newSeason);
+    analytics.filterSeason(newSeason, 'archetypes');
     const search = typeof window !== 'undefined' ? window.location.search : '';
     const params = new URLSearchParams(search);
     if (newSeason && newSeason !== 'all') {
@@ -91,6 +93,7 @@ export function ArchetypesDirectoryView({
   }, [directoryData, selectedSeason]);
 
   const handleSort = (field: SortField) => {
+    analytics.sortDirectory(field, 'archetypes');
     if (sortField === field) {
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
@@ -237,7 +240,10 @@ export function ArchetypesDirectoryView({
           >
             <button
               type="button"
-              onClick={() => setViewMode('table')}
+              onClick={() => {
+                setViewMode('table');
+                analytics.changeViewMode('table', 'archetypes');
+              }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'table'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
@@ -252,7 +258,10 @@ export function ArchetypesDirectoryView({
             </button>
             <button
               type="button"
-              onClick={() => setViewMode('grid')}
+              onClick={() => {
+                setViewMode('grid');
+                analytics.changeViewMode('grid', 'archetypes');
+              }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'grid'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'

@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useSpoilers } from '@/context/SpoilerContext';
 import { TAG_MATCH_URL } from '@/config';
+import { analytics } from '@/lib/analytics';
 
 export function Navbar() {
   const router = useRouter();
@@ -58,6 +59,7 @@ export function Navbar() {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      analytics.search(searchQuery.trim(), 'navbar');
       router.push(`/matches?q=${encodeURIComponent(searchQuery.trim())}`);
       setIsMobileMenuOpen(false);
     }
@@ -106,6 +108,11 @@ export function Navbar() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() =>
+                      analytics.externalLinkClick('tag_match_form', {
+                        source: 'navbar_desktop',
+                      })
+                    }
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60"
                   >
                     <Icon className="w-4 h-4 text-slate-400 dark:text-slate-500" />
@@ -227,7 +234,12 @@ export function Navbar() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => {
+                      analytics.externalLinkClick('tag_match_form', {
+                        source: 'navbar_mobile',
+                      });
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="flex items-center justify-between px-3.5 min-h-[44px] rounded-xl text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 active:bg-slate-200 dark:active:bg-slate-700"
                   >
                     <span className="flex items-center gap-3">

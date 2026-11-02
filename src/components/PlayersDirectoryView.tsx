@@ -8,6 +8,7 @@ import { getLimitlessPlayerUrl } from '@/lib/limitless';
 import { ArchetypeBadge } from '@/components/ArchetypeBadge';
 import { formatRecord } from '@/lib/matches';
 import { TAG_MATCH_URL } from '@/config';
+import { analytics } from '@/lib/analytics';
 import {
   Table,
   LayoutGrid,
@@ -85,6 +86,7 @@ export function PlayersDirectoryView({
   // Handle season filter change and update URL params without full page reload
   const handleSeasonChange = (newSeason: string) => {
     setSelectedSeason(newSeason);
+    analytics.filterSeason(newSeason, 'players');
     const search = typeof window !== 'undefined' ? window.location.search : '';
     const params = new URLSearchParams(search);
     if (newSeason && newSeason !== 'all') {
@@ -105,6 +107,7 @@ export function PlayersDirectoryView({
   }, [directoryData, selectedSeason]);
 
   const handleSort = (field: SortField) => {
+    analytics.sortDirectory(field, 'players');
     if (sortField === field) {
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
@@ -284,7 +287,10 @@ export function PlayersDirectoryView({
           >
             <button
               type="button"
-              onClick={() => setViewMode('table')}
+              onClick={() => {
+                setViewMode('table');
+                analytics.changeViewMode('table', 'players');
+              }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'table'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
@@ -299,7 +305,10 @@ export function PlayersDirectoryView({
             </button>
             <button
               type="button"
-              onClick={() => setViewMode('cards')}
+              onClick={() => {
+                setViewMode('cards');
+                analytics.changeViewMode('cards', 'players');
+              }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 viewMode === 'cards'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
@@ -457,6 +466,11 @@ export function PlayersDirectoryView({
                               href={getLimitlessPlayerUrl(player.name)}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={() =>
+                                analytics.externalLinkClick('limitless_player_profile', {
+                                  player_name: player.name,
+                                })
+                              }
                               className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
                             >
                               <span>Limitless Profile</span>
@@ -564,6 +578,11 @@ export function PlayersDirectoryView({
                           href={getLimitlessPlayerUrl(player.name)}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() =>
+                            analytics.externalLinkClick('limitless_player_profile', {
+                              player_name: player.name,
+                            })
+                          }
                           className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
                         >
                           <span>Limitless Profile</span>
